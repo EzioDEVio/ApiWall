@@ -14,6 +14,8 @@ export type EntryMark =
   | {
       type: "logo";
       src: string;
+      /** Small copy for tiles and cards; the original `src` is used in the details panel. */
+      tile?: string;
       title: string;
       fallback: { text: string; seed: number };
       source?: { page: string; basis: string; fetchedAt?: string };
@@ -26,6 +28,7 @@ function toEntryMark(m: IdentityMark): EntryMark {
   return {
     type: "logo",
     src: m.src,
+    tile: m.tile,
     title: m.title,
     fallback: m.fallback,
     source: { page: m.sourceUrl, basis: m.basis, fetchedAt: m.fetchedAt },

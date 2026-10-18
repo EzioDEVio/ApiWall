@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 import type { LogoStatus, LogoSuggestion } from "@/lib/logos/types";
-import type { CatalogSnapshot } from "@/lib/catalog/types";
+import { type BrowserCatalog, fromBrowserCatalog } from "@/lib/catalog/browser";
 import type { PublicProviderPayload } from "@/lib/providers/types";
 
 type Tab = LogoStatus | "all";
@@ -178,8 +178,9 @@ function DirectUpload({ onDone, onError }: { onDone: (t: string) => void; onErro
   const [busy, setBusy] = useState(false);
 
   useEffect(() => {
-    Promise.all([api<CatalogSnapshot>("/api/catalog"), api<PublicProviderPayload>("/api/providers/public").catch(() => null)])
-      .then(([cat, prov]) => {
+    Promise.all([api<BrowserCatalog>("/api/catalog"), api<PublicProviderPayload>("/api/providers/public").catch(() => null)])
+      .then(([raw, prov]) => {
+        const cat = fromBrowserCatalog(raw);
         const approved = new Set((prov?.logoOverrides ?? []).map((o) => o.listingId));
         setListings(
           cat.listings.map((l) => ({

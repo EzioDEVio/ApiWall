@@ -26,7 +26,14 @@ auth, and open the docs in a click.
   zoom from the whole wall down to logos and names.
 - **Categories that really filter.** Pick a category, or **AI Models**, and only those tiles
   remain, packed together and fitted to your screen. Search and filters work the same way.
+- **Color lenses.** Recolour the whole wall by auth, HTTPS, CORS or logo and see at a glance where
+  the keyless or browser-friendly APIs are. Click a colour in the legend to show only those.
+- **Instant suggestions.** Start typing and the best matches appear with their logos; arrow keys
+  and Enter jump straight to one.
+- **Details beside the map.** On wide screens an API opens in a side panel, and ‹ › (or the
+  arrow keys) step through the results without losing your place.
 - **Surprise me.** Press <kbd>R</kbd> (or the dice) to open a random API from what you're viewing.
+- **Light or dark.** Follows your system, or pick one with the toggle in the header.
 - **Starter code.** Each API shows copy-ready `curl`, JavaScript and Python with the right auth
   header. Keys stay in environment variables, and endpoints are never made up.
 - **Links that keep your view.** The address bar always holds the current category, search,
@@ -86,7 +93,8 @@ flowchart LR
 - **Stable map.** Each listing has a permanent tile, so refreshes never shuffle the wall.
 - **One result set.** Search, category and filters run through one pipeline that drives the map,
   the list and every count.
-- **Fast.** One canvas draws only the visible tiles, so the page stays small at any zoom.
+- **Fast.** One canvas draws only the visible tiles, tiles load small WebP copies of each logo
+  (about 6× lighter than the originals), and the browser gets a slimmed-down catalog.
 
 ## Two ways to run it
 
@@ -123,7 +131,8 @@ GitHub Actions to create and approve pull requests** once.
 | `npm run lint` · `npm run typecheck` | ESLint · `tsc --noEmit` (strict) |
 | `npm test` · `npm run test:e2e` | Vitest unit/component tests · Playwright on desktop and mobile (`npx playwright install chromium` once, `npm run build` first) |
 | `npm run catalog:import` | Refresh the catalog snapshot from upstream |
-| `npm run catalog:logos` | Download each API's own logo into `public/marks/`, then rebuild the snapshot |
+| `npm run catalog:logos` | Download each API's own logo into `public/marks/`, make small tile copies, then rebuild the snapshot |
+| `npm run logos:optimize` | Make the small WebP copies tiles use (`public/marks/tiles/`); originals stay untouched |
 | `npm run logos:add -- "<name or id>" <image> <https source>` | Commit a maintainer-approved logo (also `logos:remove`, `logos:promote`) |
 | `npm run reviewer:setup` | Create reviewer credentials in `.env.local` (self-hosted only) |
 | `npm run media:demo` | Record `docs/media/apiwall-demo.gif` from a running site |

@@ -120,6 +120,9 @@ if (existsSync(path.join(out, "opengraph-image"))) {
 }
 
 // The catalog the browser loads, and a marker so GitHub Pages serves the _next folder.
-cpSync(path.join(root, "data", "catalog.snapshot.json"), path.join(root, "out", "catalog.json"));
+if (run("npx", ["tsx", "scripts/write-browser-catalog.ts", "out/catalog.json"]) !== 0) {
+  console.error("✗ Could not write out/catalog.json.");
+  process.exit(1);
+}
 writeFileSync(path.join(root, "out", ".nojekyll"), "");
 console.log(`✓ Static site written to out/ (base path: ${process.env.NEXT_PUBLIC_BASE_PATH || "/"}).`);

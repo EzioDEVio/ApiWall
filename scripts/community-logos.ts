@@ -58,6 +58,8 @@ function store(listingId: string, bytes: Uint8Array): string {
   return name;
 }
 function rebuild() {
+  // Small tile copy first, then the catalog that points at it.
+  spawnSync("npx", ["tsx", "scripts/optimize-logos.ts"], { cwd: root, stdio: "inherit", shell: process.platform === "win32" });
   const r = spawnSync("npx", ["tsx", "scripts/import-catalog.ts", "--offline"], { cwd: root, stdio: "inherit", shell: process.platform === "win32" });
   if (r.status !== 0) fail("Rebuilding the snapshot failed.");
 }

@@ -20,8 +20,11 @@
   --mono: ui-monospace, "SF Mono", "Cascadia Code", Menlo, Consolas, monospace;
   color-scheme: light;
 }
+:root[data-theme="light"] {
+  color-scheme: light;
+}
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not([data-theme="light"]) {
     --paper: #0c0e14;
     --panel: #151923;
     --ink: #eceef5;
@@ -38,6 +41,23 @@
     --focus: #a9a8ff;
     color-scheme: dark;
   }
+}
+:root[data-theme="dark"] {
+  --paper: #0c0e14;
+  --panel: #151923;
+  --ink: #eceef5;
+  --muted: #a0a7ba;
+  --line: #283041;
+  --grout: #1b1f2a;
+  --accent: #8f8dff;
+  --accent-ink: #0c0e14;
+  --tile-b: #3cc79a;
+  --tile-c: #ff9a55;
+  --sponsor: #ff5fc4;
+  --ok: #4ad6a5;
+  --danger: #ff7a7f;
+  --focus: #a9a8ff;
+  color-scheme: dark;
 }
 
 *,
@@ -759,10 +779,41 @@ dialog.detail::backdrop {
   gap: 16px;
   position: relative;
 }
-.detail-close {
+.detail-tools {
   position: absolute;
   top: 10px;
   right: 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  z-index: 1;
+}
+.detail-nav {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  font: 600 0.82rem var(--font);
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+.detail-nav button {
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel);
+  color: var(--ink);
+  font-size: 1.3rem;
+  line-height: 1;
+  cursor: pointer;
+}
+.detail-nav button:hover {
+  border-color: var(--ink);
+}
+.detail-nav span {
+  padding: 0 6px;
+}
+.detail-close {
   width: 44px;
   height: 44px;
   border: 0;
@@ -780,6 +831,27 @@ dialog.detail::backdrop {
   gap: 14px;
   align-items: center;
   padding-right: 40px;
+}
+.detail-body:has(.detail-nav) .detail-head {
+  padding-top: 34px;
+}
+/* Wide screens: details sit beside the map instead of covering it. */
+dialog.detail.is-side {
+  position: fixed;
+  inset: 76px 12px 12px auto;
+  margin: 0;
+  width: min(460px, calc(100vw - 24px));
+  max-height: none;
+  height: auto;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  z-index: 25;
+  box-shadow: var(--shadow-float);
+  border-color: var(--glass-line);
+  animation: drawer-in 0.22s cubic-bezier(0.2, 0.9, 0.3, 1);
+}
+dialog.detail.is-side .detail-body {
+  padding: 18px;
 }
 .detail-titles {
   min-width: 0;
@@ -1162,9 +1234,12 @@ legend {
   --shadow-float: 0 8px 28px rgba(10, 12, 20, 0.16), 0 1px 3px rgba(10, 12, 20, 0.08);
 }
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not([data-theme="light"]) {
     --shadow-float: 0 10px 30px rgba(0, 0, 0, 0.5), 0 1px 3px rgba(0, 0, 0, 0.4);
   }
+}
+:root[data-theme="dark"] {
+  --shadow-float: 0 10px 30px rgba(0, 0, 0, 0.5), 0 1px 3px rgba(0, 0, 0, 0.4);
 }
 body:has(.app-shell) {
   height: 100dvh;
@@ -1397,7 +1472,7 @@ body:has(.app-shell) .site-footer {
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
-  width: min(760px, 100%);
+  width: min(900px, 100%);
 }
 .filter-chip {
   display: inline-flex;
@@ -1509,7 +1584,7 @@ body:has(.app-shell) .site-footer {
   gap: 6px;
   padding: 6px;
   border-radius: 14px;
-  width: min(760px, 100%);
+  width: min(900px, 100%);
 }
 .search-icon {
   display: grid;
@@ -2080,4 +2155,156 @@ kbd {
   .surprise-label {
     display: none;
   }
+}
+
+/* Lenses */
+.lens-select {
+  position: relative;
+  gap: 6px;
+  padding-right: 8px;
+}
+.lens-select select {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  padding: 0 14px 0 0;
+  cursor: pointer;
+  background-image: linear-gradient(45deg, transparent 50%, currentColor 50%), linear-gradient(135deg, currentColor 50%, transparent 50%);
+  background-position: calc(100% - 6px) 55%, calc(100% - 2px) 55%;
+  background-size: 4px 4px;
+  background-repeat: no-repeat;
+}
+.lens-select select:focus {
+  outline: none;
+}
+.lens-select:has(select:focus-visible) {
+  outline: 3px solid var(--focus);
+  outline-offset: 1px;
+}
+.lens-legend {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 6px;
+  width: fit-content;
+  max-width: min(900px, 100%);
+  padding: 6px 8px;
+  border-radius: 12px;
+}
+.lens-q {
+  font: 700 0.8rem var(--font);
+  color: var(--muted);
+  padding: 0 4px;
+}
+.lens-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 32px;
+  padding: 3px 10px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--ink);
+  font: 600 0.82rem var(--font);
+  cursor: pointer;
+}
+.lens-item:hover {
+  border-color: var(--line);
+}
+.lens-item[aria-pressed="true"] {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+}
+.lens-item:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 1px;
+}
+.lens-item i {
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+}
+.lens-item small {
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+.lens-off {
+  color: var(--accent);
+}
+@media (max-width: 1100px) {
+  .lens-label {
+    display: none;
+  }
+}
+
+/* Theme toggle */
+.theme-btn {
+  width: 40px;
+  min-height: 40px;
+  padding: 0;
+}
+
+/* Search suggestions */
+.suggest {
+  position: absolute;
+  z-index: 9;
+  left: max(12px, env(safe-area-inset-left));
+  width: min(560px, 100%);
+  margin: 0;
+  padding: 6px;
+  list-style: none;
+  border-radius: 14px;
+  max-height: min(70vh, 520px);
+  overflow-y: auto;
+  animation: panel-in 0.14s ease-out;
+}
+.suggest li[role="option"] {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 8px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+.suggest li[aria-selected="true"] {
+  background: color-mix(in srgb, var(--accent) 13%, transparent);
+}
+.sug-main {
+  display: grid;
+  min-width: 0;
+}
+.sug-name {
+  font-weight: 700;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.sug-cat {
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+.sug-foot {
+  padding: 6px 8px 2px;
+  font-size: 0.75rem;
+  color: var(--muted);
+  border-top: 1px solid var(--glass-line);
+  margin-top: 4px;
+}
+
+/* Floating controls make room for the details side panel. */
+.app-shell[data-side="open"] .hud {
+  right: 484px;
+}
+.app-shell[data-side="open"] .mosaic-controls {
+  right: 496px;
+}
+.app-shell[data-side="open"] .status-bar {
+  left: calc(50% - 242px);
+  max-width: calc(100% - 508px);
+}
+.app-shell[data-side="open"] .toast {
+  left: calc(50% - 242px);
 }

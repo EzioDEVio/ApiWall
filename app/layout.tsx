@@ -2,6 +2,8 @@ import type { Metadata, Viewport } from "next";
 import Link from "next/link";
 import "./globals.css";
 import { REPO_URL, SITE_NAME, SITE_URL, STATIC_MODE } from "@/lib/site";
+import { THEME_BOOT } from "@/lib/theme";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 const description = "Every public API on one zoomable wall: search, filter by category or auth, and open docs in a click. Built from the community public-apis catalog.";
 
@@ -50,13 +52,17 @@ function Logo() {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
-      {STATIC_MODE && (
-        <head>
-          <meta httpEquiv="Content-Security-Policy" content={STATIC_CSP} />
-          <meta name="referrer" content="strict-origin-when-cross-origin" />
-        </head>
-      )}
+    // The theme script below may set data-theme before React hydrates.
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        {STATIC_MODE && (
+          <>
+            <meta httpEquiv="Content-Security-Policy" content={STATIC_CSP} />
+            <meta name="referrer" content="strict-origin-when-cross-origin" />
+          </>
+        )}
+        <script dangerouslySetInnerHTML={{ __html: THEME_BOOT }} />
+      </head>
       <body>
         <a className="skip" href="#main">
           Skip to content
@@ -74,6 +80,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <Link href="/about">About &amp; Source</Link>
             </nav>
             <div className="header-actions">
+              <ThemeToggle />
               <a className="btn star-btn" href={REPO_URL} target="_blank" rel="noopener noreferrer" aria-label={`Star ${SITE_NAME} on GitHub (opens GitHub)`}>
                 <GitHubMark />
                 <span className="star-label">Star</span>

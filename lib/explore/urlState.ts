@@ -1,5 +1,6 @@
 import { EMPTY_FILTERS, type Filters } from "./model";
 import { ACCESS_STATUSES } from "@/lib/providers/types";
+import { LENS_IDS, type LensId } from "./lenses";
 
 /**
  * Shareable URLs: the active category, search, filters, view and open API live in the
@@ -10,6 +11,8 @@ export interface UrlState {
   filters: Filters;
   view: "map" | "list" | null;
   api: string | null;
+  /** Colouring of the wall; "category" (the default) is left out of URLs. */
+  lens?: LensId;
 }
 
 const ENUMS: Partial<Record<keyof Filters, readonly string[]>> = {
@@ -45,7 +48,13 @@ export function parseUrlState(search: string): UrlState {
   }
   const view = p.get("view");
   const api = p.get("api");
-  return { filters, view: view === "list" || view === "map" ? view : null, api: api && /^[a-z0-9-]{1,120}$/.test(api) ? api : null };
+  const lens = p.get("lens");
+  return {
+    filters,
+    view: view === "list" || view === "map" ? view : null,
+    api: api && /^[a-z0-9-]{1,120}$/.test(api) ? api : null,
+    lens: (LENS_IDS as readonly string[]).includes(lens ?? "") ? (lens as LensId) : "category",
+  };
 }
 
 /** The query string for a state; empty values are left out. Other parameters are kept. */
@@ -58,6 +67,8 @@ export function toUrlSearch(state: UrlState, existing = ""): string {
   }
   if (state.view === "list") p.set("view", "list");
   else p.delete("view");
+  if (state.lens && state.lens !== "category") p.set("lens", state.lens);
+  else p.delete("lens");
   if (state.api) p.set("api", state.api);
   else p.delete("api");
   const s = p.toString();

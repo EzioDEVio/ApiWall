@@ -149,3 +149,42 @@ export function slotXY(layout: MapLayout, slot: number) {
     y: MARGIN + Math.floor(slot / layout.cols) * TILE_SIZE,
   };
 }
+
+export interface District {
+  slug: string;
+  name: string;
+  /** Centre of the band's tiles, and the left edge and size of its main body, in logical cells. */
+  cx: number;
+  x0: number;
+  cy: number;
+  w: number;
+  h: number;
+  count: number;
+}
+
+/**
+ * Where to write each category's name when the whole map is in view. A band wraps
+ * across rows, so the label sits over the rows that hold most of its tiles.
+ */
+export function districts(layout: MapLayout, names: Map<string, string>): District[] {
+  if (layout.mode !== "full") return [];
+  const bySlug = new Map<string, LayoutItem[]>();
+  for (const it of layout.items) (bySlug.get(it.colorSlug) ?? bySlug.set(it.colorSlug, []).get(it.colorSlug)!).push(it);
+  const out: District[] = [];
+  for (const [slug, items] of bySlug) {
+    const rows = new Map<number, LayoutItem[]>();
+    for (const it of items) (rows.get(it.y) ?? rows.set(it.y, []).get(it.y)!).push(it);
+    const fullest = Math.max(...[...rows.values()].map((r) => r.length));
+    const core = [...rows.values()].filter((r) => r.length >= fullest * 0.5).flat();
+    const xs = core.map((i) => i.x);
+    const ys = core.map((i) => i.y);
+    const x0 = Math.min(...xs);
+    const x1 = Math.max(...xs) + TILE_SIZE;
+    const y0 = Math.min(...ys);
+    const y1 = Math.max(...ys) + TILE_SIZE;
+    // Centre on where the tiles actually are (bands rarely fill whole rows), within the band's box.
+    const meanX = core.reduce((a, i) => a + i.x, 0) / core.length + TILE_SIZE / 2;
+    out.push({ slug, name: names.get(slug) ?? items[0]!.entry.category, cx: meanX, x0, cy: (y0 + y1) / 2, w: x1 - x0, h: y1 - y0, count: items.length });
+  }
+  return out.sort((a, b) => b.count - a.count);
+}

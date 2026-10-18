@@ -53,6 +53,14 @@ async function main() {
   await hold(page, 1300);
   await page.screenshot({ path: path.join(outDir, "apiwall-whole.png") });
 
+  // Colour lens: where are the APIs that need no key?
+  await page.getByTestId("lens-select").selectOption("auth");
+  await film(page, 500);
+  await hold(page, 1500);
+  await page.screenshot({ path: path.join(outDir, "apiwall-lens.png") });
+  await page.getByTestId("lens-select").selectOption("category");
+  await film(page, 300);
+
   // One category: only its tiles, fitted to the screen.
   await page.getByRole("navigation", { name: "Categories" }).getByRole("button", { name: /^AI Models, / }).click();
   await film(page, 1100);

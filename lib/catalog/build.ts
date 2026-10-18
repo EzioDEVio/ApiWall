@@ -39,9 +39,11 @@ export interface BuildInput {
   communityLogos?: CommunityLogosFile | null;
   /** Whether a community logo file exists (the importer checks the disk). */
   communityFileExists?: (name: string) => boolean;
+  /** Path of the small tile copy for a logo src, if one exists (see scripts/optimize-logos.ts). */
+  tileFor?: (src: string) => string | null;
 }
 
-export function buildSnapshot({ readme, source, importedAt, icons, iconBasis, previous, favicons, aiModels, communityLogos, communityFileExists }: BuildInput): CatalogSnapshot {
+export function buildSnapshot({ readme, source, importedAt, icons, iconBasis, previous, favicons, aiModels, communityLogos, communityFileExists, tileFor }: BuildInput): CatalogSnapshot {
   const parsed = parseReadme(readme);
   const normalized = normalize(parsed);
   const warnings = normalized.warnings;
@@ -84,6 +86,12 @@ export function buildSnapshot({ readme, source, importedAt, icons, iconBasis, pr
 
   const marks = buildMarks(listings, icons, iconBasis, favicons);
   warnings.push(...applyCommunityLogos(marks, listings, communityLogos, communityFileExists));
+  if (tileFor)
+    for (const m of Object.values(marks)) {
+      if (m.type !== "image") continue;
+      const t = tileFor(m.src);
+      if (t) m.tile = t;
+    }
   return {
     schemaVersion: 1,
     source: { ...source, importedAt },

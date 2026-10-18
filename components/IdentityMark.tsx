@@ -23,7 +23,16 @@ export function IdentityMark({ mark, name, categoryIndex, size = 48, dark = fals
       <span className="mark mark-logo" style={{ width: size, height: size, borderRadius: r }}>
         {/* Same-origin, reviewer-approved logo. */}
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={asset(mark.src)} alt={`${name} logo`} width={size * 0.7} height={size * 0.7} onError={() => setBroken(true)} data-testid="provider-logo" />
+        <img
+          src={asset(size <= 48 && mark.tile ? mark.tile : mark.src)}
+          alt={`${name} logo`}
+          width={size * 0.7}
+          height={size * 0.7}
+          loading="lazy"
+          decoding="async"
+          onError={() => setBroken(true)}
+          data-testid="provider-logo"
+        />
       </span>
     );
   }

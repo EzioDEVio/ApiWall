@@ -18,6 +18,10 @@ interface Props {
   categoryIndex: number;
   glyph: string[] | undefined;
   dark: boolean;
+  /** "side": a non-modal panel beside the map (wide screens). "modal": a centred dialog (default). */
+  mode?: "modal" | "side";
+  /** Step through the current results. */
+  nav?: { index: number; total: number; prev: () => void; next: () => void } | null;
 }
 
 const fmtDate = (iso: string) =>
@@ -28,15 +32,55 @@ const fmtDate = (iso: string) =>
     timeZone: "UTC",
   });
 
-export function DetailDialog({ entry, onClose, source, categoryIndex, glyph, dark }: Props) {
+export function DetailDialog({ entry, onClose, source, categoryIndex, glyph, dark, mode = "modal", nav = null }: Props) {
   const ref = useRef<HTMLDialogElement>(null);
+  const opener = useRef<HTMLElement | null>(null);
+  const shownAs = useRef<"modal" | "side" | null>(null);
+  const reopening = useRef(false);
 
   useEffect(() => {
     const d = ref.current;
     if (!d) return;
-    if (entry && !d.open) d.showModal();
+    if (entry && d.open && shownAs.current !== mode) {
+      // The window crossed the wide/narrow breakpoint while open: reopen in the new style.
+      reopening.current = true;
+      d.close();
+      reopening.current = false;
+      if (mode === "side") d.show();
+      else d.showModal();
+      shownAs.current = mode;
+      return;
+    }
+    if (entry && !d.open) {
+      opener.current = document.activeElement as HTMLElement | null;
+      if (mode === "side") d.show();
+      else d.showModal();
+      shownAs.current = mode;
+    }
     if (!entry && d.open) d.close();
-  }, [entry]);
+  }, [entry, mode]);
+
+  // The side panel is not modal, so it handles Escape and ←/→ itself (ignored while typing).
+  useEffect(() => {
+    if (!entry || mode !== "side") return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.defaultPrevented || e.ctrlKey || e.metaKey || e.altKey) return;
+      const t = e.target as HTMLElement | null;
+      if (t?.closest("input, textarea, select, [contenteditable='true'], [role='tab'], [role='application']")) return;
+      if (e.key === "Escape") {
+        e.preventDefault();
+        ref.current?.close();
+      } else if (nav && e.key === "ArrowRight") {
+        e.preventDefault();
+        nav.next();
+      } else if (nav && e.key === "ArrowLeft") {
+        e.preventDefault();
+        nav.prev();
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [entry, mode, nav]);
 
   const markSource = entry ? (
     <>
@@ -58,19 +102,42 @@ export function DetailDialog({ entry, onClose, source, categoryIndex, glyph, dar
   return (
     <dialog
       ref={ref}
-      className="detail"
+      className={"detail" + (mode === "side" ? " is-side" : "")}
       aria-labelledby="detail-title"
-      onClose={onClose}
+      onClose={() => {
+        if (reopening.current) return;
+        shownAs.current = null;
+        // Return focus to whatever opened the details (a card, a tile, a suggestion).
+        const back = opener.current;
+        opener.current = null;
+        if (back && document.contains(back)) back.focus({ preventScroll: true });
+        onClose();
+      }}
       onClick={(e) => {
-        if (e.target === ref.current) ref.current?.close(); // click on backdrop
+        if (e.target === ref.current && mode === "modal") ref.current?.close(); // click on backdrop
       }}
       data-testid="detail-dialog"
     >
       {entry && (
         <div className="detail-body">
-          <button type="button" className="detail-close" onClick={() => ref.current?.close()} aria-label="Close details">
-            <span aria-hidden="true">×</span>
-          </button>
+          <div className="detail-tools">
+            {nav && nav.total > 1 && (
+              <div className="detail-nav" role="group" aria-label="Browse results">
+                <button type="button" onClick={nav.prev} aria-label="Previous API" title="Previous (←)">
+                  ‹
+                </button>
+                <span aria-live="polite" data-testid="detail-position">
+                  {(nav.index + 1).toLocaleString("en")} of {nav.total.toLocaleString("en")}
+                </span>
+                <button type="button" onClick={nav.next} aria-label="Next API" title="Next (→)">
+                  ›
+                </button>
+              </div>
+            )}
+            <button type="button" className="detail-close" onClick={() => ref.current?.close()} aria-label="Close details">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
 
           <header className="detail-head">
             <IdentityMark mark={entry.mark} name={entry.name} categoryIndex={categoryIndex} size={64} dark={dark} />

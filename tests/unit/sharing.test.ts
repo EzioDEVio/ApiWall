@@ -14,9 +14,14 @@ const byName = (n: string) => entries.find((e) => e.name === n)!;
 
 describe("shareable URLs", () => {
   it("round-trips category, search, filters, view and the open API", () => {
-    const state = { filters: { ...EMPTY_FILTERS, category: "ai-models", q: "gpt", auth: "apiKey" as const, logo: "missing" as const }, view: "list" as const, api: "api-openai-api-x1" };
+    const state = {
+      filters: { ...EMPTY_FILTERS, category: "ai-models", q: "gpt", auth: "apiKey" as const, logo: "missing" as const },
+      view: "list" as const,
+      api: "api-openai-api-x1",
+      lens: "cors" as const,
+    };
     const search = toUrlSearch(state);
-    expect(search).toBe("?q=gpt&cat=ai-models&auth=apiKey&logo=missing&view=list&api=api-openai-api-x1");
+    expect(search).toBe("?q=gpt&cat=ai-models&auth=apiKey&logo=missing&view=list&lens=cors&api=api-openai-api-x1");
     expect(parseUrlState(search)).toEqual(state);
   });
   it("ignores invalid values instead of trusting them", () => {
@@ -24,6 +29,7 @@ describe("shareable URLs", () => {
     expect(s.filters).toEqual({ ...EMPTY_FILTERS, kind: "mcp" });
     expect(s.view).toBeNull();
     expect(s.api).toBeNull();
+    expect(parseUrlState("?lens=rainbow").lens).toBe("category");
   });
   it("drops cleared filters and keeps unrelated parameters", () => {
     expect(toUrlSearch({ filters: EMPTY_FILTERS, view: null, api: null }, "?q=old&cat=animals&utm_source=x")).toBe("?utm_source=x");

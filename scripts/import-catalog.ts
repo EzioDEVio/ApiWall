@@ -151,6 +151,12 @@ async function main() {
     // Maintainer-approved logos committed to the repo (see data/community-logos.json).
     communityLogos: existsSync(path.join(dataDir, "community-logos.json")) ? (JSON.parse(readFileSync(path.join(dataDir, "community-logos.json"), "utf8")) as CommunityLogosFile) : null,
     communityFileExists: (name: string) => existsSync(path.join(root, "public", "marks", "community", name)),
+    // Small WebP copies made by `npm run logos:optimize` (same naming as scripts/optimize-logos.ts).
+    tileFor: (src: string) => {
+      const rel = src.replace(/^\/marks\//, "");
+      const name = rel.replace(/\//g, "__").replace(/\.[a-z]+$/i, ".webp");
+      return existsSync(path.join(root, "public", "marks", "tiles", name)) ? `/marks/tiles/${name}` : null;
+    },
     // Curated, source-tracked AI Models supplement (see data/ai-models.json).
     aiModels: existsSync(path.join(dataDir, "ai-models.json")) ? (JSON.parse(readFileSync(path.join(dataDir, "ai-models.json"), "utf8")) as AiModelsFile) : null,
     iconBasis: "Simple Icons (CC0-1.0 icon data; marks remain trademarks of their owners)",

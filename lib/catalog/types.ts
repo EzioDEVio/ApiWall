@@ -95,6 +95,7 @@ export type IdentityMark =
       type: "image";
       title: string;
       src: string; // same-origin path under /marks
+      tile?: string; // small WebP copy for tiles and cards (public/marks/tiles), when one was made
       basis: string;
       sourceUrl: string; // the official page that declared the icon
       iconUrl: string; // where it was downloaded from

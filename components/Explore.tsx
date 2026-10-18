@@ -11,10 +11,14 @@ import { PROVIDER_REGION } from "@/lib/catalog/placement";
 import { Mosaic, type MosaicHandle, type MosaicRegion } from "./Mosaic";
 import { ListView } from "./ListView";
 import { DetailDialog } from "./DetailDialog";
-import { Glyph } from "./IdentityMark";
+import { Glyph, IdentityMark } from "./IdentityMark";
+import { rankSuggestions } from "@/lib/explore/suggest";
 import { asset, STATIC_MODE } from "@/lib/site";
+import { type BrowserCatalog, fromBrowserCatalog } from "@/lib/catalog/browser";
 import { parseUrlState, toUrlSearch } from "@/lib/explore/urlState";
 import { copyText } from "@/lib/clipboard";
+import { isDarkNow, onThemeChange } from "@/lib/theme";
+import { LENS_IDS, LENSES, type LensId, lensCounts, lensSwatch } from "@/lib/explore/lenses";
 import { CategoryNav, type CategoryRow } from "./CategoryNav";
 
 type Load<T> = { state: "loading" } | { state: "error"; message: string } | { state: "ready"; data: T };
@@ -27,6 +31,16 @@ interface Props {
 const WELCOME_KEY = "tessera.welcome.dismissed";
 const AI_SLUG = "ai-models";
 const NARROW = "(max-width: 899px)";
+const WIDE = "(min-width: 1100px)";
+
+/** True while a modal dialog is open (the side panel is not modal, so shortcuts keep working). */
+function modalOpen(): boolean {
+  try {
+    return !!document.querySelector("dialog:modal");
+  } catch {
+    return !!document.querySelector("dialog[open]");
+  }
+}
 
 const KIND_LABELS: Record<string, string> = {
   api: "HTTP APIs",
@@ -87,6 +101,10 @@ export function Explore({ glyphs, stats }: Props) {
   const [dark, setDark] = useState(false);
   const [hudH, setHudH] = useState(120);
   const [narrow, setNarrow] = useState(false);
+  const [wide, setWide] = useState(false);
+  const [lens, setLens] = useState<LensId>("category");
+  const [sugOpen, setSugOpen] = useState(false);
+  const [sugIdx, setSugIdx] = useState(-1);
   const [navOpen, setNavOpen] = useState(false);
   const navBtn = useRef<HTMLButtonElement>(null);
   const [urlReady, setUrlReady] = useState(false);
@@ -103,7 +121,7 @@ export function Explore({ glyphs, stats }: Props) {
     setCatalog({ state: "loading" });
     fetch(STATIC_MODE ? asset("/catalog.json") : "/api/catalog")
       .then((r) => (r.ok ? r.json() : Promise.reject(new Error(`The catalog could not be loaded (HTTP ${r.status}).`))))
-      .then((data: CatalogSnapshot) => setCatalog({ state: "ready", data }))
+      .then((data: BrowserCatalog | CatalogSnapshot) => setCatalog({ state: "ready", data: fromBrowserCatalog(data) }))
       .catch((e: Error) =>
         setCatalog({
           state: "error",
@@ -115,7 +133,10 @@ export function Explore({ glyphs, stats }: Props) {
   useEffect(() => {
     loadCatalog();
     // The static site has no server: approved logos are part of the catalog, and there are no provider listings.
-    (STATIC_MODE ? Promise.resolve({ listings: [], catalogClaims: [] }) : fetch("/api/providers/public").then((r) => (r.ok ? r.json() : Promise.reject(new Error(String(r.status))))))
+    (STATIC_MODE
+      ? Promise.resolve({ listings: [], catalogClaims: [] })
+      : fetch("/api/providers/public").then((r) => (r.ok ? r.json() : Promise.reject(new Error(String(r.status)))))
+    )
       .then((data: PublicProviderPayload) => setProviders({ state: "ready", data }))
       .catch(() =>
         setProviders({
@@ -126,23 +147,29 @@ export function Explore({ glyphs, stats }: Props) {
     // Phones open on readable cards; the map is one tap away.
     if (window.matchMedia("(max-width: 640px)").matches) setListOpen(true);
     if (!readFlag(WELCOME_KEY)) setWelcome(true);
-    const mq = window.matchMedia("(prefers-color-scheme: dark)");
-    setDark(mq.matches);
-    const on = () => setDark(mq.matches);
-    mq.addEventListener("change", on);
+    // Dark when the saved theme says so, or when following a dark system setting.
+    setDark(isDarkNow());
+    const offTheme = onThemeChange(() => setDark(isDarkNow()));
     // Shareable links: restore category, search, filters, view and the open API from the URL.
     const fromUrl = parseUrlState(window.location.search);
     setFilters(fromUrl.filters);
     if (fromUrl.view) setListOpen(fromUrl.view === "list");
     if (fromUrl.api) setSelectedId(fromUrl.api);
+    if (fromUrl.lens) setLens(fromUrl.lens);
     setUrlReady(true);
     // Below 900px the category list becomes a drawer opened from the top bar.
+    // Wide windows show details in a side panel beside the map.
+    const wq = window.matchMedia(WIDE);
+    setWide(wq.matches);
+    const onWide = () => setWide(wq.matches);
+    wq.addEventListener("change", onWide);
     const nq = window.matchMedia(NARROW);
     setNarrow(nq.matches);
     const onNarrow = () => setNarrow(nq.matches);
     nq.addEventListener("change", onNarrow);
     return () => {
-      mq.removeEventListener("change", on);
+      offTheme();
+      wq.removeEventListener("change", onWide);
       nq.removeEventListener("change", onNarrow);
     };
   }, [loadCatalog]);
@@ -150,16 +177,16 @@ export function Explore({ glyphs, stats }: Props) {
   // Keep the address bar in step with what is on screen, so any view can be shared as a link.
   useEffect(() => {
     if (!urlReady) return;
-    const search = toUrlSearch({ filters, view: listOpen ? "list" : null, api: selectedId }, window.location.search);
+    const search = toUrlSearch({ filters, view: listOpen ? "list" : null, api: selectedId, lens }, window.location.search);
     if (search !== window.location.search) window.history.replaceState(null, "", window.location.pathname + search + window.location.hash);
-  }, [urlReady, filters, listOpen, selectedId]);
+  }, [urlReady, filters, listOpen, selectedId, lens]);
 
   // Shortcuts: "/" focuses search, "R" opens a random API. Ignored while typing or in a dialog.
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.defaultPrevented || e.ctrlKey || e.metaKey || e.altKey) return;
       const t = e.target as HTMLElement | null;
-      if (t?.closest("input, textarea, select, [contenteditable='true']") || document.querySelector("dialog[open]")) return;
+      if (t?.closest("input, textarea, select, [contenteditable='true']") || modalOpen()) return;
       if (e.key === "/") {
         e.preventDefault();
         document.getElementById("q")?.focus();
@@ -255,7 +282,8 @@ export function Explore({ glyphs, stats }: Props) {
     if (toastTimer.current) clearTimeout(toastTimer.current);
     toastTimer.current = setTimeout(() => setToast(null), 2400);
   };
-  const copyLink = async () => showToast((await copyText(window.location.href)) ? "Link copied. It opens this exact view." : "Copy failed. Copy the address bar instead.");
+  const copyLink = async () =>
+    showToast((await copyText(window.location.href)) ? "Link copied. It opens this exact view." : "Copy failed. Copy the address bar instead.");
 
   const set = <K extends keyof Filters>(k: K, v: Filters[K]) => setFilters((f) => ({ ...f, [k]: v }));
   const resetAll = () => {
@@ -322,6 +350,15 @@ export function Explore({ glyphs, stats }: Props) {
   }
 
   const total = entries.length;
+  // Legend counts come from the visible results, so they always match the wall.
+  // Each count ignores the lens's own filter, so it says what clicking that colour would show.
+  const lensBuckets =
+    lens === "category"
+      ? new Map<string, number>()
+      : lensCounts(
+          filterEntries(entries, { ...effective, ...Object.fromEntries(LENSES[lens].buckets.flatMap((b) => Object.keys(b.filter)).map((k) => [k, ""])) }),
+          lens,
+        );
 
   /** Opens a random API from the current results (so it respects category and filters). */
   const surprise = () => {
@@ -332,10 +369,45 @@ export function Explore({ glyphs, stats }: Props) {
     select(pick.id);
   };
   surpriseRef.current = surprise;
+
+  // ‹ › in the details step through the current results, and the map follows along.
+  const selIndex = selectedId ? results.findIndex((e) => e.id === selectedId) : -1;
+  const step = (d: number) => {
+    if (selIndex < 0 || !results.length) return;
+    const next = results[(selIndex + d + results.length) % results.length]!;
+    if (!listOpen) mosaicRef.current?.focusEntry(next.id);
+    select(next.id);
+  };
+  const detailNav = selIndex >= 0 ? { index: selIndex, total: results.length, prev: () => step(-1), next: () => step(1) } : null;
+
+  // Search suggestions: the best matches among the current results.
+  const suggestions = sugOpen && filters.q.trim() ? rankSuggestions(results, filters.q, 8) : [];
+  const chooseSuggestion = (id: string) => {
+    setSugOpen(false);
+    setSugIdx(-1);
+    if (!listOpen) mosaicRef.current?.focusEntry(id);
+    select(id);
+  };
+  const onSearchKey = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+      if (!suggestions.length) return;
+      e.preventDefault();
+      setSugOpen(true);
+      setSugIdx((i) => (e.key === "ArrowDown" ? (i + 1) % suggestions.length : (i <= 0 ? suggestions.length : i) - 1));
+    } else if (e.key === "Enter") {
+      e.preventDefault();
+      if (sugIdx >= 0 && suggestions[sugIdx]) chooseSuggestion(suggestions[sugIdx]!.id);
+      else setSugOpen(false);
+    } else if (e.key === "Escape" && sugOpen) {
+      e.stopPropagation();
+      setSugOpen(false);
+      setSugIdx(-1);
+    }
+  };
   const src = snapshot.source;
 
   return (
-    <section className="app-shell" aria-label="Explore APIs" data-nav={narrow ? "drawer" : "sidebar"}>
+    <section className="app-shell" aria-label="Explore APIs" data-nav={narrow ? "drawer" : "sidebar"} data-side={wide && selected ? "open" : undefined}>
       {(!narrow || navOpen) && (
         <CategoryNav
           rows={navRows}
@@ -369,6 +441,7 @@ export function Explore({ glyphs, stats }: Props) {
           entries={results}
           filtered={filtered}
           focusCategory={focusCategory}
+          lens={lens}
           categoryIndex={categoryIndex}
           categoryGlyph={categoryGlyph}
           glyphs={glyphs}
@@ -378,7 +451,7 @@ export function Explore({ glyphs, stats }: Props) {
           onSelect={(id) => select(id)}
           onOpenSlot={() => router.push("/submit")}
           insetTop={hudH}
-          insetRight={listOpen ? 440 : 0}
+          insetRight={listOpen ? 440 : wide && selectedId ? 484 : 0}
         />
 
         {/* Floating top bar: search, filters, view, categories. */}
@@ -415,7 +488,19 @@ export function Explore({ glyphs, stats }: Props) {
               type="search"
               placeholder={`Search ${total.toLocaleString("en")} APIs`}
               value={filters.q}
-              onChange={(e) => set("q", e.target.value)}
+              onChange={(e) => {
+                set("q", e.target.value);
+                setSugOpen(true);
+                setSugIdx(-1);
+              }}
+              onFocus={() => setSugOpen(true)}
+              onBlur={() => setSugOpen(false)}
+              onKeyDown={onSearchKey}
+              role="combobox"
+              aria-autocomplete="list"
+              aria-expanded={suggestions.length > 0}
+              aria-controls="q-suggest"
+              aria-activedescendant={sugIdx >= 0 && suggestions[sugIdx] ? `sug-${sugIdx}` : undefined}
               autoComplete="off"
             />
             <button
@@ -461,10 +546,57 @@ export function Explore({ glyphs, stats }: Props) {
               />
               <span className="surprise-label">Surprise me</span>
             </button>
+            <label className={"hud-btn lens-select" + (lens !== "category" ? " is-on" : "")} title="Colour the wall by a fact instead of by category">
+              <Glyph
+                paths={[
+                  "M12 21a9 9 0 0 1 0 -18c4.97 0 9 3.582 9 8c0 1.06 -.474 2.078 -1.318 2.828c-.844 .75 -1.989 1.172 -3.182 1.172h-2.5a2 2 0 0 0 -1 3.75a1.3 1.3 0 0 1 -1 2.25",
+                  "M8.5 10.5m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0",
+                  "M12.5 7.5m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0",
+                  "M16.5 10.5m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0",
+                ]}
+                size={17}
+              />
+              <span className="lens-label">Color</span>
+              <select aria-label="Color the wall by" value={lens} onChange={(e) => setLens(e.target.value as LensId)} data-testid="lens-select">
+                {LENS_IDS.map((id) => (
+                  <option key={id} value={id}>
+                    {LENSES[id].label}
+                  </option>
+                ))}
+              </select>
+            </label>
             <button type="button" className="hud-btn hud-icon" aria-label="How to explore" aria-expanded={helpOpen} onClick={() => setHelpOpen((v) => !v)}>
               ?
             </button>
           </form>
+          {lens !== "category" && (
+            <div className="lens-legend glass" role="group" aria-label={`${LENSES[lens].label} colours`} data-testid="lens-legend">
+              <span className="lens-q">{LENSES[lens].question}</span>
+              {LENSES[lens].buckets.map((b) => {
+                const n = lensBuckets.get(b.key) ?? 0;
+                const active = Object.entries(b.filter).every(([k, v]) => filters[k as keyof Filters] === v);
+                return (
+                  <button
+                    key={b.key}
+                    type="button"
+                    className="lens-item"
+                    aria-pressed={active}
+                    aria-label={`${active ? "Showing" : "Show"} only ${b.label}: ${n.toLocaleString("en")}`}
+                    onClick={() =>
+                      setFilters((f) => (active ? { ...f, ...Object.fromEntries(Object.keys(b.filter).map((k) => [k, ""])) } : { ...f, ...b.filter }))
+                    }
+                  >
+                    <i style={{ background: lensSwatch(b, dark) }} aria-hidden="true" />
+                    {b.label}
+                    <small>{n.toLocaleString("en")}</small>
+                  </button>
+                );
+              })}
+              <button type="button" className="lens-item lens-off" onClick={() => setLens("category")}>
+                Back to categories
+              </button>
+            </div>
+          )}
           {chips.length > 0 && (
             <div className="active-filters" role="group" aria-label="Active filters" data-testid="active-filters">
               {chips.map((c) => (
@@ -481,6 +613,37 @@ export function Explore({ glyphs, stats }: Props) {
             </div>
           )}
         </div>
+
+        {suggestions.length > 0 && (
+          <ul id="q-suggest" role="listbox" aria-label="Suggestions" className="suggest glass" data-testid="suggestions" style={{ top: hudH - 4 }}>
+            {suggestions.map((e, i) => (
+              <li
+                key={e.id}
+                id={`sug-${i}`}
+                role="option"
+                aria-selected={i === sugIdx}
+                // mousedown, not click: the input's blur would close the list first.
+                onMouseDown={(ev) => {
+                  ev.preventDefault();
+                  chooseSuggestion(e.id);
+                }}
+                onMouseEnter={() => setSugIdx(i)}
+              >
+                <IdentityMark mark={e.mark} name={e.name} categoryIndex={categoryIndex.get(e.categorySlug) ?? 0} size={30} dark={dark} />
+                <span className="sug-main">
+                  <span className="sug-name">{e.name}</span>
+                  <span className="sug-cat">
+                    {e.category}
+                    {e.kind === "mcp" ? " · MCP" : ""}
+                  </span>
+                </span>
+              </li>
+            ))}
+            <li className="sug-foot" role="presentation">
+              {results.length.toLocaleString("en")} {results.length === 1 ? "match" : "matches"} on the wall · ↑↓ to choose · Enter to open
+            </li>
+          </ul>
+        )}
 
         {filtersOpen && (
           <div className="float-panel filters-panel glass" id="filters-panel" role="group" aria-label="Filters" style={{ top: hudH - 4 }}>
@@ -556,8 +719,11 @@ export function Explore({ glyphs, stats }: Props) {
                 where you left it.
               </li>
               <li>
-                <strong>Shortcuts:</strong> <kbd>/</kbd> search, <kbd>R</kbd> surprise me, <kbd>Esc</kbd> close. <strong>Copy link</strong> in the bottom bar shares
-                exactly what you see.
+                <strong>Color:</strong> recolour the wall by auth, HTTPS, CORS or logo. Click a colour in the legend to show only those APIs.
+              </li>
+              <li>
+                <strong>Shortcuts:</strong> <kbd>/</kbd> search, <kbd>R</kbd> surprise me, <kbd>Esc</kbd> close. <strong>Copy link</strong> in the bottom bar
+                shares exactly what you see.
               </li>
               <li>
                 <strong>Legend:</strong> ★ with a dashed frame is sponsored; ◆ is provider-submitted; dashed + tiles at the bottom are open for providers.
@@ -631,8 +797,9 @@ export function Explore({ glyphs, stats }: Props) {
             <p className="eyebrow">A million-cell map of public APIs</p>
             <h2 id="welcome-h">Your API. One tile. Millions of builders.</h2>
             <p>
-              Each tile is one of {stats.api.toLocaleString("en")} public APIs or {stats.mcp} MCP servers from the community catalog, plus a small, source-checked AI
-              Models list curated by ApiWall. Scroll anywhere, search, and open a tile for its auth, HTTPS and CORS details and the official docs.
+              Each tile is one of {stats.api.toLocaleString("en")} public APIs or {stats.mcp} MCP servers from the community catalog, plus a small,
+              source-checked AI Models list curated by ApiWall. Scroll anywhere, search, and open a tile for its auth, HTTPS and CORS details and the official
+              docs.
             </p>
             <div className="row">
               <button type="button" className="btn btn-primary" onClick={dismissWelcome}>
@@ -685,6 +852,8 @@ export function Explore({ glyphs, stats }: Props) {
           categoryIndex={selected ? (categoryIndex.get(selected.categorySlug) ?? 0) : 0}
           glyph={selected ? glyphs[categoryGlyph.get(selected.categorySlug) ?? ""] : undefined}
           dark={dark}
+          mode={wide ? "side" : "modal"}
+          nav={detailNav}
         />
       </div>
     </section>

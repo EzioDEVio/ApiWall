@@ -4,8 +4,10 @@ import { forwardRef, useCallback, useEffect, useImperativeHandle, useLayoutEffec
 import type { Entry } from "@/lib/explore/model";
 import { brandInk, categoryColor, tileColor } from "@/lib/explore/colors";
 import { SLOTS_PER_ROW, TILE_SIZE, slotToPlacement } from "@/lib/catalog/placement";
-import { cellToLayoutSlot, filteredColumns, filteredLayout, fullLayout, type LayoutItem, type MapLayout, slotXY } from "@/lib/explore/layout";
+import { type LensId, lensColor } from "@/lib/explore/lenses";
+import { cellToLayoutSlot, districts, filteredColumns, filteredLayout, fullLayout, type LayoutItem, type MapLayout, slotXY } from "@/lib/explore/layout";
 import { asset } from "@/lib/site";
+import { isDarkNow, onThemeChange } from "@/lib/theme";
 
 // The map is a native scroll container: a transparent spacer the size of the
 // zoomed map scrolls inside it, and one viewport-sized canvas behind it draws
@@ -33,6 +35,8 @@ interface Props {
   filtered: boolean;
   /** The selected category, if any: results are shown as one group under its name. */
   focusCategory?: { slug: string; name: string } | null;
+  /** Recolour tiles by a fact (auth, HTTPS, CORS, logo) instead of by category. */
+  lens?: LensId;
   categoryIndex: Map<string, number>;
   categoryGlyph: Map<string, string>;
   glyphs: Record<string, string[]>;
@@ -60,13 +64,6 @@ const DEFAULT_TILE_PX = (width: number) => (width < 640 ? 52 : 58);
 
 type Hover = { kind: "entry"; id: string; x: number; y: number } | { kind: "open"; x: number; y: number } | null;
 
-function isDark(): boolean {
-  if (typeof window === "undefined") return false;
-  const t = document.documentElement.dataset.theme;
-  if (t === "dark") return true;
-  if (t === "light") return false;
-  return window.matchMedia("(prefers-color-scheme: dark)").matches;
-}
 
 function roundRect(ctx: CanvasRenderingContext2D, x: number, y: number, w: number, h: number, r: number) {
   ctx.beginPath();
@@ -78,6 +75,7 @@ export const Mosaic = forwardRef<MosaicHandle, Props>(function Mosaic(
     entries,
     filtered,
     focusCategory = null,
+    lens = "category",
     categoryIndex,
     categoryGlyph,
     glyphs,
@@ -135,6 +133,7 @@ export const Mosaic = forwardRef<MosaicHandle, Props>(function Mosaic(
     [filtered, entries, cols, categoryIndex, names, focusCategory, regions, providerRegion],
   );
   const L = useRef<MapLayout>(mapLayout);
+  const dists = useMemo(() => districts(mapLayout, names), [mapLayout, names]);
   const { bySlot, byId } = mapLayout;
 
   // ---- geometry -----------------------------------------------------------
@@ -236,7 +235,12 @@ export const Mosaic = forwardRef<MosaicHandle, Props>(function Mosaic(
     if (!sc || vp.current.w === 0 || (prev.top === insetTop && prev.right === insetRight)) return;
     const s = scale.current;
     const before = { ...layoutWith(prev, s) };
-    const ns = clampScale(s);
+    // If the whole map (or all results) was fitted to the screen, keep it fitted to the new space.
+    const saved = insets.current;
+    insets.current = prev;
+    const wasFit = Math.abs(s - fitScale()) < 1e-3 || (L.current.mode === "filtered" && s >= fitScale() - 1e-3 && s <= FIT_MAX_TILE_PX / TILE_SIZE + 1e-3);
+    insets.current = saved;
+    const ns = wasFit ? (L.current.mode === "filtered" ? s : fitScale()) : clampScale(s);
     scale.current = ns;
     applySize(ns);
     const after = layout(ns);
@@ -424,7 +428,7 @@ export const Mosaic = forwardRef<MosaicHandle, Props>(function Mosaic(
       const e = item.entry;
       const ci = categoryIndex.get(item.colorSlug) ?? 0;
       const seed = e.mark.type === "monogram" ? e.mark.seed : e.mark.type === "logo" ? e.mark.fallback.seed : 0;
-      ctx.fillStyle = tileColor(ci, seed, dark);
+      ctx.fillStyle = (lens !== "category" && lensColor(e, lens, dark, seed)) || tileColor(ci, seed, dark);
       if (tp >= 10) {
         roundRect(ctx, x, y, tw, tw, Math.min(7, tp * 0.12));
         ctx.fill();
@@ -549,7 +553,40 @@ export const Mosaic = forwardRef<MosaicHandle, Props>(function Mosaic(
     outline(selectedId, accent, 4);
 
     // Category labels where each band (or filtered group) starts, so you always know where you are.
-    {
+    // Zoomed out on the full map: write each category's name across its band, like districts on a city map.
+    const overview = lay.mode === "full" && tp < MONO_PX;
+    if (overview) {
+      const placed: [number, number, number, number][] = [];
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.lineJoin = "round";
+      for (const d of dists) {
+        const bw = d.w * s;
+        const bh = d.h * s;
+        let size = Math.min(34, bh * 0.62);
+        ctx.font = `800 ${size}px ui-rounded, "SF Pro Rounded", ui-sans-serif, system-ui, sans-serif`;
+        const tw0 = ctx.measureText(d.name).width;
+        if (tw0 > bw * 0.94) size *= (bw * 0.94) / tw0;
+        if (size < 9) continue;
+        ctx.font = `800 ${size}px ui-rounded, "SF Pro Rounded", ui-sans-serif, system-ui, sans-serif`;
+        const textW = ctx.measureText(d.name).width;
+        // Keep the whole name inside the band's box even when its centre of mass is off to one side.
+        const left = tx + d.x0 * s;
+        const right = left + d.w * s;
+        const cx = Math.min(Math.max(tx + d.cx * s, left + textW / 2 + 4), right - textW / 2 - 4);
+        const cy = ty + d.cy * s;
+        const box: [number, number, number, number] = [cx - textW / 2 - 4, cy - size / 2 - 3, textW + 8, size + 6];
+        if (box[0] > w || box[1] > h || box[0] + box[2] < 0 || box[1] + box[3] < 0) continue;
+        if (placed.some(([ax, ay, aw, ah]) => box[0] < ax + aw && box[0] + box[2] > ax && box[1] < ay + ah && box[1] + box[3] > ay)) continue;
+        placed.push(box);
+        ctx.lineWidth = Math.max(3, size * 0.22);
+        ctx.strokeStyle = "rgba(10,12,20,.62)";
+        ctx.strokeText(d.name, cx, cy);
+        ctx.fillStyle = "#fff";
+        ctx.fillText(d.name, cx, cy);
+      }
+    }
+    if (!overview) {
       const big = tp >= LABEL_MAX_PX;
       ctx.font = `600 ${big ? 12 : 11}px ui-sans-serif, system-ui, sans-serif`;
       ctx.textBaseline = "middle";
@@ -577,17 +614,18 @@ export const Mosaic = forwardRef<MosaicHandle, Props>(function Mosaic(
     function drawIdentity(c: CanvasRenderingContext2D, e: Entry, x: number, y: number, tw: number, tp: number) {
       const m = e.mark;
       if (m.type === "logo") {
-        const img = imgCache.current.get(m.src);
+        const src = m.tile ?? m.src; // the small tile copy when there is one
+        const img = imgCache.current.get(src);
         if (img === undefined) {
           const el = new Image();
           el.decoding = "async";
           el.onload = () => schedule();
           el.onerror = () => {
-            imgCache.current.set(m.src, "error");
+            imgCache.current.set(src, "error");
             schedule();
           };
-          el.src = asset(m.src);
-          imgCache.current.set(m.src, el);
+          el.src = asset(src);
+          imgCache.current.set(src, el);
         }
         if (img && img !== "error" && img.complete && img.naturalWidth > 0) {
           const inset = tp >= DETAIL_PX ? 0.2 : 0.12;
@@ -652,7 +690,7 @@ export const Mosaic = forwardRef<MosaicHandle, Props>(function Mosaic(
       c.textBaseline = "middle";
       c.fillText(text, x + tw / 2, y + tw * (tp >= DETAIL_PX ? 0.42 : 0.53));
     }
-  }, [mapLayout, categoryIndex, categoryGlyph, glyphs, selectedId, focusId, schedule]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [mapLayout, dists, lens, categoryIndex, categoryGlyph, glyphs, selectedId, focusId, schedule]); // eslint-disable-line react-hooks/exhaustive-deps
 
   /** Mini-map: every tile as a dot, with the visible area outlined. */
   function drawMini(tx: number, ty: number, s: number, w: number, h: number, dark: boolean) {
@@ -672,7 +710,7 @@ export const Mosaic = forwardRef<MosaicHandle, Props>(function Mosaic(
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     ctx.clearRect(0, 0, size, size);
     for (const it of lay.items) {
-      ctx.fillStyle = categoryColor(categoryIndex.get(it.colorSlug) ?? 0, dark);
+      ctx.fillStyle = (lens !== "category" && lensColor(it.entry, lens, dark)) || categoryColor(categoryIndex.get(it.colorSlug) ?? 0, dark);
       ctx.fillRect(it.x * k, it.y * k, Math.max(1, TILE_SIZE * k - 0.4), Math.max(1, TILE_SIZE * k - 0.4));
     }
     const vx = (-tx / s) * k;
@@ -722,7 +760,7 @@ export const Mosaic = forwardRef<MosaicHandle, Props>(function Mosaic(
     const sc = scrollRef.current;
     const canvas = canvasRef.current;
     if (!sc || !canvas) return;
-    darkRef.current = isDark();
+    darkRef.current = isDarkNow();
     const ro = new ResizeObserver(() => {
       const first = vp.current.w === 0;
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -750,15 +788,13 @@ export const Mosaic = forwardRef<MosaicHandle, Props>(function Mosaic(
       schedule();
     });
     ro.observe(sc);
-    const mq = window.matchMedia("(prefers-color-scheme: dark)");
-    const onTheme = () => {
-      darkRef.current = isDark();
+    const offTheme = onThemeChange(() => {
+      darkRef.current = isDarkNow();
       schedule();
-    };
-    mq.addEventListener("change", onTheme);
+    });
     return () => {
       ro.disconnect();
-      mq.removeEventListener("change", onTheme);
+      offTheme();
     };
   }, [schedule]); // eslint-disable-line react-hooks/exhaustive-deps
 

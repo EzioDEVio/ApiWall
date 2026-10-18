@@ -133,9 +133,11 @@ describe("CategoryNav", () => {
     render(<CategoryNav {...props} active="animals" onChoose={(s) => chosen.push(s)} drawer={false} />);
     const nav = screen.getByRole("navigation", { name: "Categories" });
     const buttons = Array.from(nav.querySelectorAll("button"));
-    expect(buttons.map((b) => b.getAttribute("aria-label"))).toEqual(["All APIs, 37 results", "AI Models, 13 results", "Animals, 24 results", "Art & Design, 0 results"]);
-    expect(screen.getByRole("button", { name: "Animals, 24 results" }).getAttribute("aria-pressed")).toBe("true");
-    expect(screen.getByRole("button", { name: "All APIs, 37 results" }).getAttribute("aria-pressed")).toBe("false");
+    // Names come from the visible text plus screen-reader-only words, so they always contain what is on screen (WCAG 2.5.3).
+    expect(buttons.map((b) => b.getAttribute("aria-label"))).toEqual([null, null, null, null]);
+    expect(buttons.map((b) => b.textContent!.replace(/\s+/g, " ").trim())).toEqual(["All APIs 37 results", "AI Models 13 results", "Animals 24 results", "Art & Design 0 results"]);
+    expect(screen.getByRole("button", { name: "Animals 24 results" }).getAttribute("aria-pressed")).toBe("true");
+    expect(screen.getByRole("button", { name: "All APIs 37 results" }).getAttribute("aria-pressed")).toBe("false");
     fireEvent.click(screen.getByRole("button", { name: /^AI Models/ }));
     fireEvent.click(screen.getByRole("button", { name: /^All APIs/ }));
     expect(chosen).toEqual(["ai-models", ""]);

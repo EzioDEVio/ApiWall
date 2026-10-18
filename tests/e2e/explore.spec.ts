@@ -17,7 +17,7 @@ async function setFilter(page: Page, label: string, value: string) {
 async function chooseCategory(page: Page, name: string) {
   const nav = page.getByRole("navigation", { name: "Categories" });
   if (!(await nav.isVisible())) await page.getByRole("button", { name: "Categories", exact: true }).click();
-  await nav.getByRole("button", { name: new RegExp(`^${name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}, `) }).click();
+  await nav.getByRole("button", { name: new RegExp(`^${name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")} \\d`) }).click();
 }
 
 const errors = (page: Page) => {

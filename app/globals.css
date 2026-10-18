@@ -1455,6 +1455,7 @@ body:has(.app-shell) .site-footer {
 }
 .cat-row[data-slug="ai-models"] .cat-name::after {
   content: "curated";
+  content: "curated" / ""; /* a visual tag; the row's name stays "AI Models, N results" */
   margin-left: 6px;
   padding: 1px 6px;
   border-radius: 999px;

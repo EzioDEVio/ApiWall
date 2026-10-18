@@ -41,7 +41,7 @@ test("saving an API keeps it in this browser, and the Saved list shows only save
   await expect(first.getByRole("button", { name: `Save ${name}`, exact: true })).toHaveAttribute("aria-pressed", "true");
   await page.reload();
   if (isMobile) await page.getByTestId("tabbar").getByRole("button", { name: "Saved" }).click();
-  else await nav(page).getByRole("button", { name: "Saved, 1 result" }).click();
+  else await nav(page).getByRole("button", { name: "Saved 1 result" }).click();
   await expect(page).toHaveURL(/[?&]saved=yes/);
   expect(await count(page)).toBe(1);
   await expect(page.getByTestId("saved-banner")).toBeVisible();
@@ -81,7 +81,7 @@ test("saved APIs can be shared as one link, and the receiver can save them all",
   await expect(banner).toContainText("Shared list · 2 APIs");
   expect(await count(p2)).toBe(2);
   await banner.getByRole("button", { name: "★ Save all" }).click();
-  await expect(nav(p2).getByRole("button", { name: "Saved, 2 results" })).toBeVisible();
+  await expect(nav(p2).getByRole("button", { name: "Saved 2 results" })).toBeVisible();
   await banner.getByRole("button", { name: "Close list" }).click();
   await expect(banner).toBeHidden();
   expect(await count(p2)).toBeGreaterThan(2);
@@ -99,7 +99,7 @@ test("New this week shows APIs first seen in the last seven days, with badges", 
   const fresh = dated.filter((l) => now - Date.parse(l.addedAt!) <= 7 * 86_400_000);
   await page.goto("/");
   if (!isMobile) {
-    const row = nav(page).getByRole("button", { name: `New this week, ${fresh.length} result${fresh.length === 1 ? "" : "s"}` });
+    const row = nav(page).getByRole("button", { name: `New this week ${fresh.length} result${fresh.length === 1 ? "" : "s"}` });
     await row.click();
     await expect(row).toHaveAttribute("aria-pressed", "true");
   } else await page.goto("/?new=yes");
@@ -114,7 +114,7 @@ test("New this week shows APIs first seen in the last seven days, with badges", 
   await page.clock.setFixedTime(new Date(latest + 9 * 86_400_000));
   await page.goto("/?new=yes");
   expect(await count(page)).toBe(0);
-  if (!isMobile) await expect(nav(page).getByRole("button", { name: /^New this week,/ })).toHaveCount(0);
+  if (!isMobile) await expect(nav(page).getByRole("button", { name: /^New this week \d/ })).toHaveCount(0);
 });
 
 test("the What's new page lists each import's additions with links to the wall", async ({ page }) => {

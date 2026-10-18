@@ -66,7 +66,7 @@ test("on wide screens details sit beside the map and step through results", asyn
   await expect(dialog.getByTestId("detail-position")).toHaveText(`1 of ${ai.length}`);
   const first = await dialog.locator("h2").textContent();
   // The rest of the page stays usable while it is open.
-  await expect(page.getByRole("navigation", { name: "Categories" }).getByRole("button", { name: /^All APIs, / })).toBeEnabled();
+  await expect(page.getByRole("navigation", { name: "Categories" }).getByRole("button", { name: /^All APIs \d/ })).toBeEnabled();
   await dialog.getByRole("button", { name: "Next API" }).click();
   await expect(dialog.getByTestId("detail-position")).toHaveText(`2 of ${ai.length}`);
   await expect(dialog.locator("h2")).not.toHaveText(first!);

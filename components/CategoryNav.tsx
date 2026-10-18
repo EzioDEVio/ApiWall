@@ -30,7 +30,18 @@ interface Props {
   lists?: { key: "saved" | "fresh"; label: string; count: number; on: boolean; toggle: () => void }[];
 }
 
-const plural = (n: number) => `${n.toLocaleString("en")} ${n === 1 ? "result" : "results"}`;
+/**
+ * "Name 12 results" as the button's own text: the count stays visible and the extra words are
+ * for screen readers only, so the accessible name always contains what is on screen (WCAG 2.5.3).
+ */
+function NameCount({ name, count, zero }: { name: string; count: number; zero?: boolean }) {
+  return (
+    <>
+      <span className="cat-name">{name}</span> <span className={"cat-count" + (zero ? " is-zero" : "")}>{count.toLocaleString("en")}</span>
+      <span className="sr-only"> {count === 1 ? "result" : "results"}</span>
+    </>
+  );
+}
 
 /**
  * Vertical category list. "All APIs" and "AI Models" stay pinned at the top; the
@@ -54,14 +65,7 @@ export function CategoryNav({ rows, allCount, aiSlug, active, onChoose, category
 
   const row = (r: CategoryRow) => (
     <li key={r.slug}>
-      <button
-        type="button"
-        className="cat-row"
-        aria-pressed={active === r.slug}
-        aria-label={`${r.name}, ${plural(r.count)}`}
-        onClick={() => onChoose(r.slug)}
-        data-slug={r.slug}
-      >
+      <button type="button" className="cat-row" aria-pressed={active === r.slug} onClick={() => onChoose(r.slug)} data-slug={r.slug}>
         <i
           style={{
             background: categoryColor(categoryIndex.get(r.slug) ?? 0, dark),
@@ -69,10 +73,7 @@ export function CategoryNav({ rows, allCount, aiSlug, active, onChoose, category
           aria-hidden="true"
         />
         <Glyph paths={glyphs[r.glyph]} size={15} />
-        <span className="cat-name">{r.name}</span>
-        <span className={"cat-count" + (r.count === 0 ? " is-zero" : "")} aria-hidden="true">
-          {r.count.toLocaleString("en")}
-        </span>
+        <NameCount name={r.name} count={r.count} zero={r.count === 0} />
       </button>
     </li>
   );
@@ -95,17 +96,13 @@ export function CategoryNav({ rows, allCount, aiSlug, active, onChoose, category
                 type="button"
                 className={"list-row cat-list-toggle" + (l.key === "fresh" ? " is-new" : "")}
                 aria-pressed={l.on}
-                aria-label={`${l.label}, ${plural(l.count)}`}
                 onClick={l.toggle}
                 data-list={l.key}
               >
                 <span className="cat-list-icon" aria-hidden="true">
                   {l.key === "saved" ? "★" : "✦"}
                 </span>
-                <span className="cat-name">{l.label}</span>
-                <span className="cat-count" aria-hidden="true">
-                  {l.count.toLocaleString("en")}
-                </span>
+                <NameCount name={l.label} count={l.count} />
               </button>
             </li>
           ))}
@@ -113,20 +110,10 @@ export function CategoryNav({ rows, allCount, aiSlug, active, onChoose, category
       )}
       <ul className="cat-pinned">
         <li>
-          <button
-            type="button"
-            className="cat-row cat-all"
-            aria-pressed={active === ""}
-            aria-label={`All APIs, ${plural(allCount)}`}
-            onClick={() => onChoose("")}
-            data-slug=""
-          >
+          <button type="button" className="cat-row cat-all" aria-pressed={active === ""} onClick={() => onChoose("")} data-slug="">
             <i aria-hidden="true" />
             <Glyph paths={glyphs["layout-grid"] ?? ["M4 4h6v6h-6z", "M14 4h6v6h-6z", "M4 14h6v6h-6z", "M14 14h6v6h-6z"]} size={15} />
-            <span className="cat-name">All APIs</span>
-            <span className="cat-count" aria-hidden="true">
-              {allCount.toLocaleString("en")}
-            </span>
+            <NameCount name="All APIs" count={allCount} />
           </button>
         </li>
         {ai && row(ai)}

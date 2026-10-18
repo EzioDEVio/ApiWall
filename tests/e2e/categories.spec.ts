@@ -52,7 +52,7 @@ async function openNav(page: Page) {
 }
 async function chooseCategory(page: Page, name: string) {
   await openNav(page);
-  await nav(page).getByRole("button", { name: new RegExp(`^${escape(name)}, `) }).click();
+  await nav(page).getByRole("button", { name: new RegExp(`^${escape(name)} \\d`) }).click();
 }
 async function setFilter(page: Page, label: string, value: string) {
   const btn = page.getByRole("button", { name: /^Filters/ });
@@ -102,7 +102,7 @@ test("1. choosing Art & Design shows only its listings, on the map and in the li
   }
   expect(await listIds(page)).toEqual(expected);
   await openNav(page);
-  await expect(nav(page).getByRole("button", { name: /^Art & Design, / })).toHaveAttribute("aria-pressed", "true");
+  await expect(nav(page).getByRole("button", { name: /^Art & Design \d/ })).toHaveAttribute("aria-pressed", "true");
 });
 
 test("2. AI Models is pinned, selectable and shows documented model APIs on the map and in the list", async ({ page }) => {
@@ -113,7 +113,7 @@ test("2. AI Models is pinned, selectable and shows documented model APIs on the 
   await openNav(page);
   // Pinned: still visible after the long category list is scrolled to its end.
   await nav(page).locator(".cat-list").evaluate((el) => el.scrollTo(0, el.scrollHeight));
-  const ai = nav(page).getByRole("button", { name: new RegExp(`^AI Models, ${expected.length} results$`) });
+  const ai = nav(page).getByRole("button", { name: new RegExp(`^AI Models ${expected.length} results$`) });
   await expect(ai).toBeInViewport();
   await ai.click();
   await expectCount(page, expected.length);
@@ -295,11 +295,11 @@ test("10. category navigation works by keyboard and is announced with names, cou
   const d = await data(page);
   const total = d.listings.length + d.providers.length;
   await page.goto("/");
-  const all = nav(page).getByRole("button", { name: `All APIs, ${fmt(total)} results` });
+  const all = nav(page).getByRole("button", { name: `All APIs ${fmt(total)} results` });
   await expect(all).toHaveAttribute("aria-pressed", "true");
   await all.focus();
   await page.keyboard.press("Tab");
-  const ai = nav(page).getByRole("button", { name: /^AI Models, \d+ results$/ });
+  const ai = nav(page).getByRole("button", { name: /^AI Models \d+ results$/ });
   await expect(ai).toBeFocused();
   const outline = await ai.evaluate((el) => getComputedStyle(el).outlineStyle + " " + getComputedStyle(el).outlineWidth);
   expect(outline).not.toMatch(/^none|0px$/);
@@ -309,7 +309,7 @@ test("10. category navigation works by keyboard and is announced with names, cou
   await page.keyboard.press("Tab");
   await page.keyboard.press("Space"); // next row: MCP Servers
   const mcp = d.listings.filter((l) => l.categorySlug === "mcp-servers").length;
-  await expect(nav(page).getByRole("button", { name: `MCP Servers, ${mcp} results` })).toHaveAttribute("aria-pressed", "true");
+  await expect(nav(page).getByRole("button", { name: `MCP Servers ${mcp} results` })).toHaveAttribute("aria-pressed", "true");
   await expectCount(page, mcp);
   await expect(page.getByTestId("mosaic")).toHaveAttribute("aria-label", new RegExp(`^Scrollable mosaic of ${mcp} API tiles in MCP Servers`));
 });

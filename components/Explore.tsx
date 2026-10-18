@@ -767,7 +767,7 @@ export function Explore({ glyphs, stats }: Props) {
             <button
               type="button"
               className="hud-btn palette-btn"
-              aria-label="Jump to anything (Ctrl+K)"
+              aria-label="Jump to anything: Ctrl K"
               aria-keyshortcuts="Control+K Meta+K"
               title="Jump to an API, a category or an action (Ctrl+K)"
               onClick={() => setPaletteOpen(true)}

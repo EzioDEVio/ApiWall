@@ -32,7 +32,7 @@ export function ListView({ entries, categoryIndex, categoryGlyph, glyphs, onSele
       <ul className="cards" data-testid="list-cards">
         {shown.map((e) => (
           <li key={e.id} data-id={e.id} className={"card" + (e.sponsored ? " card-sponsored" : "")}>
-            <button type="button" className="card-hit" onClick={(ev) => onSelect(e.id, ev.currentTarget)} aria-label={`${e.name} — open details`}>
+            <button type="button" className="card-hit" onClick={(ev) => onSelect(e.id, ev.currentTarget)}>
               <IdentityMark mark={e.mark} name={e.name} categoryIndex={categoryIndex.get(e.categorySlug) ?? 0} size={44} dark={dark} />
               <span className="card-main">
                 <span className="card-title">{e.name}</span>

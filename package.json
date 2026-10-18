@@ -28,7 +28,7 @@
     "links:check": "tsx scripts/check-links.ts"
   },
   "dependencies": {
-    "next": "15.5.27",
+    "next": "16.4.1",
     "react": "19.1.10",
     "react-dom": "19.1.10",
     "server-only": "0.0.1",

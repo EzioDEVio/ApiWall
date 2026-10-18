@@ -14,6 +14,8 @@ export default defineConfig({
   reporter: process.env.GITHUB_ACTIONS ? [["list"], ["github"]] : [["list"]],
   use: {
     baseURL: `http://127.0.0.1:${port}`,
+    // The offline service worker would answer requests before page.route() sees them; the PWA test opts back in.
+    serviceWorkers: "block",
     launchOptions: executablePath ? { executablePath, args: ["--no-sandbox", "--disable-gpu"] } : {},
   },
   webServer: {

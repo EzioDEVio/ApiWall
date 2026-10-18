@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import type { EntryMark } from "@/lib/explore/model";
-import { brandInk, tileColor } from "@/lib/explore/colors";
+import { brandInk, inkOn, tileColor } from "@/lib/explore/colors";
 import { asset } from "@/lib/site";
 
 interface Props {
@@ -46,10 +46,11 @@ export function IdentityMark({ mark, name, categoryIndex, size = 48, dark = fals
     );
   }
   const mono = mark.type === "logo" ? mark.fallback : mark;
+  const bg = tileColor(categoryIndex, mono.seed, dark);
   return (
     <span
       className="mark mark-mono"
-      style={{ width: size, height: size, borderRadius: r, background: tileColor(categoryIndex, mono.seed, dark), fontSize: size * 0.38 }}
+      style={{ width: size, height: size, borderRadius: r, background: bg, color: inkOn(bg), fontSize: size * 0.38 }}
       role="img"
       aria-label={`${name} monogram`}
       data-testid={mark.type === "logo" ? "logo-fallback" : undefined}

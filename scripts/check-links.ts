@@ -5,6 +5,7 @@ import { existsSync, readFileSync, renameSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { checkLinks, EMPTY_LINK_HEALTH, type LinkHealth, mergeHealth, probeUrl } from "../lib/catalog/links";
 import type { CatalogSnapshot } from "../lib/catalog/types";
+import { EMPTY_LINK_HISTORY, type LinkHistory, recordRun } from "../lib/catalog/linkHistory";
 
 // If more than this share of links fail at once, the runner's network is the likely problem,
 // not the APIs, so nothing is written.
@@ -34,6 +35,14 @@ async function main() {
   writeFileSync(tmp, JSON.stringify(next, null, 1) + "\n");
   renameSync(tmp, target);
   console.log(`✓ data/link-health.json: ${Object.keys(next.unreachable).length} unreachable (${broke} newly broken, ${fixed} working again)`);
+
+  // The compact week-by-week history behind the stats page and each API page's history bar.
+  const histPath = path.join(root, "data", "link-history.json");
+  const history = existsSync(histPath) ? (JSON.parse(readFileSync(histPath, "utf8")) as LinkHistory) : EMPTY_LINK_HISTORY;
+  const updated = recordRun(history, next);
+  writeFileSync(histPath + ".tmp", JSON.stringify(updated, null, 1) + "\n");
+  renameSync(histPath + ".tmp", histPath);
+  console.log(`✓ data/link-history.json: ${updated.periods.length} period(s)`);
 }
 
 main().catch((e) => {

@@ -2,6 +2,8 @@ name: Weekly catalog sync
 
 # Pulls the latest public-apis catalog, fetches logos for new listings, checks every docs
 # link, and opens a pull request when anything changed. Existing tiles never move.
+# It also refreshes the README's "This week on ApiWall" section and keeps one "Docs-link health"
+# issue up to date (label: link-health).
 # One-time setup: Settings → Actions → General → "Allow GitHub Actions to create and approve pull requests".
 on:
   schedule:
@@ -11,6 +13,7 @@ on:
 permissions:
   contents: write
   pull-requests: write
+  issues: write
 
 jobs:
   sync:
@@ -32,6 +35,8 @@ jobs:
         timeout-minutes: 40
         run: npm run links:check
       - run: npm test
+      - name: Write this week's report (README section, pull request text, health issue)
+        run: npm run sync:report -- --out "$RUNNER_TEMP/report"
       - name: Skip the pull request when only timestamps changed
         run: node scripts/drop-timestamp-only-changes.mjs
       - uses: peter-evans/create-pull-request@v8
@@ -39,10 +44,19 @@ jobs:
           branch: chore/catalog-sync
           commit-message: "chore: sync public-apis catalog"
           title: "Weekly catalog sync"
-          body: |
-            Automated import of the latest [public-apis](https://github.com/public-apis/public-apis) catalog and logos for new listings.
-            Existing tiles keep their positions. Review the snapshot summary in the workflow log before merging.
-            New and removed listings are recorded in `data/changelog.json`, which feeds the What's new page and the NEW badges.
-            Docs links that failed twice are listed in `data/link-health.json` and shown as "Docs link not reachable" on the site.
+          body-path: ${{ runner.temp }}/report/pr-body.md
           labels: catalog
           delete-branch: true
+      - name: Update the Docs-link health issue
+        # Reporting only: a hiccup here never fails the sync.
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh label create link-health --color c0262d --description "Weekly docs-link check report" --force
+          number=$(gh issue list --label link-health --state open --limit 1 --json number --jq '.[0].number // empty')
+          if [ -n "$number" ]; then
+            gh issue edit "$number" --body-file "$RUNNER_TEMP/report/health-issue.md"
+          else
+            gh issue create --title "Docs-link health" --label link-health --body-file "$RUNNER_TEMP/report/health-issue.md"
+          fi

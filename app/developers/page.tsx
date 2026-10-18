@@ -42,7 +42,8 @@ for api in apis:
       </p>
 
       <h2>Base URL</h2>
-      <pre>
+      {/* Scrollable on small screens, so it takes keyboard focus. */}
+      <pre tabIndex={0} role="region" aria-label="Base URL">
         <code>{base}/</code>
       </pre>
       <p>
@@ -110,20 +111,59 @@ for api in apis:
               What each sync added and removed, newest first (the same data as <Link href="/changes">What&apos;s new</Link>).
             </td>
           </tr>
+          <tr>
+            <td>
+              <a href={`${base}/packs.json`}>
+                <code>packs.json</code>
+              </a>
+            </td>
+            <td>
+              Every <Link href="/packs">starter pack</Link> with its rule and size.
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <a href={`${base}/packs/browser-ready.json`}>
+                <code>packs/&#123;slug&#125;.json</code>
+              </a>
+            </td>
+            <td>The APIs in one starter pack.</td>
+          </tr>
+          <tr>
+            <td>
+              <a href={`${base}/stats.json`}>
+                <code>stats.json</code>
+              </a>
+            </td>
+            <td>
+              Catalog-wide numbers: auth, HTTPS, CORS, biggest categories and docs-link trends (the data behind <Link href="/stats">Stats</Link>).
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <a href={`${base}/badges/apis.json`}>
+                <code>badges/&#123;name&#125;.json</code>
+              </a>
+            </td>
+            <td>
+              Live <a href="https://shields.io/badges/endpoint-badge">shields.io endpoint badges</a>: <code>apis</code>, <code>categories</code>,{" "}
+              <code>dead-links</code> and <code>packs</code>.
+            </td>
+          </tr>
         </tbody>
       </table>
 
       <h2>Examples</h2>
       <h3>JavaScript (browser or Node)</h3>
-      <pre>
+      <pre tabIndex={0} role="region" aria-label="JavaScript example">
         <code>{js}</code>
       </pre>
       <h3>curl</h3>
-      <pre>
+      <pre tabIndex={0} role="region" aria-label="curl example">
         <code>{curl}</code>
       </pre>
       <h3>Python</h3>
-      <pre>
+      <pre tabIndex={0} role="region" aria-label="Python example">
         <code>{py}</code>
       </pre>
 
@@ -236,9 +276,12 @@ for api in apis:
       <h3>A category</h3>
       <EmbedSnippet kind="category" value={exCat.slug} limit={4} />
       <div className="embed-demo" data-apiwall-category={exCat.slug} data-limit="4" data-testid="embed-demo-category" />
+      <h3>A starter pack</h3>
+      <EmbedSnippet kind="pack" value="browser-ready" limit={4} />
+      <div className="embed-demo" data-apiwall-pack="browser-ready" data-limit="4" data-testid="embed-demo-pack" />
       <p className="muted small">
-        Options: <code>data-limit</code> (1–12 APIs for a category) and <code>data-theme=&quot;light&quot;</code> or <code>&quot;dark&quot;</code>. The script
-        sets no cookies and tracks nothing.
+        Options: <code>data-limit</code> (1–12 APIs for a category or pack) and <code>data-theme=&quot;light&quot;</code> or <code>&quot;dark&quot;</code>. The
+        script sets no cookies and tracks nothing.
       </p>
       <Script src={asset("/embed.js")} strategy="afterInteractive" />
 

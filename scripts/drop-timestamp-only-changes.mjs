@@ -4,7 +4,7 @@
 import { execFileSync } from "node:child_process";
 import { readFileSync } from "node:fs";
 
-const TIMESTAMP_KEYS = new Set(["importedAt", "updatedAt", "fetchedAt", "checkedAt"]);
+const TIMESTAMP_KEYS = new Set(["importedAt", "updatedAt", "fetchedAt", "checkedAt", "lastCheckedAt"]);
 const git = (...args) => execFileSync("git", args, { encoding: "utf8", maxBuffer: 256 * 1024 * 1024 });
 
 const strip = (v) => {

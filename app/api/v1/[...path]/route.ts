@@ -2,6 +2,7 @@ import { existsSync, readFileSync } from "node:fs";
 import path from "node:path";
 import { loadSnapshot } from "@/lib/catalog/server";
 import { buildPublicApi } from "@/lib/catalog/publicApi";
+import { readLinkHistory } from "@/lib/catalog/files";
 import { EMPTY_CHANGELOG, type Changelog } from "@/lib/catalog/history";
 import { SITE_URL } from "@/lib/site";
 
@@ -11,7 +12,7 @@ function api(): Map<string, unknown> {
   if (!files) {
     const p = path.join(process.cwd(), "data", "changelog.json");
     const log = existsSync(p) ? (JSON.parse(readFileSync(p, "utf8")) as Changelog) : EMPTY_CHANGELOG;
-    files = buildPublicApi(loadSnapshot(), log, SITE_URL);
+    files = buildPublicApi(loadSnapshot(), log, SITE_URL, readLinkHistory(process.cwd()));
   }
   return files;
 }

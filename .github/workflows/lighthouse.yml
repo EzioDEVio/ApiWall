@@ -1,0 +1,38 @@
+name: Lighthouse
+
+# Scores the static site (the same build GitHub Pages serves) on every pull request.
+# Accessibility below 95 or SEO below 90 fails the check; performance and best practices warn.
+# Reports are attached to the run as an artifact (nothing is uploaded anywhere else).
+on:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: lighthouse-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lighthouse:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Build the static site
+        run: npm run build:static
+      - name: Run Lighthouse
+        run: npx --yes @lhci/cli@0.15.1 autorun
+      - name: Keep the reports
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: lighthouse-reports
+          path: .lighthouseci/
+          if-no-files-found: ignore
+          retention-days: 14

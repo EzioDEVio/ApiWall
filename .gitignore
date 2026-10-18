@@ -10,3 +10,4 @@ data/runtime/
 test-results/
 playwright-report/
 .static-stash/
+.lighthouseci/

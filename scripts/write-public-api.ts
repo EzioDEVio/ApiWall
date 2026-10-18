@@ -6,7 +6,7 @@ import path from "node:path";
 import { buildPublicApi, PUBLIC_API_VERSION } from "../lib/catalog/publicApi";
 import { EMPTY_CHANGELOG, type Changelog } from "../lib/catalog/history";
 import { SITE_URL } from "../lib/site";
-import { readSnapshot } from "../lib/catalog/files";
+import { readLinkHistory, readSnapshot } from "../lib/catalog/files";
 
 const root = path.resolve(__dirname, "..");
 const outDir = path.resolve(root, process.argv[2] ?? "out", "api", PUBLIC_API_VERSION);
@@ -15,7 +15,7 @@ const logPath = path.join(root, "data", "changelog.json");
 const changelog = existsSync(logPath) ? (JSON.parse(readFileSync(logPath, "utf8")) as Changelog) : EMPTY_CHANGELOG;
 
 rmSync(outDir, { recursive: true, force: true });
-const files = buildPublicApi(snap, changelog, SITE_URL);
+const files = buildPublicApi(snap, changelog, SITE_URL, readLinkHistory(root));
 for (const [rel, body] of files) {
   const target = path.join(outDir, rel);
   mkdirSync(path.dirname(target), { recursive: true });

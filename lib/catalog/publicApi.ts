@@ -1,6 +1,10 @@
 import type { CatalogListing, CatalogSnapshot, IdentityMark } from "./types";
 import type { Changelog } from "./history";
 import { type LinkHealth, linkState } from "./links";
+import { EMPTY_LINK_HISTORY, type LinkHistory } from "./linkHistory";
+import { buildPacks } from "./packs";
+import { computeStats } from "./stats";
+import { buildEntries } from "@/lib/explore/model";
 
 /**
  * ApiWall's public, read-only API (v1): plain JSON files anyone can fetch, built from the same
@@ -107,7 +111,7 @@ export function toPublicItem(
 }
 
 /** Every file of the public API, keyed by its path under /api/v1/ (e.g. "apis.json", "categories/weather.json"). */
-export function buildPublicApi(snap: CatalogSnapshot, changelog: Changelog, siteUrl: string): Map<string, unknown> {
+export function buildPublicApi(snap: CatalogSnapshot, changelog: Changelog, siteUrl: string, history: LinkHistory = EMPTY_LINK_HISTORY): Map<string, unknown> {
   const site = siteUrl.replace(/\/$/, "");
   const base = `${site}/api/${PUBLIC_API_VERSION}`;
   const meta = (count?: number): PublicApiMeta => ({
@@ -142,6 +146,9 @@ export function buildPublicApi(snap: CatalogSnapshot, changelog: Changelog, site
       categories: `${base}/categories.json`,
       category: `${base}/categories/{slug}.json`,
       changes: `${base}/changes.json`,
+      packs: `${base}/packs.json`,
+      pack: `${base}/packs/{slug}.json`,
+      stats: `${base}/stats.json`,
     },
   });
   files.set("apis.json", { meta: meta(items.length), data: items });
@@ -150,5 +157,41 @@ export function buildPublicApi(snap: CatalogSnapshot, changelog: Changelog, site
   // One file per API stays small: the full notice and source are in index.json and apis.json.
   for (const i of items) files.set(`apis/${i.id}.json`, { meta: { api: "ApiWall", version: PUBLIC_API_VERSION, docs: `${site}/developers/` }, data: i });
   files.set("changes.json", { meta: meta(changelog.entries.length), data: changelog.entries });
+
+  // Starter packs and catalog stats, from the same facts the site shows.
+  const entries = buildEntries(snap, null);
+  const byId = new Map(items.map((i) => [i.id, i]));
+  const packs = buildPacks(entries);
+  files.set("packs.json", {
+    meta: meta(packs.length),
+    data: packs.map((p) => ({
+      slug: p.slug,
+      title: p.title,
+      blurb: p.blurb,
+      rule: p.rule,
+      count: p.entries.length,
+      url: `${base}/packs/${p.slug}.json`,
+      pageUrl: `${site}/packs/${p.slug}/`,
+    })),
+  });
+  for (const p of packs)
+    files.set(`packs/${p.slug}.json`, {
+      meta: meta(p.entries.length),
+      pack: { slug: p.slug, title: p.title, blurb: p.blurb, rule: p.rule, pageUrl: `${site}/packs/${p.slug}/` },
+      data: p.entries.map((e) => byId.get(e.id)).filter(Boolean),
+    });
+  const stats = computeStats(entries, snap.categories, history, changelog);
+  files.set("stats.json", { meta: meta(), data: stats });
+  // shields.io "endpoint" badges: https://img.shields.io/endpoint?url=<site>/api/v1/badges/apis.json
+  const fmt = (n: number) => n.toLocaleString("en");
+  files.set("badges/apis.json", { schemaVersion: 1, label: "APIs on the wall", message: fmt(stats.total), color: "16a37f" });
+  files.set("badges/categories.json", { schemaVersion: 1, label: "categories", message: fmt(stats.categories), color: "3d3dff" });
+  files.set("badges/dead-links.json", {
+    schemaVersion: 1,
+    label: "dead docs links flagged",
+    message: stats.links.checkedAt ? fmt(stats.links.unreachable) : "not checked yet",
+    color: "e34948",
+  });
+  files.set("badges/packs.json", { schemaVersion: 1, label: "starter packs", message: fmt(packs.length), color: "f2702b" });
   return files;
 }

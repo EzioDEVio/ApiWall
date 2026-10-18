@@ -2,7 +2,7 @@
 
 import { forwardRef, useCallback, useEffect, useImperativeHandle, useLayoutEffect, useMemo, useRef, useState } from "react";
 import type { Entry } from "@/lib/explore/model";
-import { brandInk, categoryColor, tileColor } from "@/lib/explore/colors";
+import { brandInk, categoryColor, inkOn, tileColor } from "@/lib/explore/colors";
 import { SLOTS_PER_ROW, TILE_SIZE, slotToPlacement } from "@/lib/catalog/placement";
 import { type LensId, lensColor } from "@/lib/explore/lenses";
 import { cellToLayoutSlot, districts, filteredColumns, filteredLayout, fullLayout, type LayoutItem, type MapLayout, slotXY } from "@/lib/explore/layout";
@@ -66,6 +66,15 @@ const MIN_FIT_TILE_PX = 56; // below this a filtered view fills the width and sc
 const BOTTOM_UI = 56; // floating status bar along the bottom edge
 const reducedMotion = () => typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const DEFAULT_TILE_PX = (width: number) => (width < 640 ? 52 : 58);
+
+const TIP_AUTH: Record<string, string> = {
+  none: "No auth",
+  apiKey: "API key",
+  oauth: "OAuth",
+  "x-mashape-key": "Mashape key",
+  "user-agent": "User-Agent",
+  other: "Other auth",
+};
 
 type Hover = { kind: "entry"; id: string; x: number; y: number } | { kind: "open"; x: number; y: number } | null;
 
@@ -268,6 +277,53 @@ export const Mosaic = forwardRef<MosaicHandle, Props>(function Mosaic(
   }
 
   /** Scrolls (and zooms in if needed) so a tile is fully visible. */
+  const flight = useRef(0);
+  /**
+   * Eased flight to a tile far away (palette, "Surprise me"): zooms and pans together in one
+   * smooth move. Instant with reduced motion, and when the tile is already in view.
+   */
+  const flyTo = useCallback(
+    (e: Entry, minTilePx: number) => {
+      const sc = scrollRef.current;
+      const item = L.current.byId.get(e.id);
+      if (!sc || !item) return;
+      cancelAnimationFrame(flight.current);
+      cancelAnimationFrame(zoomAnim.current);
+      const s0 = scale.current;
+      const s1 = clampScale(Math.max(s0, minTilePx / TILE_SIZE));
+      const { w, h } = vp.current;
+      const l0 = layout(s0);
+      const c0 = { x: (sc.scrollLeft + w / 2 - l0.ox) / s0, y: (sc.scrollTop + h / 2 - l0.oy) / s0 };
+      const c1 = { x: item.x + TILE_SIZE / 2, y: item.y + TILE_SIZE / 2 };
+      const inView = (() => {
+        const x = l0.ox + item.x * s0 - sc.scrollLeft;
+        const y = l0.oy + item.y * s0 - sc.scrollTop;
+        const tp = TILE_SIZE * s0;
+        return x >= 0 && y >= 0 && x + tp <= w && y + tp <= h;
+      })();
+      if (reducedMotion() || (s1 === s0 && inView)) return reveal(e, minTilePx);
+      const place = (s: number, cx: number, cy: number) => {
+        scale.current = s;
+        applySize(s);
+        const { ox, oy } = layout(s);
+        sc.scrollLeft = ox + cx * s - w / 2;
+        sc.scrollTop = oy + cy * s - h / 2;
+        setTilePx(Math.round(TILE_SIZE * s));
+        schedule();
+      };
+      const t0 = performance.now();
+      const ms = 520;
+      const step = () => {
+        const t = Math.min(1, (performance.now() - t0) / ms);
+        const k = t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; // ease in-out
+        place(s0 * Math.pow(s1 / s0, k), c0.x + (c1.x - c0.x) * k, c0.y + (c1.y - c0.y) * k);
+        if (t < 1) flight.current = requestAnimationFrame(step);
+      };
+      flight.current = requestAnimationFrame(step);
+    },
+    [schedule], // eslint-disable-line react-hooks/exhaustive-deps -- layout() and reveal read refs only
+  );
+
   const reveal = useCallback(
     (e: Entry, minTilePx = 0) => {
       const sc = scrollRef.current;
@@ -432,11 +488,13 @@ export const Mosaic = forwardRef<MosaicHandle, Props>(function Mosaic(
     const hoverItem = hoverRef.current ? lay.byId.get(hoverRef.current) : undefined;
     const spread = lay.mode === "full" ? 900 : 380;
 
+    let monoInk = "#fff"; // letter colour for the tile being drawn
     const drawTile = (item: LayoutItem, x: number, y: number) => {
       const e = item.entry;
       const ci = categoryIndex.get(item.colorSlug) ?? 0;
       const seed = e.mark.type === "monogram" ? e.mark.seed : e.mark.type === "logo" ? e.mark.fallback.seed : 0;
       ctx.fillStyle = (lens !== "category" && lensColor(e, lens, dark, seed)) || tileColor(ci, seed, dark);
+      monoInk = inkOn(String(ctx.fillStyle));
       if (tp >= 10) {
         roundRect(ctx, x, y, tw, tw, Math.min(7, tp * 0.12));
         ctx.fill();
@@ -709,7 +767,7 @@ export const Mosaic = forwardRef<MosaicHandle, Props>(function Mosaic(
       c.closePath();
       c.fill();
       if (tp < MONO_PX) return;
-      c.fillStyle = "#fff";
+      c.fillStyle = monoInk;
       c.font = `700 ${Math.round(tw * (tp >= DETAIL_PX ? 0.32 : 0.38))}px ui-rounded, "SF Pro Rounded", ui-sans-serif, system-ui, sans-serif`;
       c.textAlign = "center";
       c.textBaseline = "middle";
@@ -775,7 +833,7 @@ export const Mosaic = forwardRef<MosaicHandle, Props>(function Mosaic(
       const e = byId.get(id)?.entry;
       if (e) {
         setFocusId(id);
-        reveal(e, MONO_PX);
+        flyTo(e, MONO_PX);
       }
     },
   }));
@@ -853,6 +911,7 @@ export const Mosaic = forwardRef<MosaicHandle, Props>(function Mosaic(
   const suppressClick = useRef(false);
 
   const onPointerDown = (ev: React.PointerEvent<HTMLDivElement>) => {
+    cancelAnimationFrame(flight.current); // a drag takes over from a running fly-to
     if (ev.pointerType !== "mouse" || ev.button !== 0) return;
     const sc = scrollRef.current!;
     const p = local(ev);
@@ -1088,20 +1147,34 @@ export const Mosaic = forwardRef<MosaicHandle, Props>(function Mosaic(
 
         {hover && (
           <div
-            className="mosaic-tip"
+            className={`mosaic-tip${hovered ? " is-card" : ""}`}
             style={{
-              left: Math.min(hover.x + 14, vp.current.w - 200),
-              top: hover.y + 14,
+              left: hover.x > vp.current.w - 330 ? hover.x - 14 : hover.x + 14,
+              top: hover.y > vp.current.h - 210 ? hover.y - 14 : hover.y + 14,
+              transform: `translate(${hover.x > vp.current.w - 330 ? "-100%" : "0"}, ${hover.y > vp.current.h - 210 ? "-100%" : "0"})`,
             }}
             role="presentation"
+            data-testid="tile-preview"
           >
             {hovered ? (
               <>
                 <strong>{hovered.name}</strong>
-                <span>
+                <span className="tip-cat">
+                  <i aria-hidden="true" style={{ background: categoryColor(categoryIndex.get(hovered.categorySlug) ?? 0, darkRef.current) }} />
                   {hovered.category}
+                  {hovered.kind === "mcp" ? " · MCP server" : ""}
                   {hovered.sponsored ? " · Sponsored" : hovered.source === "provider" ? " · Provider-submitted" : ""}
                 </span>
+                {hovered.description && <span className="tip-desc">{hovered.description}</span>}
+                <span className="tip-chips">
+                  <em>{TIP_AUTH[hovered.auth] ?? "Auth unknown"}</em>
+                  {hovered.kind === "api" && <em>HTTPS {hovered.https === "unknown" ? "?" : hovered.https}</em>}
+                  {hovered.kind === "api" && <em>CORS {hovered.cors === "unknown" ? "?" : hovered.cors}</em>}
+                  {savedIds?.has(hovered.id) && <em className="tip-saved">★ Saved</em>}
+                  {newIds?.has(hovered.id) && <em className="tip-new">New</em>}
+                  {hovered.link.state === "unreachable" && <em className="tip-down">Docs link down</em>}
+                </span>
+                <span className="tip-foot">Click for details</span>
               </>
             ) : (
               <>

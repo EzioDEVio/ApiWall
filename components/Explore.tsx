@@ -24,9 +24,12 @@ import { LENS_IDS, LENSES, type LensId, lensCounts, lensSwatch } from "@/lib/exp
 import { CategoryNav, type CategoryRow } from "./CategoryNav";
 import { CompareDialog } from "./CompareDialog";
 import { CommandPalette } from "./CommandPalette";
+import { ShortcutsDialog } from "./ShortcutsDialog";
 import { MAX_COMPARE, toggleCompare } from "@/lib/explore/compare";
 import type { PaletteAction, PaletteItem } from "@/lib/explore/palette";
 import { applyTheme } from "@/lib/theme";
+import { promptInstall, useCanInstall } from "@/lib/install";
+import { downloadText, toCsv, toJson, toMarkdown } from "@/lib/exportList";
 
 type Load<T> = { state: "loading" } | { state: "error"; message: string } | { state: "ready"; data: T };
 
@@ -116,7 +119,9 @@ export function Explore({ glyphs, stats }: Props) {
   const [compareIds, setCompareIds] = useState<string[]>([]);
   const [compareOpen, setCompareOpen] = useState(false);
   const [paletteOpen, setPaletteOpen] = useState(false);
+  const [shortcutsOpen, setShortcutsOpen] = useState(false);
   const saved = useSaved();
+  const canInstall = useCanInstall();
   const [sugOpen, setSugOpen] = useState(false);
   const [sugIdx, setSugIdx] = useState(-1);
   const [navOpen, setNavOpen] = useState(false);
@@ -220,7 +225,7 @@ export function Explore({ glyphs, stats }: Props) {
     return () => window.removeEventListener("keydown", onKey);
   }, []);
 
-  // Shortcuts: "/" focuses search, "R" opens a random API. Ignored while typing or in a dialog.
+  // Shortcuts: "/" focuses search, "R" opens a random API, "?" lists every shortcut. Ignored while typing or in a dialog.
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.defaultPrevented || e.ctrlKey || e.metaKey || e.altKey) return;
@@ -232,6 +237,9 @@ export function Explore({ glyphs, stats }: Props) {
       } else if (e.key === "r" || e.key === "R") {
         e.preventDefault();
         surpriseRef.current?.();
+      } else if (e.key === "?") {
+        e.preventDefault();
+        setShortcutsOpen(true);
       }
     };
     window.addEventListener("keydown", onKey);
@@ -349,6 +357,16 @@ export function Explore({ glyphs, stats }: Props) {
     const r = toggleCompare(compareIds, id);
     if (r.refused) showToast(`The comparison holds ${MAX_COMPARE} APIs. Remove one first.`);
     else setCompareIds(r.ids);
+  };
+  const exportSaved = async (kind: "md" | "csv" | "json" | "copy") => {
+    const list = saved.ids.map((id) => byId.get(id)).filter((e): e is NonNullable<typeof e> => !!e);
+    const site = window.location.origin + asset("/").replace(/\/$/, "");
+    const stamp = new Date().toISOString().slice(0, 10);
+    if (kind === "md") downloadText(toMarkdown(list, site), `apiwall-saved-${stamp}.md`, "text/markdown");
+    else if (kind === "csv") downloadText(toCsv(list, site), `apiwall-saved-${stamp}.csv`, "text/csv");
+    else if (kind === "json") downloadText(toJson(list, site), `apiwall-saved-${stamp}.json`, "application/json");
+    else showToast((await copyText(toMarkdown(list, site))) ? `Markdown for ${list.length} APIs copied.` : "Copy failed.");
+    document.querySelector<HTMLDetailsElement>(".export-menu")?.removeAttribute("open");
   };
   const copyLink = async () =>
     showToast((await copyText(window.location.href)) ? "Link copied. It opens this exact view." : "Copy failed. Copy the address bar instead.");
@@ -496,10 +514,14 @@ export function Explore({ glyphs, stats }: Props) {
     { id: "surprise", label: "Surprise me", keywords: "random dice", hint: "R" },
     ...(isFiltered(filters) || sharedList ? [{ id: "reset", label: "Reset filters", keywords: "clear all everything" }] : []),
     { id: "copy", label: "Copy link to this view", keywords: "share url" },
+    { id: "shortcuts", label: "Keyboard shortcuts", keywords: "keys hotkeys help keyboard", hint: "?" },
     { id: "theme-light", label: "Use the light theme", keywords: "theme appearance colour color mode" },
     { id: "theme-dark", label: "Use the dark theme", keywords: "theme appearance colour color mode night" },
     { id: "theme-system", label: "Follow the system theme", keywords: "theme appearance colour color mode auto" },
     { id: "changes", label: "Open What's new", keywords: "changelog changes sync" },
+    { id: "packs", label: "Browse starter packs", keywords: "collections bundles lists no key browser weather" },
+    { id: "stats", label: "See catalog stats", keywords: "numbers charts statistics dead links" },
+    ...(canInstall ? [{ id: "install", label: "Install ApiWall as an app", keywords: "pwa offline desktop home screen app install" }] : []),
     { id: "submit", label: "Submit an API", keywords: "add place provider" },
     { id: "about", label: "Open About & Source", keywords: "about source license" },
   ];
@@ -532,6 +554,8 @@ export function Explore({ glyphs, stats }: Props) {
         return resetAll();
       case "copy":
         return void copyLink();
+      case "shortcuts":
+        return setShortcutsOpen(true);
       case "theme-light":
         return applyTheme("light");
       case "theme-dark":
@@ -540,6 +564,12 @@ export function Explore({ glyphs, stats }: Props) {
         return applyTheme("system");
       case "changes":
         return router.push("/changes");
+      case "packs":
+        return router.push("/packs");
+      case "stats":
+        return router.push("/stats");
+      case "install":
+        return void promptInstall().then((ok) => ok && showToast("ApiWall is installed. It opens offline with the last catalog you loaded."));
       case "submit":
         return router.push("/submit");
       case "about":
@@ -774,6 +804,23 @@ export function Explore({ glyphs, stats }: Props) {
               <button type="button" className="btn btn-small" onClick={shareSaved} data-testid="share-saved">
                 Copy share link
               </button>
+              <details className="export-menu" data-testid="export-saved">
+                <summary className="btn btn-small">Export</summary>
+                <div className="export-items glass" role="group" aria-label="Export saved APIs">
+                  <button type="button" onClick={() => exportSaved("md")}>
+                    Markdown table <small>for a README</small>
+                  </button>
+                  <button type="button" onClick={() => exportSaved("csv")}>
+                    CSV <small>for a spreadsheet</small>
+                  </button>
+                  <button type="button" onClick={() => exportSaved("json")}>
+                    JSON <small>for code</small>
+                  </button>
+                  <button type="button" onClick={() => exportSaved("copy")}>
+                    Copy Markdown <small>to the clipboard</small>
+                  </button>
+                </div>
+              </details>
             </div>
           )}
           {lens !== "category" && (
@@ -940,7 +987,11 @@ export function Explore({ glyphs, stats }: Props) {
               </li>
               <li>
                 <strong>Shortcuts:</strong> <kbd>Ctrl</kbd>+<kbd>K</kbd> (<kbd>⌘</kbd>+<kbd>K</kbd> on a Mac) jump to anything, <kbd>/</kbd> search,{" "}
-                <kbd>R</kbd> surprise me, <kbd>Esc</kbd> close. <strong>Copy link</strong> in the bottom bar shares exactly what you see.
+                <kbd>R</kbd> surprise me, <kbd>Esc</kbd> close, <kbd>?</kbd>{" "}
+                <button type="button" className="linkish" onClick={() => setShortcutsOpen(true)} data-testid="open-shortcuts">
+                  all shortcuts
+                </button>
+                . <strong>Copy link</strong> in the bottom bar shares exactly what you see.
               </li>
               <li>
                 <strong>Compare:</strong> open an API and press <strong>⇄ Compare</strong>; add up to {MAX_COMPARE} and compare them side by side.
@@ -1208,6 +1259,7 @@ export function Explore({ glyphs, stats }: Props) {
           onClose={() => setPaletteOpen(false)}
           onPick={onPalettePick}
         />
+        <ShortcutsDialog open={shortcutsOpen} onClose={() => setShortcutsOpen(false)} />
       </div>
     </section>
   );

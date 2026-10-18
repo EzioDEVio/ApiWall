@@ -9,6 +9,8 @@ import { PUBLIC_API_VERSION } from "@/lib/catalog/publicApi";
 import { IdentityMark, Glyph } from "@/components/IdentityMark";
 import { EmbedSnippet } from "@/components/EmbedSnippet";
 import { LinkStatus } from "@/components/LinkStatus";
+import { LinkHistoryBar } from "@/components/LinkHistoryBar";
+import { linkSpans } from "@/lib/catalog/linkHistory";
 
 export const dynamicParams = false;
 
@@ -112,6 +114,7 @@ export default async function ApiPage({ params }: Params) {
         </Link>
       </div>
       <LinkStatus state={e.link} />
+      {e.url && <LinkHistoryBar spans={linkSpans(data.history, e.id)} />}
 
       <section aria-labelledby="facts-h">
         <h2 id="facts-h">{e.origin === "supplement" ? "Facts from the provider's docs" : "Catalog facts"}</h2>

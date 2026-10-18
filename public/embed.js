@@ -3,6 +3,7 @@
  *
  *   <div data-apiwall-api="api-openai-api-1rmb4o81bp"></div>
  *   <div data-apiwall-category="weather" data-limit="6"></div>
+ *   <div data-apiwall-pack="no-key-needed" data-limit="6"></div>
  *   <script src="https://eziodevio.github.io/ApiWall/embed.js" async></script>
  *
  * Options: data-theme="light" | "dark" (default: follows the visitor's system setting).
@@ -153,11 +154,13 @@
     return card;
   }
 
-  function categoryCard(body, limit) {
+  function listCard(body, limit) {
     var card = el("div", { class: "card" });
-    var url = BASE + "/categories/" + body.category.slug + "/";
-    card.appendChild(link(url, body.category.name + " APIs", "name"));
-    card.appendChild(el("div", { class: "cat" }, body.data.length + " public APIs on ApiWall"));
+    var url = body.pack ? BASE + "/packs/" + body.pack.slug + "/" : BASE + "/categories/" + body.category.slug + "/";
+    card.appendChild(link(url, body.pack ? body.pack.title : body.category.name + " APIs", "name"));
+    card.appendChild(
+      el("div", { class: "cat" }, body.pack ? "Starter pack · " + body.data.length + " APIs on ApiWall" : body.data.length + " public APIs on ApiWall"),
+    );
     var ul = el("ul");
     body.data.slice(0, limit).forEach(function (api) {
       var li = el("li");
@@ -192,25 +195,26 @@
     root.appendChild(el("style", null, CSS));
     var id = host.getAttribute("data-apiwall-api");
     var cat = host.getAttribute("data-apiwall-category");
+    var pack = host.getAttribute("data-apiwall-pack");
     var limit = Math.max(1, Math.min(12, parseInt(host.getAttribute("data-limit") || "6", 10) || 6));
-    var key = id || cat;
+    var key = id || cat || pack;
     if (!key || !ID_RE.test(key)) return fail(root, BASE + "/");
-    var url = id ? API + "apis/" + id + ".json" : API + "categories/" + cat + ".json";
+    var url = id ? API + "apis/" + id + ".json" : pack ? API + "packs/" + pack + ".json" : API + "categories/" + cat + ".json";
     fetch(url)
       .then(function (r) {
         if (!r.ok) throw new Error(String(r.status));
         return r.json();
       })
       .then(function (body) {
-        root.appendChild(id ? apiCard(body.data) : categoryCard(body, limit));
+        root.appendChild(id ? apiCard(body.data) : listCard(body, limit));
       })
       .catch(function () {
-        fail(root, id ? BASE + "/?api=" + id : BASE + "/categories/" + cat + "/");
+        fail(root, id ? BASE + "/?api=" + id : pack ? BASE + "/packs/" + pack + "/" : BASE + "/categories/" + cat + "/");
       });
   }
 
   function scan() {
-    var nodes = document.querySelectorAll("[data-apiwall-api],[data-apiwall-category]");
+    var nodes = document.querySelectorAll("[data-apiwall-api],[data-apiwall-category],[data-apiwall-pack]");
     for (var i = 0; i < nodes.length; i++) render(nodes[i]);
   }
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", scan);

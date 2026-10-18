@@ -13,14 +13,28 @@ auth, and open the docs in a click.
 [![CI](https://github.com/EzioDEVio/ApiWall/actions/workflows/ci.yml/badge.svg)](https://github.com/EzioDEVio/ApiWall/actions/workflows/ci.yml)
 [![Deploy](https://github.com/EzioDEVio/ApiWall/actions/workflows/pages.yml/badge.svg)](https://github.com/EzioDEVio/ApiWall/actions/workflows/pages.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-3d3bff.svg)](LICENSE)
-![APIs](https://img.shields.io/badge/APIs-2%2C150%2B-16a37f.svg)
-[![API pages](https://img.shields.io/badge/API_pages-2%2C176-f2702b.svg)](https://eziodevio.github.io/ApiWall/apis/)
+[![APIs](https://img.shields.io/endpoint?url=https%3A%2F%2Feziodevio.github.io%2FApiWall%2Fapi%2Fv1%2Fbadges%2Fapis.json)](https://eziodevio.github.io/ApiWall/apis/)
+[![Docs links](https://img.shields.io/endpoint?url=https%3A%2F%2Feziodevio.github.io%2FApiWall%2Fapi%2Fv1%2Fbadges%2Fdead-links.json)](https://eziodevio.github.io/ApiWall/stats/)
+[![Starter packs](https://img.shields.io/endpoint?url=https%3A%2F%2Feziodevio.github.io%2FApiWall%2Fapi%2Fv1%2Fbadges%2Fpacks.json)](https://eziodevio.github.io/ApiWall/packs/)
 [![Public API](https://img.shields.io/badge/public_API-v1-8f8fff.svg)](https://eziodevio.github.io/ApiWall/developers/)
 ![Next.js](https://img.shields.io/badge/Next.js-15-14161f.svg)
 
    <img src="docs/media/apiwall-demo.gif" alt="Flying over the ApiWall mosaic, colouring it by auth, picking AI Models, comparing three APIs side by side, jumping to Weather with Ctrl+K, opening an API's own page, and switching to dark mode" width="880">
 
 </div>
+
+## This week on ApiWall
+
+<!-- Refreshed by the weekly catalog sync (npm run sync:report). Edit outside the markers. -->
+<!-- this-week:start -->
+**2,150 APIs** and **20 MCP servers** across **53 categories**.
+
+**Latest catalog update (2026-10-17):** 6 new. [Cerebras Inference](https://eziodevio.github.io/ApiWall/apis/cerebras-inference/) · [Claude API](https://eziodevio.github.io/ApiWall/apis/claude-api/) · [DeepSeek API](https://eziodevio.github.io/ApiWall/apis/deepseek-api/) · [OpenAI API](https://eziodevio.github.io/ApiWall/apis/openai-api/) · [Perplexity API](https://eziodevio.github.io/ApiWall/apis/perplexity-api/) · [xAI API](https://eziodevio.github.io/ApiWall/apis/xai-api/).
+
+**Docs links:** 1,971 of 2,172 reachable (201 not reachable since 2026-10-18).
+
+[What's new](https://eziodevio.github.io/ApiWall/changes/) · [Stats](https://eziodevio.github.io/ApiWall/stats/) · [Starter packs](https://eziodevio.github.io/ApiWall/packs/)
+<!-- this-week:end -->
 
 ## Why it's fun to use
 
@@ -53,9 +67,22 @@ auth, and open the docs in a click.
   are marked "Docs link not reachable" with the date, and **Filters → Docs link → Hide broken
   links** removes them from view.
 - **Embed cards.** Two lines of HTML show an ApiWall card for an API, or a short list for a
-  category, on any website. Every API page has its code ready to copy.
+  category or starter pack, on any website. Every API page has its code ready to copy.
 - **An API of its own.** Other apps can use the whole catalog as free, read-only JSON at
   `https://eziodevio.github.io/ApiWall/api/v1/` (no key, CORS open). See the **Developers** page.
+- **Starter packs.** Ready-made sets for common jobs: [No key needed](https://eziodevio.github.io/ApiWall/packs/no-key-needed/),
+  [Call it straight from the browser](https://eziodevio.github.io/ApiWall/packs/browser-ready/), [Build a weather app](https://eziodevio.github.io/ApiWall/packs/weather-app/)
+  and more. Each pack is a plain rule over recorded facts (auth, HTTPS, CORS, the docs-link check),
+  opens on the wall in one click, and comes as JSON and an embed card.
+- **Catalog stats.** [Charts](https://eziodevio.github.io/ApiWall/stats/) of auth, HTTPS and CORS
+  across the catalog, the biggest categories, broken docs links over time and APIs added per sync,
+  each with a table view.
+- **Hover to preview.** Point at a tile to see its description, auth, HTTPS and CORS before you
+  open it. Palette jumps glide to the tile, and <kbd>?</kbd> lists every keyboard shortcut.
+- **Export your saved list.** Download your saved APIs as a Markdown table for a README, a CSV for
+  a spreadsheet or JSON for code.
+- **Install it as an app.** ApiWall is a progressive web app: install it from the browser (or
+  Ctrl+K → "Install ApiWall as an app") and it opens offline with the last catalog you loaded.
 - **New this week.** APIs added by the weekly catalog sync carry a **NEW** badge for seven
   days, and the **What's new** page lists every sync's additions and removals.
 - **Links that keep your view.** The address bar always holds the current category, search,
@@ -191,10 +218,44 @@ from ApiWall's own host. See the Developers page for the snippet and options.
 
 `npm run build:static` also writes ApiWall's own read-only JSON API to `out/api/v1/`
 (`index.json`, `apis.json`, `apis/{id}.json`, `categories.json`, `categories/{slug}.json`,
-`changes.json`), built by `lib/catalog/publicApi.ts` from the committed snapshot. The
+`changes.json`, `packs.json`, `packs/{slug}.json`, `stats.json` and `badges/*.json`), built by
+`lib/catalog/publicApi.ts` from the committed snapshot. The badges use the
+[shields.io endpoint](https://shields.io/badges/endpoint-badge) format, so a README can show live numbers:
+
+```markdown
+![APIs](https://img.shields.io/endpoint?url=https%3A%2F%2Feziodevio.github.io%2FApiWall%2Fapi%2Fv1%2Fbadges%2Fapis.json)
+```
+ The
 self-hosted server answers the same paths at `/api/v1/...` with `Access-Control-Allow-Origin: *`.
 The `/developers` page documents the fields. Fields in `v1` are only ever added, never renamed
 or removed.
+
+### Weekly report, health issue and releases
+
+Each weekly sync also runs `npm run sync:report`, which rewrites the **This week on ApiWall**
+section at the top of this README, writes the sync pull request's description, and keeps one open
+**Docs-link health** issue (label `link-health`) listing every docs link that failed. The report
+is built only from the committed data, so a quiet week changes nothing and opens no pull request.
+
+To publish a release, push a version tag (`git tag v1.5.0 && git push origin v1.5.0`) or run the
+**Release** workflow from the Actions tab. GitHub writes the notes from merged pull requests,
+grouped by label (`.github/release.yml`).
+
+### Install as an app (PWA)
+
+`app/manifest.ts` and the icons in `public/icons/` make the site installable, and `public/sw.js`
+keeps it working offline: pages and the catalog are network-first with a cached fallback, build
+files are cache-first, and logos are refreshed in the background. It only stores this site's own
+same-origin GET responses, never registers during `npm run dev`, and drops old caches when its
+`VERSION` changes.
+
+### Quality checks
+
+Every push runs lint, strict types, unit tests, both builds, a secret scan and Playwright on
+desktop and phone, including [axe](https://github.com/dequelabs/axe-core) accessibility scans of
+every kind of page in light and dark themes (serious or critical problems fail the run). Pull
+requests also get a [Lighthouse](https://github.com/GoogleChrome/lighthouse-ci) run on the static
+site: accessibility below 95 or SEO below 90 fails the check, and the reports are attached to the run.
 
 ## Commands
 
@@ -207,7 +268,8 @@ or removed.
 | `npm test` · `npm run test:e2e` | Vitest unit/component tests · Playwright on desktop and mobile (`npx playwright install chromium` once, `npm run build` first) |
 | `npm run catalog:import` | Refresh the catalog snapshot from upstream |
 | `npm run catalog:logos` | Download each API's own logo into `public/marks/`, make small tile copies, then rebuild the snapshot |
-| `npm run links:check` | Check every docs link and update `data/link-health.json` (needs internet; run weekly by the sync) |
+| `npm run links:check` | Check every docs link and update `data/link-health.json` and `data/link-history.json` (needs internet; run weekly by the sync) |
+| `npm run sync:report` | Refresh the README's "This week on ApiWall" section (add `-- --out <dir>` for the pull request text and health issue) |
 | `npm run logos:optimize` | Make the small WebP copies tiles use (`public/marks/tiles/`); originals stay untouched |
 | `npm run logos:add -- "<name or id>" <image> <https source>` | Commit a maintainer-approved logo (also `logos:remove`, `logos:promote`) |
 | `npm run reviewer:setup` | Create reviewer credentials in `.env.local` (self-hosted only) |
@@ -385,19 +447,19 @@ a generated monogram. Category icons are [Tabler Icons](https://tabler.io/icons)
 ## Project map
 
 ```
-app/                 pages (Explore, Submit, For Providers, What's new, Developers, About & Source, Review), /api/v1 route, API routes, social preview image
-components/          Mosaic (canvas), CategoryNav, ListView, DetailDialog, CompareDialog, CommandPalette, CodeSamples, LogoSuggest, review UI
-lib/catalog/         README parser, normalizer, placement, marks, AI Models supplement, community logos, snapshot builder, changelog, public API
+app/                 pages (Explore, API, category, packs, stats, Submit, For Providers, What's new, Developers, About & Source, Review), /api/v1 route, web app manifest, social preview image
+components/          Mosaic (canvas), CategoryNav, ListView, DetailDialog, CompareDialog, CommandPalette, ShortcutsDialog, Charts, CodeSamples, LogoSuggest, review UI
+lib/catalog/         README parser, normalizer, placement, marks, AI Models supplement, community logos, snapshot builder, changelog, link checks and history, starter packs, stats, weekly report, public API
 lib/explore/         entries, the shared filter pipeline, map layouts, shareable URL state, starter code, compare, Ctrl+K palette
 lib/logos/           logo suggestions: validation, review rules, public projection
 lib/providers/       submission types, validation, review workflow, public projection
 lib/server/          file store, rate limiting, reviewer sessions, config
 lib/security/        secret detection and redaction
-lib/saved.ts         saved APIs, kept in the browser's localStorage
+lib/saved.ts         saved APIs, kept in the browser's localStorage (lib/exportList.ts exports them)
 lib/site.ts          site name, repository links, static-mode and base-path settings
-scripts/             importer, logo tools, static build, demo recorder, secret scanner
-data/                committed snapshot, changelog.json, glyphs, ai-models.json, community-logos.json, upstream README + LICENSE
-.github/             CI, Pages deploy, weekly catalog sync, issue forms
+scripts/             importer, logo tools, link checker, weekly report, static build, demo recorder, secret scanner
+data/                committed snapshot, changelog.json, link-health.json, link-history.json, glyphs, ai-models.json, community-logos.json, upstream README + LICENSE
+.github/             CI, Lighthouse, Pages deploy, weekly catalog sync, releases, Dependabot, issue forms
 docs/media/          README GIF and screenshots
 tests/unit, tests/e2e
 ```

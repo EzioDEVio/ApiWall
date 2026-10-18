@@ -9,6 +9,7 @@ import { buildPublicApi, type PublicApiItem } from "@/lib/catalog/publicApi";
 import { compareRows } from "@/lib/explore/compare";
 import { pageData, related, summary } from "@/lib/catalog/pages";
 import sitemap from "@/app/sitemap";
+import { PACKS } from "@/lib/catalog/packs";
 import type { CatalogListing, CatalogSnapshot } from "@/lib/catalog/types";
 
 const snap = JSON.parse(readFileSync(path.join(process.cwd(), "data/catalog.snapshot.json"), "utf8")) as CatalogSnapshot;
@@ -142,7 +143,8 @@ describe("per-API pages and sitemap", () => {
   it("lists every page in the sitemap once, with absolute URLs", () => {
     const urls = sitemap().map((u) => u.url);
     expect(new Set(urls).size).toBe(urls.length);
-    expect(urls.length).toBe(snap.listings.length + snap.categories.length + 8);
+    // Every API and category page, every starter pack, and 10 fixed pages (home, A–Z, categories, packs, stats, changes, developers, about, submit, providers).
+    expect(urls.length).toBe(snap.listings.length + snap.categories.length + PACKS.length + 10);
     expect(urls).toContain("https://eziodevio.github.io/ApiWall/apis/openai-api/");
     expect(urls.every((u) => u.startsWith("https://"))).toBe(true);
   });

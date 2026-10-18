@@ -1,0 +1,18 @@
+# Sorts GitHub's automatic release notes by pull request label.
+changelog:
+  exclude:
+    labels:
+      - skip-release-notes
+  categories:
+    - title: New features
+      labels: [feature, enhancement]
+    - title: Fixes
+      labels: [fix, bug]
+    - title: Catalog updates
+      labels: [catalog]
+    - title: Documentation
+      labels: [docs, documentation]
+    - title: Dependencies
+      labels: [dependencies]
+    - title: Other changes
+      labels: ["*"]

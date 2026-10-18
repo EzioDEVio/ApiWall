@@ -1,6 +1,9 @@
 import "server-only";
 import { loadSnapshot } from "./server";
 import { buildEntries, type Entry } from "@/lib/explore/model";
+import { buildPacks, type Pack } from "./packs";
+import { readLinkHistory } from "./files";
+import type { LinkHistory } from "./linkHistory";
 
 /** Catalog data shaped for the static per-API and per-category pages (built once per process). */
 interface PageData {
@@ -8,6 +11,9 @@ interface PageData {
   bySlug: Map<string, Entry>;
   categories: { slug: string; name: string; glyph: string; index: number; entries: Entry[] }[];
   categoryBySlug: Map<string, { slug: string; name: string; glyph: string; index: number; entries: Entry[] }>;
+  packs: Pack[];
+  packBySlug: Map<string, Pack>;
+  history: LinkHistory;
 }
 
 let cached: PageData | null = null;
@@ -27,7 +33,11 @@ export function pageData(): PageData {
     index,
     entries: entries.filter((e) => e.categorySlug === c.slug || e.tags.includes(c.slug)),
   }));
+  const packs = buildPacks(entries);
   cached = {
+    history: readLinkHistory(process.cwd()),
+    packs,
+    packBySlug: new Map(packs.map((p) => [p.slug, p])),
     entries,
     bySlug: new Map(entries.map((e) => [e.slug!, e])),
     categories,

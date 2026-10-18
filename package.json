@@ -25,7 +25,8 @@
     "media:demo": "tsx scripts/record-demo.ts",
     "preview:static": "node scripts/build-static.mjs --base /ApiWall && node scripts/serve-static.mjs --base /ApiWall",
     "logos:optimize": "tsx scripts/optimize-logos.ts",
-    "links:check": "tsx scripts/check-links.ts"
+    "links:check": "tsx scripts/check-links.ts",
+    "sync:report": "tsx scripts/sync-report.ts"
   },
   "dependencies": {
     "next": "15.5.27",
@@ -35,6 +36,7 @@
     "zod": "3.25.76"
   },
   "devDependencies": {
+    "@axe-core/playwright": "4.13.0",
     "@eslint/eslintrc": "3.3.7",
     "@iconify-json/tabler": "1.2.41",
     "@playwright/test": "1.58.2",

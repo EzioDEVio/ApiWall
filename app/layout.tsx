@@ -1,9 +1,11 @@
 import type { Metadata, Viewport } from "next";
 import Link from "next/link";
 import "./globals.css";
-import { REPO_URL, SITE_NAME, SITE_URL, STATIC_MODE } from "@/lib/site";
+import { asset, REPO_URL, SITE_NAME, SITE_URL, STATIC_MODE } from "@/lib/site";
 import { THEME_BOOT } from "@/lib/theme";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import { ServiceWorker } from "@/components/ServiceWorker";
+import { InstallHint } from "@/components/InstallHint";
 
 const description = "Every public API on one zoomable wall: search, filter by category or auth, and open docs in a click. Built from the community public-apis catalog.";
 
@@ -14,6 +16,9 @@ export const metadata: Metadata = {
   description,
   openGraph: { type: "website", siteName: SITE_NAME, title: `${SITE_NAME} — every public API on one wall`, description, url: "./" },
   twitter: { card: "summary_large_image", title: `${SITE_NAME} — every public API on one wall`, description },
+  // Icon URLs are not given the base path by Next, so add it here (the manifest link is).
+  icons: { icon: [{ url: asset("/icons/icon-192.png"), sizes: "192x192", type: "image/png" }], apple: asset("/icons/apple-touch-icon.png") },
+  appleWebApp: { capable: true, title: SITE_NAME, statusBarStyle: "black-translucent" },
 };
 
 // GitHub Pages cannot send headers, so the static build carries its policy in a meta tag.
@@ -77,6 +82,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <Link href="/">Explore</Link>
               <Link href="/submit">Submit an API</Link>
               <Link href="/providers">For Providers</Link>
+              <Link href="/packs">Packs</Link>
               <Link href="/changes">What&apos;s new</Link>
               <Link href="/developers">Developers</Link>
               <Link href="/about">About &amp; Source</Link>
@@ -114,10 +120,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               </a>
             </p>
             <p className="muted">
-              Browse: <Link href="/apis/">All APIs, A to Z</Link> · <Link href="/categories/">Categories</Link> · <Link href="/developers/">Public API</Link>
+              Browse: <Link href="/apis/">All APIs, A to Z</Link> · <Link href="/categories/">Categories</Link> · <Link href="/packs/">Starter packs</Link> ·{" "}
+              <Link href="/stats/">Stats</Link> · <Link href="/developers/">Public API</Link>
             </p>
           </div>
         </footer>
+        <ServiceWorker />
+        <InstallHint />
       </body>
     </html>
   );

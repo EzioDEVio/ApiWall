@@ -8,7 +8,16 @@ export const REPO = "EzioDEVio/ApiWall";
 export const REPO_URL = `https://github.com/${REPO}`;
 export const STATIC_MODE = process.env.NEXT_PUBLIC_STATIC === "1";
 export const BASE_PATH = (process.env.NEXT_PUBLIC_BASE_PATH ?? "").replace(/\/$/, "");
-export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://eziodevio.github.io/ApiWall").replace(/\/$/, "");
+/** Hostnames are lower-cased (GitHub passes the owner as "EzioDEVio"), so links, the sitemap and Search Console all agree. */
+function normalizeSiteUrl(raw: string): string {
+  try {
+    const u = new URL(raw);
+    return `${u.protocol}//${u.host.toLowerCase()}${u.pathname}`.replace(/\/$/, "");
+  } catch {
+    return raw.replace(/\/$/, "");
+  }
+}
+export const SITE_URL = normalizeSiteUrl(process.env.NEXT_PUBLIC_SITE_URL || "https://eziodevio.github.io/ApiWall");
 
 /** Prefixes a same-origin path with the base path (Link does this itself; fetch and img do not). */
 export function asset(path: string): string {

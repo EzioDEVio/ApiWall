@@ -153,3 +153,20 @@ describe("per-API pages and sitemap", () => {
     expect(item.brandIcon?.svgPath.length).toBeGreaterThan(10);
   });
 });
+
+describe("site address", () => {
+  it("lower-cases the host GitHub passes in (EzioDEVio → eziodevio), keeping the path", async () => {
+    const { vi } = await import("vitest");
+    vi.resetModules();
+    const before = process.env.NEXT_PUBLIC_SITE_URL;
+    process.env.NEXT_PUBLIC_SITE_URL = "https://EzioDEVio.github.io/ApiWall/";
+    try {
+      const { SITE_URL } = await import("@/lib/site");
+      expect(SITE_URL).toBe("https://eziodevio.github.io/ApiWall");
+    } finally {
+      if (before === undefined) delete process.env.NEXT_PUBLIC_SITE_URL;
+      else process.env.NEXT_PUBLIC_SITE_URL = before;
+      vi.resetModules();
+    }
+  });
+});

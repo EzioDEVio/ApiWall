@@ -1,7 +1,8 @@
 /*
  * Static build for GitHub Pages:
  *   npm run build:static                              # site at the domain root
- *   NEXT_PUBLIC_BASE_PATH=/ApiWall npm run build:static  # project page (username.github.io/ApiWall)
+ *   npm run build:static -- --base /ApiWall           # project page (username.github.io/ApiWall)
+ *   npm run preview:static                            # build like GitHub Pages and serve it locally
  *
  * GitHub Pages serves files only, so server routes (submissions, review, logo uploads)
  * are set aside for this build and restored afterwards. The static site sends people to
@@ -13,19 +14,51 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
+
+// `--base /ApiWall` works the same on Windows PowerShell, macOS and Linux.
+const argBase = process.argv.indexOf("--base");
+if (argBase > 0 && process.argv[argBase + 1]) process.env.NEXT_PUBLIC_BASE_PATH = process.argv[argBase + 1];
 const stash = path.join(root, ".static-stash");
 const SERVER_ONLY = ["app/api", "app/review"];
+
+const sleep = (ms) => Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, ms);
+
+/**
+ * Moves a folder. On Windows a running dev server, editor or antivirus can briefly lock
+ * files (EPERM/EBUSY), so retry, then fall back to copy + delete.
+ */
+function move(from, to) {
+  mkdirSync(path.dirname(to), { recursive: true });
+  for (let i = 0; i < 8; i++) {
+    try {
+      renameSync(from, to);
+      return;
+    } catch (e) {
+      if (!["EPERM", "EBUSY", "EACCES"].includes(e.code)) throw e;
+      sleep(250 * (i + 1));
+    }
+  }
+  cpSync(from, to, { recursive: true });
+  try {
+    rmSync(from, { recursive: true, force: true, maxRetries: 5, retryDelay: 300 });
+  } catch (e) {
+    rmSync(to, { recursive: true, force: true });
+    const err = new Error(
+      `Windows would not let the build move ${path.relative(root, from)} (${e.code}).\n` +
+        "  Stop `npm run dev` / `npm start` (Ctrl+C in that window), close editors that have the folder open, then run `npm run build:static` again.",
+    );
+    err.friendly = true;
+    throw err;
+  }
+}
 
 function restore() {
   for (const rel of SERVER_ONLY) {
     const from = path.join(stash, rel);
     const to = path.join(root, rel);
-    if (existsSync(from) && !existsSync(to)) {
-      mkdirSync(path.dirname(to), { recursive: true });
-      renameSync(from, to);
-    }
+    if (existsSync(from) && !existsSync(to)) move(from, to);
   }
-  if (existsSync(stash)) rmSync(stash, { recursive: true, force: true });
+  if (existsSync(stash)) rmSync(stash, { recursive: true, force: true, maxRetries: 5, retryDelay: 300 });
 }
 
 const run = (cmd, args, env = {}) => {
@@ -33,22 +66,25 @@ const run = (cmd, args, env = {}) => {
   return r.status ?? 1;
 };
 
-restore(); // recover from an interrupted earlier run
-let status = run("npx", ["tsx", "scripts/check-data.ts"]);
-if (status === 0) {
-  try {
-    for (const rel of SERVER_ONLY) {
-      const from = path.join(root, rel);
-      if (!existsSync(from)) continue;
-      const to = path.join(stash, rel);
-      mkdirSync(path.dirname(to), { recursive: true });
-      renameSync(from, to);
+let status = 0;
+try {
+  restore(); // recover from an interrupted earlier run
+  status = run("npx", ["tsx", "scripts/check-data.ts"]);
+  if (status === 0) {
+    try {
+      for (const rel of SERVER_ONLY) {
+        const from = path.join(root, rel);
+        if (existsSync(from)) move(from, path.join(stash, rel));
+      }
+      rmSync(path.join(root, "out"), { recursive: true, force: true, maxRetries: 5, retryDelay: 300 });
+      status = run("npx", ["next", "build"], { NEXT_PUBLIC_STATIC: "1" });
+    } finally {
+      restore();
     }
-    rmSync(path.join(root, "out"), { recursive: true, force: true });
-    status = run("npx", ["next", "build"], { NEXT_PUBLIC_STATIC: "1" });
-  } finally {
-    restore();
   }
+} catch (e) {
+  console.error("✗ " + (e.friendly ? e.message : e.stack || e.message));
+  process.exit(1);
 }
 if (status !== 0) {
   console.error("✗ Static build failed.");

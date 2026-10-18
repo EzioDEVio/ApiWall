@@ -278,6 +278,24 @@ export const Mosaic = forwardRef<MosaicHandle, Props>(function Mosaic(
   // When the result set changes: filtered views fit their results; clearing every filter
   // returns to the full map exactly where it was left. Tiles replay a short settle-in.
   const savedFull = useRef<{ s: number; left: number; top: number } | null>(null);
+  const heals = useRef(0);
+  /** Fits a filtered layout: the whole result set when tiles stay readable, else full width from the top. */
+  const fitFiltered = () => {
+    const sc = scrollRef.current;
+    const lay = L.current;
+    if (!sc || lay.mode !== "filtered" || vp.current.w === 0) return;
+    const { w, h } = vp.current;
+    const { top, right } = insets.current;
+    const fitW = (w - right - 2 * PAD) / lay.width;
+    const fitBoth = Math.min(fitW, (h - top - BOTTOM_UI - 2 * PAD) / lay.height);
+    const cap = FIT_MAX_TILE_PX / TILE_SIZE;
+    // Whole result set on screen when tiles stay readable; otherwise fill the width and scroll down.
+    scale.current = Math.min(MAX_TILE_PX / TILE_SIZE, Math.max(0.05, TILE_SIZE * fitBoth >= MIN_FIT_TILE_PX ? Math.min(fitBoth, cap) : Math.min(fitW, cap)));
+    applySize(scale.current);
+    sc.scrollLeft = 0;
+    sc.scrollTop = 0;
+    setTilePx(Math.round(TILE_SIZE * scale.current));
+  };
   const lastFocus = useRef<string | null>(null);
   useLayoutEffect(() => {
     const was = L.current;
@@ -285,23 +303,10 @@ export const Mosaic = forwardRef<MosaicHandle, Props>(function Mosaic(
     const sc = scrollRef.current;
     if (!sc || vp.current.w === 0 || was === mapLayout) return;
     cancelAnimationFrame(zoomAnim.current);
+    heals.current = 0;
     if (mapLayout.mode === "filtered") {
-      if (was.mode === "full")
-        savedFull.current = {
-          s: scale.current,
-          left: sc.scrollLeft,
-          top: sc.scrollTop,
-        };
-      const { w, h } = vp.current;
-      const { top, right } = insets.current;
-      const fitW = (w - right - 2 * PAD) / mapLayout.width;
-      const fitBoth = Math.min(fitW, (h - top - BOTTOM_UI - 2 * PAD) / mapLayout.height);
-      const cap = FIT_MAX_TILE_PX / TILE_SIZE;
-      // Whole result set on screen when tiles stay readable; otherwise fill the width and scroll down.
-      scale.current = Math.min(MAX_TILE_PX / TILE_SIZE, Math.max(0.05, TILE_SIZE * fitBoth >= MIN_FIT_TILE_PX ? Math.min(fitBoth, cap) : Math.min(fitW, cap)));
-      applySize(scale.current);
-      sc.scrollLeft = 0;
-      sc.scrollTop = 0;
+      if (was.mode === "full") savedFull.current = { s: scale.current, left: sc.scrollLeft, top: sc.scrollTop };
+      fitFiltered();
     } else if (was.mode === "filtered") {
       const saved = savedFull.current;
       scale.current = clampScale(saved?.s ?? DEFAULT_TILE_PX(vp.current.w) / TILE_SIZE);
@@ -452,10 +457,23 @@ export const Mosaic = forwardRef<MosaicHandle, Props>(function Mosaic(
       }
     };
 
+    // One tile that fails to draw (a bad image, say) must never blank the whole map.
+    let failed: unknown = null;
+    const safeTile = (item: LayoutItem, x: number, y: number) => {
+      try {
+        drawTile(item, x, y);
+      } catch (err) {
+        failed ??= err;
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        ctx.globalAlpha = 1;
+      }
+    };
+    let onScreen = 0;
     for (const item of lay.items) {
       const x = tx + item.x * s;
       const y = ty + item.y * s;
       if (!visible(x, y)) continue;
+      onScreen++;
       if (introOn) {
         // Load-in ripple: tiles settle in a wave from the top-left corner.
         const delay = ((item.x + item.y) / (lay.width + lay.height)) * spread;
@@ -470,12 +488,25 @@ export const Mosaic = forwardRef<MosaicHandle, Props>(function Mosaic(
         ctx.translate(cx, cy);
         ctx.scale(0.55 + 0.45 * k, 0.55 + 0.45 * k);
         ctx.translate(-cx, -cy);
-        drawTile(item, x, y);
+        safeTile(item, x, y);
         ctx.restore();
         continue;
       }
       if (item === hoverItem) continue; // drawn last, lifted above its neighbours
-      drawTile(item, x, y);
+      safeTile(item, x, y);
+    }
+    canvas.dataset.onScreen = String(onScreen);
+    if (failed) {
+      canvas.dataset.error = String((failed as Error)?.message ?? failed);
+      console.error("[ApiWall] a tile could not be drawn:", failed);
+    }
+    // Self-check: filtered results must be on screen. If something left them out of view, re-fit.
+    if (lay.mode === "filtered" && lay.items.length && onScreen === 0 && heals.current < 3) {
+      heals.current++;
+      requestAnimationFrame(() => {
+        fitFiltered();
+        schedule();
+      });
     }
     if (introOn && !introPending && lay.items.length) introDone.current = true;
     if (introPending) schedule();

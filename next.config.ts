@@ -23,6 +23,8 @@ const staticConfig: NextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
   output: "export",
+  // Its own build folder, so a static build never replaces the server build that `npm start` uses.
+  distDir: ".next-static",
   basePath: basePath || undefined,
   trailingSlash: true,
   images: { unoptimized: true },

@@ -22,7 +22,8 @@
     "logos:add": "tsx scripts/community-logos.ts add",
     "logos:remove": "tsx scripts/community-logos.ts remove",
     "logos:promote": "tsx scripts/community-logos.ts promote",
-    "media:demo": "tsx scripts/record-demo.ts"
+    "media:demo": "tsx scripts/record-demo.ts",
+    "preview:static": "node scripts/build-static.mjs --base /ApiWall && node scripts/serve-static.mjs --base /ApiWall"
   },
   "dependencies": {
     "next": "15.5.27",

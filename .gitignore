@@ -1,5 +1,6 @@
 node_modules/
 .next/
+.next-static/
 out/
 next-env.d.ts
 *.tsbuildinfo

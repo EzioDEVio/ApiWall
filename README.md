@@ -104,8 +104,8 @@ flowchart LR
 3. The **Deploy to GitHub Pages** workflow builds the static site and publishes it at
    `https://<owner>.github.io/<repo>/`.
 
-To try the static build locally: `NEXT_PUBLIC_BASE_PATH=/ApiWall npm run build:static`, then
-serve the folder that contains `out/` renamed to `ApiWall/`.
+To try the Pages build locally (Windows, macOS or Linux), stop `npm run dev` first, then run
+`npm run preview:static` and open http://localhost:4173/ApiWall/.
 
 ### Weekly catalog sync
 
@@ -118,7 +118,8 @@ GitHub Actions to create and approve pull requests** once.
 | Command | What it does |
 | --- | --- |
 | `npm run dev` / `npm run build` / `npm start` | Develop, build, serve |
-| `npm run build:static` | Static export for GitHub Pages (`out/`) |
+| `npm run build:static` | Static export for GitHub Pages (`out/`); add `-- --base /ApiWall` for a project page |
+| `npm run preview:static` | Build like GitHub Pages and serve it at http://localhost:4173/ApiWall/ |
 | `npm run lint` · `npm run typecheck` | ESLint · `tsc --noEmit` (strict) |
 | `npm test` · `npm run test:e2e` | Vitest unit/component tests · Playwright on desktop and mobile (`npx playwright install chromium` once, `npm run build` first) |
 | `npm run catalog:import` | Refresh the catalog snapshot from upstream |

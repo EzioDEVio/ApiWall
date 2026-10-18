@@ -38,7 +38,8 @@ export function compareRows(entries: Entry[]): CompareRow[] {
     { key: "https", label: "HTTPS", values: entries.map((e) => (e.kind === "mcp" ? notApplicable : triLabel(e.https))) },
     { key: "cors", label: "CORS", values: entries.map((e) => (e.kind === "mcp" ? notApplicable : triLabel(e.cors))) },
   ];
-  if (entries.some((e) => e.kind === "mcp")) rows.push({ key: "transport", label: "Transport", values: entries.map((e) => (e.kind === "mcp" ? e.raw.transport || "Not listed" : "—")) });
+  if (entries.some((e) => e.kind === "mcp"))
+    rows.push({ key: "transport", label: "Transport", values: entries.map((e) => (e.kind === "mcp" ? e.raw.transport || "Not listed" : "—")) });
   if (entries.some((e) => e.aiModel)) {
     rows.push({ key: "ai-provider", label: "Model provider", values: entries.map((e) => e.aiModel?.provider ?? "—") });
     rows.push({ key: "ai-models", label: "Models (as the docs name them)", values: entries.map((e) => e.aiModel?.models ?? "—") });
@@ -47,6 +48,13 @@ export function compareRows(entries: Entry[]): CompareRow[] {
     key: "access",
     label: "Access and pricing",
     values: entries.map((e) => (e.claim ? `${ACCESS_LABELS[e.claim.status]} (verified)` : "Not verified")),
+  });
+  rows.push({
+    key: "link",
+    label: "Docs link (weekly check)",
+    values: entries.map((e) =>
+      e.link.state === "unreachable" ? `Not reachable: ${e.link.reason}` : e.link.state === "reachable" ? "Reachable" : "Not checked yet",
+    ),
   });
   rows.push({ key: "logo", label: "Logo on the wall", values: entries.map((e) => (hasLogo(e) ? "Yes" : "Not yet")) });
   return rows.map((r) => ({ ...r, differs: new Set(r.values).size > 1 }));

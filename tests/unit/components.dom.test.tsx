@@ -41,6 +41,7 @@ const entry = (over: Partial<Entry> = {}): Entry => ({
   categorySlug: "animals",
   url: "https://catfact.ninja/",
   raw: { auth: "No", https: "Yes", cors: "Yes" },
+  link: { state: "unchecked" },
   auth: "none",
   https: "yes",
   cors: "yes",

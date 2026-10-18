@@ -44,6 +44,14 @@ auth, and open the docs in a click.
   the differences marked. The comparison has its own link, so you can share it.
 - **Jump to anything.** Press <kbd>Ctrl</kbd>+<kbd>K</kbd> (<kbd>⌘</kbd>+<kbd>K</kbd> on a Mac) and
   type: open any API, pick a category, or run an action like "Show saved APIs" or "Use the dark theme".
+- **A page for every API.** Each API has its own page (e.g. `/apis/openai-api/`) with auth,
+  HTTPS, CORS, docs and related APIs, plus a page per category and an A–Z list, all listed in
+  `sitemap.xml` so search engines can find them.
+- **Docs links that are checked.** The weekly sync visits every docs link. Links that fail twice
+  are marked "Docs link not reachable" with the date, and **Filters → Docs link → Hide broken
+  links** removes them from view.
+- **Embed cards.** Two lines of HTML show an ApiWall card for an API, or a short list for a
+  category, on any website. Every API page has its code ready to copy.
 - **An API of its own.** Other apps can use the whole catalog as free, read-only JSON at
   `https://eziodevio.github.io/ApiWall/api/v1/` (no key, CORS open). See the **Developers** page.
 - **New this week.** APIs added by the weekly catalog sync carry a **NEW** badge for seven
@@ -136,6 +144,30 @@ GitHub Actions to create and approve pull requests** once (and press that sectio
 Weeks where only the "last checked" timestamps changed don't open a pull request
 (`scripts/drop-timestamp-only-changes.mjs`).
 
+### API pages, sitemap and search engines
+
+The build generates `/apis/<slug>/` for every listing, `/categories/<slug>/` for every
+category, `/apis/` (A–Z) and `/categories/`, plus `sitemap.xml` and `robots.txt`. Slugs are
+assigned once by the importer (`lib/catalog/slugs.ts`) and never change, so links stay valid.
+On a GitHub project page, search engines don't read `robots.txt` (it isn't at the domain root),
+so submit `https://eziodevio.github.io/ApiWall/sitemap.xml` once in Google Search Console
+(and Bing Webmaster Tools).
+
+### Docs-link check
+
+`npm run links:check` (run by the weekly sync) visits every docs link, one request at a time per
+site, HEAD first and GET as a fallback, and retries failures after 30 seconds. Only links that
+fail both times are written to `data/link-health.json`, with the date they first failed.
+401/403/429 answers count as reachable, since they come from live servers that turn robots away.
+If more than 30% fail at once, the runner's network is assumed to be the problem and nothing is
+written.
+
+### Embed widget
+
+`public/embed.js` draws a card in a shadow root (so it never touches the host page's styles) from
+the public API. It builds everything with text nodes, only links to http(s) URLs, and loads logos
+from ApiWall's own host. See the Developers page for the snippet and options.
+
 ### Public API
 
 `npm run build:static` also writes ApiWall's own read-only JSON API to `out/api/v1/`
@@ -156,6 +188,7 @@ or removed.
 | `npm test` · `npm run test:e2e` | Vitest unit/component tests · Playwright on desktop and mobile (`npx playwright install chromium` once, `npm run build` first) |
 | `npm run catalog:import` | Refresh the catalog snapshot from upstream |
 | `npm run catalog:logos` | Download each API's own logo into `public/marks/`, make small tile copies, then rebuild the snapshot |
+| `npm run links:check` | Check every docs link and update `data/link-health.json` (needs internet; run weekly by the sync) |
 | `npm run logos:optimize` | Make the small WebP copies tiles use (`public/marks/tiles/`); originals stay untouched |
 | `npm run logos:add -- "<name or id>" <image> <https source>` | Commit a maintainer-approved logo (also `logos:remove`, `logos:promote`) |
 | `npm run reviewer:setup` | Create reviewer credentials in `.env.local` (self-hosted only) |

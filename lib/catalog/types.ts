@@ -39,6 +39,8 @@ export interface CatalogListing {
   aiModel?: AiModelInfo;
   /** When this listing first appeared on the wall (absent for the original import). */
   addedAt?: string;
+  /** Permanent page address: /apis/<slug>/ (see lib/catalog/slugs.ts). */
+  slug?: string;
 }
 
 /** Facts checked by ApiWall against a provider's official documentation. */
@@ -119,6 +121,8 @@ export interface SnapshotSource {
 
 export interface CatalogSnapshot {
   schemaVersion: 1;
+  /** Attached when loaded (from data/link-health.json); never stored in the snapshot file. */
+  linkHealth?: import("./links").LinkHealth;
   source: SnapshotSource;
   grid: { cells: number; tileSize: number; slotsPerRow: number; providerRegion: { start: number; end: number } };
   categories: CategoryInfo[];

@@ -23,3 +23,6 @@ export function issueUrl(template: IssueTemplate, title: string, fields: Record<
   for (const [k, v] of Object.entries(fields)) if (v) p.set(k, v.slice(0, 500));
   return `${REPO_URL}/issues/new?${p.toString()}`;
 }
+
+/** The site-wide preview image, for pages that set their own openGraph/twitter metadata (which replaces the inherited image). */
+export const OG_IMAGE = STATIC_MODE ? `${SITE_URL}/og.png` : "/opengraph-image";

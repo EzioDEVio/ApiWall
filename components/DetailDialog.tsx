@@ -6,7 +6,9 @@ import type { SnapshotSource } from "@/lib/catalog/types";
 import { ACCESS_LABELS } from "@/lib/providers/types";
 import { explainAuth, explainCors, explainHttps, triLabel } from "@/lib/explore/explain";
 import { Glyph, IdentityMark } from "./IdentityMark";
+import Link from "next/link";
 import { LogoSuggest } from "./LogoSuggest";
+import { LinkStatus } from "./LinkStatus";
 import { CodeSamples } from "./CodeSamples";
 import { copyText } from "@/lib/clipboard";
 import { issueUrl } from "@/lib/site";
@@ -347,6 +349,7 @@ export function DetailDialog({
           </section>
 
           <div className="detail-actions">
+            <LinkStatus state={entry.link} />
             <div className="row detail-buttons">
               {entry.url ? (
                 <a className="btn btn-primary" href={entry.url} target="_blank" rel="noopener noreferrer nofollow" data-testid="docs-link">
@@ -377,6 +380,11 @@ export function DetailDialog({
                 >
                   ⇄ Compare
                 </button>
+              )}
+              {entry.slug && (
+                <Link className="btn btn-quiet" href={`/apis/${entry.slug}/`} data-testid="api-page-link">
+                  Full page
+                </Link>
               )}
               <CopyEntryLink />
             </div>

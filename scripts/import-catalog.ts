@@ -19,6 +19,7 @@ import type { BrandIcon } from "../lib/catalog/marks";
 import type { FaviconManifest, FaviconRecord } from "../lib/catalog/favicons";
 import type { AiModelsFile } from "../lib/catalog/supplements";
 import type { CommunityLogosFile } from "../lib/catalog/community";
+import { assignSlugs } from "../lib/catalog/slugs";
 import { carryAddedAt, type Changelog, diffListings, EMPTY_CHANGELOG, recordChange } from "../lib/catalog/history";
 import type { CatalogSnapshot } from "../lib/catalog/types";
 
@@ -179,6 +180,7 @@ async function main() {
   if (snapshot.listings.length === 0) throw new Error("Parsed zero listings; refusing to overwrite the snapshot. Has the README format changed?");
   // First-seen dates and the changelog behind "New this week" and the What's new page.
   carryAddedAt(snapshot, previous, snapshot.source.importedAt);
+  assignSlugs(snapshot, previous);
   const change = diffListings(previous, snapshot);
   const changelogPath = path.join(dataDir, "changelog.json");
   const log = existsSync(changelogPath) ? (JSON.parse(readFileSync(changelogPath, "utf8")) as Changelog) : EMPTY_CHANGELOG;

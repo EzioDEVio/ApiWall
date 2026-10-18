@@ -1,7 +1,7 @@
 name: Weekly catalog sync
 
-# Pulls the latest public-apis catalog, fetches logos for new listings, and opens a pull
-# request when anything changed. Existing tiles never move.
+# Pulls the latest public-apis catalog, fetches logos for new listings, checks every docs
+# link, and opens a pull request when anything changed. Existing tiles never move.
 # One-time setup: Settings → Actions → General → "Allow GitHub Actions to create and approve pull requests".
 on:
   schedule:
@@ -26,6 +26,11 @@ jobs:
         run: npm run catalog:import
       - name: Fetch logos for new listings
         run: npm run catalog:logos
+      - name: Check every docs link
+        # A failed check never blocks the sync; the site keeps last week's results.
+        continue-on-error: true
+        timeout-minutes: 40
+        run: npm run links:check
       - run: npm test
       - name: Skip the pull request when only timestamps changed
         run: node scripts/drop-timestamp-only-changes.mjs
@@ -38,5 +43,6 @@ jobs:
             Automated import of the latest [public-apis](https://github.com/public-apis/public-apis) catalog and logos for new listings.
             Existing tiles keep their positions. Review the snapshot summary in the workflow log before merging.
             New and removed listings are recorded in `data/changelog.json`, which feeds the What's new page and the NEW badges.
+            Docs links that failed twice are listed in `data/link-health.json` and shown as "Docs link not reachable" on the site.
           labels: catalog
           delete-branch: true

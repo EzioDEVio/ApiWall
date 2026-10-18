@@ -4,6 +4,7 @@ import { slotToPlacement } from "@/lib/catalog/placement";
 import { monogramText } from "@/lib/catalog/marks";
 import { COMMUNITY_BASIS } from "@/lib/catalog/community";
 import { isRecent } from "@/lib/catalog/history";
+import { type LinkState, linkState } from "@/lib/catalog/links";
 import { fnv1a } from "@/lib/catalog/normalize";
 import { type AccessStatus, isDisplayableClaim, type PublicProviderPayload, type VerifiedAccessClaim } from "@/lib/providers/types";
 import type { PublicLogoOverride } from "@/lib/logos/types";
@@ -62,6 +63,10 @@ export interface Entry {
   aiModel?: AiModelInfo;
   /** When the listing first appeared on the wall (absent for the original import). */
   addedAt?: string;
+  /** Its own page: /apis/<slug>/ (catalog listings only). */
+  slug?: string;
+  /** Result of the latest weekly docs-link check. */
+  link: LinkState;
   placement: Placement | null;
   mark: EntryMark;
   /** Provider-side, reviewed. Never derived from auth/HTTPS/CORS. */
@@ -120,6 +125,8 @@ export function buildEntries(snapshot: CatalogSnapshot, providers: PublicProvide
       tags: l.tags ?? [],
       aiModel: l.aiModel,
       addedAt: l.addedAt,
+      slug: l.slug,
+      link: linkState(snapshot.linkHealth, l.id, !!l.url),
       placement: snapshot.placements[l.id] ?? null,
       mark: markFor(l.id, l.name, snapshot.marks[l.id], overrides.get(l.id)),
       sponsored: false, // catalog listings are never sponsored; sponsorship applies to reviewed provider tiles only
@@ -148,6 +155,7 @@ export function buildEntries(snapshot: CatalogSnapshot, providers: PublicProvide
       cors: p.cors,
       origin: "provider",
       tags: [],
+      link: { state: "unchecked" },
       placement: slotToPlacement(p.id, p.slot),
       mark: p.logo ? { type: "logo", src: p.logo, title: p.name, fallback: mono } : { type: "monogram", ...mono },
       sponsored: p.sponsored,
@@ -173,9 +181,11 @@ export interface Filters {
   fresh: "" | "yes";
   /** "yes": only the visitor's saved APIs (applied by the page, which knows the saved set). */
   saved: "" | "yes";
+  /** "ok": hide listings whose docs link was unreachable at the last check. */
+  links: "" | "ok";
 }
 
-export const EMPTY_FILTERS: Filters = { q: "", category: "", auth: "", https: "", cors: "", access: "", kind: "", logo: "", fresh: "", saved: "" };
+export const EMPTY_FILTERS: Filters = { q: "", category: "", auth: "", https: "", cors: "", access: "", kind: "", logo: "", fresh: "", saved: "", links: "" };
 export const NEW_DAYS = 7;
 
 export const isFiltered = (f: Filters) => Object.values(f).some((v) => v !== "");
@@ -199,6 +209,7 @@ export function matches(e: Entry, f: Filters, terms: string[] = searchTerms(f.q)
   if (f.access && e.access !== f.access) return false;
   if (f.logo && hasLogo(e) !== (f.logo === "has")) return false;
   if (f.fresh && !isRecent(e.addedAt, Date.now(), NEW_DAYS)) return false;
+  if (f.links && e.link.state === "unreachable") return false;
   for (const t of terms) if (!e.search.includes(t)) return false;
   return true;
 }

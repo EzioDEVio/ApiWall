@@ -10,7 +10,8 @@ export default defineConfig({
   timeout: 45_000,
   fullyParallel: false,
   workers: 1,
-  reporter: [["list"]],
+  // On GitHub, failures also appear as annotations on the run summary, so they are readable without opening the log.
+  reporter: process.env.GITHUB_ACTIONS ? [["list"], ["github"]] : [["list"]],
   use: {
     baseURL: `http://127.0.0.1:${port}`,
     launchOptions: executablePath ? { executablePath, args: ["--no-sandbox", "--disable-gpu"] } : {},

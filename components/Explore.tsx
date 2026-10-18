@@ -289,8 +289,9 @@ export function Explore({ glyphs, stats }: Props) {
     const now = Date.now();
     return new Set(entries.filter((e) => isRecent(e.addedAt, now, NEW_DAYS)).map((e) => e.id));
   }, [entries]);
+  const brokenCount = useMemo(() => entries.filter((e) => e.link.state === "unreachable").length, [entries]);
   // Filters in the panel (category and search have their own controls).
-  const panelFilters = (["kind", "auth", "https", "cors", "access", "logo"] as const).filter((k) => filters[k] !== "").length;
+  const panelFilters = (["kind", "auth", "https", "cors", "access", "logo", "links"] as const).filter((k) => filters[k] !== "").length;
 
   const categories = useMemo(() => {
     if (!snapshot) return [];
@@ -379,6 +380,7 @@ export function Explore({ glyphs, stats }: Props) {
   if (filters.logo) chips.push({ key: "logo", label: filters.logo === "missing" ? "No logo yet" : "Has a logo" });
   if (filters.saved) chips.push({ key: "saved", label: "Saved APIs" });
   if (filters.fresh) chips.push({ key: "fresh", label: "New this week" });
+  if (filters.links) chips.push({ key: "links", label: "Hiding broken links" });
   if (filters.access)
     chips.push({
       key: "access",
@@ -481,9 +483,16 @@ export function Explore({ glyphs, stats }: Props) {
   // Ctrl+K palette: everything you can do from the top bar, by name.
   const paletteActions: PaletteAction[] = [
     listOpen ? { id: "map", label: "Show the map", keywords: "wall view" } : { id: "list", label: "Show the list", keywords: "cards view" },
-    { id: "saved", label: filters.saved ? "Show all APIs" : "Show saved APIs", keywords: "saved favourites favorites starred my list", hint: `${saved.ids.length} saved` },
+    {
+      id: "saved",
+      label: filters.saved ? "Show all APIs" : "Show saved APIs",
+      keywords: "saved favourites favorites starred my list",
+      hint: `${saved.ids.length} saved`,
+    },
     ...(newCount ? [{ id: "new", label: "Show New this week", keywords: "recent fresh added latest", hint: `${newCount} new` }] : []),
-    ...(compareEntries.length >= 2 ? [{ id: "compare", label: "Open the comparison", keywords: "compare side by side", hint: `${compareEntries.length} APIs` }] : []),
+    ...(compareEntries.length >= 2
+      ? [{ id: "compare", label: "Open the comparison", keywords: "compare side by side", hint: `${compareEntries.length} APIs` }]
+      : []),
     { id: "surprise", label: "Surprise me", keywords: "random dice", hint: "R" },
     ...(isFiltered(filters) || sharedList ? [{ id: "reset", label: "Reset filters", keywords: "clear all everything" }] : []),
     { id: "copy", label: "Copy link to this view", keywords: "share url" },
@@ -890,6 +899,10 @@ export function Explore({ glyphs, stats }: Props) {
                 <option value="has">Has a logo</option>
                 <option value="missing">No logo yet (you can suggest one)</option>
               </Select>
+              <Select id="f-links" label="Docs link" value={filters.links} onChange={(v) => set("links", v as Filters["links"])}>
+                <option value="">Any</option>
+                <option value="ok">Hide broken links{brokenCount ? ` (${brokenCount})` : ""}</option>
+              </Select>
             </div>
             <div className="row">
               <button type="button" className="btn btn-quiet" onClick={resetAll} disabled={!isFiltered(filters)}>
@@ -927,8 +940,7 @@ export function Explore({ glyphs, stats }: Props) {
               </li>
               <li>
                 <strong>Shortcuts:</strong> <kbd>Ctrl</kbd>+<kbd>K</kbd> (<kbd>⌘</kbd>+<kbd>K</kbd> on a Mac) jump to anything, <kbd>/</kbd> search,{" "}
-                <kbd>R</kbd> surprise me, <kbd>Esc</kbd> close. <strong>Copy link</strong> in the bottom bar
-                shares exactly what you see.
+                <kbd>R</kbd> surprise me, <kbd>Esc</kbd> close. <strong>Copy link</strong> in the bottom bar shares exactly what you see.
               </li>
               <li>
                 <strong>Compare:</strong> open an API and press <strong>⇄ Compare</strong>; add up to {MAX_COMPARE} and compare them side by side.
@@ -1089,7 +1101,10 @@ export function Explore({ glyphs, stats }: Props) {
         {compareIds.length > 0 && (
           <div className="compare-tray glass" role="group" aria-label="APIs to compare" data-testid="compare-tray">
             <span className="tray-label">
-              To compare<span className="tray-n">: {compareEntries.length} of {MAX_COMPARE}</span>
+              To compare
+              <span className="tray-n">
+                : {compareEntries.length} of {MAX_COMPARE}
+              </span>
             </span>
             <ul>
               {compareEntries.map((e) => (

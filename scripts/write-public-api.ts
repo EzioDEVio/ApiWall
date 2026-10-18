@@ -6,11 +6,11 @@ import path from "node:path";
 import { buildPublicApi, PUBLIC_API_VERSION } from "../lib/catalog/publicApi";
 import { EMPTY_CHANGELOG, type Changelog } from "../lib/catalog/history";
 import { SITE_URL } from "../lib/site";
-import type { CatalogSnapshot } from "../lib/catalog/types";
+import { readSnapshot } from "../lib/catalog/files";
 
 const root = path.resolve(__dirname, "..");
 const outDir = path.resolve(root, process.argv[2] ?? "out", "api", PUBLIC_API_VERSION);
-const snap = JSON.parse(readFileSync(path.join(root, "data", "catalog.snapshot.json"), "utf8")) as CatalogSnapshot;
+const snap = readSnapshot(root);
 const logPath = path.join(root, "data", "changelog.json");
 const changelog = existsSync(logPath) ? (JSON.parse(readFileSync(logPath, "utf8")) as Changelog) : EMPTY_CHANGELOG;
 

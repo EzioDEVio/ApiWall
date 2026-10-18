@@ -1,5 +1,6 @@
 import type { CatalogListing, CatalogSnapshot, IdentityMark } from "./types";
 import type { Changelog } from "./history";
+import { type LinkHealth, linkState } from "./links";
 
 /**
  * ApiWall's public, read-only API (v1): plain JSON files anyone can fetch, built from the same
@@ -24,10 +25,16 @@ export interface PublicApiItem {
   https: boolean | null;
   cors: boolean | null;
   docsUrl: string | null;
+  /** Result of ApiWall's weekly check of docs_url. "unchecked" before the first check or when there is no link. */
+  docsLink: { status: "reachable" | "unreachable" | "unchecked"; checkedOn: string | null; failingSince: string | null; reason: string | null };
+  /** This API's own page on ApiWall. */
+  pageUrl: string | null;
   /** The listing on the wall; opens its details. */
   wallUrl: string;
   /** A logo hosted by ApiWall, when one was found on the provider's own site. Marks belong to their owners. */
   logo: { url: string; source: string } | null;
+  /** For well-known brands without a downloaded logo: the brand colour and a 24×24 SVG path (Simple Icons data, CC0; marks remain trademarks). */
+  brandIcon?: { hex: string; svgPath: string };
   /** When the listing first appeared on ApiWall (null for the original import). */
   addedAt: string | null;
   /** "public-apis" for the community catalog, "apiwall" for ApiWall's curated AI Models entries. */
@@ -55,7 +62,14 @@ function logoFor(mark: IdentityMark | undefined, site: string): PublicApiItem["l
   return { url: site + (mark.tile ?? mark.src), source: mark.sourceUrl };
 }
 
-export function toPublicItem(l: CatalogListing, mark: IdentityMark | undefined, categoryNames: Map<string, string>, site: string): PublicApiItem {
+export function toPublicItem(
+  l: CatalogListing,
+  mark: IdentityMark | undefined,
+  categoryNames: Map<string, string>,
+  site: string,
+  health?: LinkHealth,
+): PublicApiItem {
+  const link = linkState(health, l.id, !!l.url);
   const item: PublicApiItem = {
     id: l.id,
     name: l.name,
@@ -67,8 +81,16 @@ export function toPublicItem(l: CatalogListing, mark: IdentityMark | undefined, 
     https: l.kind === "mcp" ? null : tri(l.https),
     cors: l.kind === "mcp" ? null : tri(l.cors),
     docsUrl: l.url,
+    docsLink:
+      link.state === "unchecked"
+        ? { status: "unchecked", checkedOn: null, failingSince: null, reason: null }
+        : link.state === "reachable"
+          ? { status: "reachable", checkedOn: link.checkedAt, failingSince: null, reason: null }
+          : { status: "unreachable", checkedOn: link.checkedAt, failingSince: link.since, reason: link.reason },
+    pageUrl: l.slug ? `${site}/apis/${l.slug}/` : null,
     wallUrl: `${site}/?api=${encodeURIComponent(l.id)}`,
     logo: logoFor(mark, site),
+    ...(mark?.type === "brand" ? { brandIcon: { hex: mark.hex, svgPath: mark.path } } : {}),
     addedAt: l.addedAt ?? null,
     origin: l.origin === "supplement" ? "apiwall" : "public-apis",
   };
@@ -104,7 +126,7 @@ export function buildPublicApi(snap: CatalogSnapshot, changelog: Changelog, site
 
   const names = new Map(snap.categories.map((c) => [c.slug, c.name]));
   const items = snap.listings
-    .map((l) => toPublicItem(l, snap.marks[l.id], names, site))
+    .map((l) => toPublicItem(l, snap.marks[l.id], names, site, snap.linkHealth))
     .sort((a, b) => a.name.localeCompare(b.name, "en") || a.id.localeCompare(b.id));
   const categories = snap.categories.map((c) => {
     const members = items.filter((i) => i.categories.includes(c.slug));

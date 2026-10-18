@@ -113,6 +113,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 Source on GitHub
               </a>
             </p>
+            <p className="muted">
+              Browse: <Link href="/apis/">All APIs, A to Z</Link> · <Link href="/categories/">Categories</Link> · <Link href="/developers/">Public API</Link>
+            </p>
           </div>
         </footer>
       </body>

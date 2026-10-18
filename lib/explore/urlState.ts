@@ -28,6 +28,7 @@ const ENUMS: Partial<Record<keyof Filters, readonly string[]>> = {
   logo: ["has", "missing"],
   fresh: ["yes"],
   saved: ["yes"],
+  links: ["ok"],
 };
 // Query parameter → filter key. Short, readable names.
 const PARAMS: [string, keyof Filters][] = [
@@ -41,6 +42,7 @@ const PARAMS: [string, keyof Filters][] = [
   ["logo", "logo"],
   ["new", "fresh"],
   ["saved", "saved"],
+  ["links", "links"],
 ];
 
 /** Up to 100 well-formed IDs from ?list=, in order, without duplicates. */

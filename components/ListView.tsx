@@ -43,6 +43,7 @@ export function ListView({ entries, categoryIndex, categoryGlyph, glyphs, onSele
                   {e.source === "provider" && <span className="tag tag-provider">◆ Provider</span>}
                   {e.sponsored && <span className="tag tag-sponsor">★ Sponsored</span>}
                   {newIds?.has(e.id) && <span className="tag tag-new">New</span>}
+                  {e.link.state === "unreachable" && <span className="tag tag-down">Link down</span>}
                 </span>
                 <span className="card-desc">{e.description}</span>
                 <span className="chips">

@@ -2,7 +2,9 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { loadSnapshot } from "@/lib/catalog/server";
 import { PUBLIC_API_VERSION } from "@/lib/catalog/publicApi";
-import { issueUrl, SITE_URL } from "@/lib/site";
+import Script from "next/script";
+import { asset, issueUrl, SITE_URL } from "@/lib/site";
+import { EmbedSnippet } from "@/components/EmbedSnippet";
 
 export const metadata: Metadata = {
   title: "Developers: the ApiWall API",
@@ -183,6 +185,24 @@ for api in apis:
           </tr>
           <tr>
             <th scope="row">
+              <code>docsLink</code>
+            </th>
+            <td>
+              ApiWall&apos;s weekly check of <code>docsUrl</code>: <code>status</code> is <code>reachable</code>, <code>unreachable</code> or{" "}
+              <code>unchecked</code>, with <code>checkedOn</code>, <code>failingSince</code> and a short <code>reason</code>.
+            </td>
+          </tr>
+          <tr>
+            <th scope="row">
+              <code>pageUrl</code>, <code>brandIcon</code>
+            </th>
+            <td>
+              The API&apos;s own page on ApiWall. For well-known brands without a downloaded logo, <code>brandIcon</code> holds the brand colour and a 24×24 SVG
+              path (Simple Icons data).
+            </td>
+          </tr>
+          <tr>
+            <th scope="row">
               <code>addedAt</code>
             </th>
             <td>
@@ -203,6 +223,24 @@ for api in apis:
       <p className="muted">
         Pricing and free tiers are not part of the API, because ApiWall only shows them when a reviewer has verified them. Check each provider&apos;s terms.
       </p>
+
+      <h2 id="embed">Embed a card on your site</h2>
+      <p>
+        Paste two lines into any web page to show an ApiWall card for one API, or a short list for a category. The card loads from ApiWall, keeps its own styles
+        (it never changes your page&apos;s look), follows the visitor&apos;s light or dark setting and links back here. Every API&apos;s page has its own
+        ready-to-copy code.
+      </p>
+      <h3>One API</h3>
+      <EmbedSnippet kind="api" value={example.id} />
+      <div className="embed-demo" data-apiwall-api={example.id} data-testid="embed-demo-api" />
+      <h3>A category</h3>
+      <EmbedSnippet kind="category" value={exCat.slug} limit={4} />
+      <div className="embed-demo" data-apiwall-category={exCat.slug} data-limit="4" data-testid="embed-demo-category" />
+      <p className="muted small">
+        Options: <code>data-limit</code> (1–12 APIs for a category) and <code>data-theme=&quot;light&quot;</code> or <code>&quot;dark&quot;</code>. The script
+        sets no cookies and tracks nothing.
+      </p>
+      <Script src={asset("/embed.js")} strategy="afterInteractive" />
 
       <h2>Good to know</h2>
       <ul>

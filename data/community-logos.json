@@ -1,0 +1,29 @@
+{
+  "version": 1,
+  "logos": {
+    "api-deepseek-api-1iff4ry0xv": {
+      "file": "api-deepseek-api-1iff4ry0xv.png",
+      "listingName": "DeepSeek API",
+      "sourceUrl": "https://api-docs.deepseek.com/",
+      "approvedAt": "2026-10-18T02:18:16.048Z"
+    },
+    "api-mistral-ai-16nxxzz1ne": {
+      "file": "api-mistral-ai-16nxxzz1ne.png",
+      "listingName": "Mistral AI",
+      "sourceUrl": "https://docs.mistral.ai/api/",
+      "approvedAt": "2026-10-18T02:16:33.109Z"
+    },
+    "mcp-ipstack-mcp-1ub4jw70lf": {
+      "file": "mcp-ipstack-mcp-1ub4jw70lf.png",
+      "listingName": "IPstack MCP",
+      "sourceUrl": "https://ipstack.com/mcp",
+      "approvedAt": "2026-10-18T02:23:06.210Z"
+    },
+    "mcp-regsentry-1w7h44u1q8": {
+      "file": "mcp-regsentry-1w7h44u1q8.png",
+      "listingName": "RegSentry",
+      "sourceUrl": "https://regsentry.com/mcp-guide",
+      "approvedAt": "2026-10-18T02:23:04.770Z"
+    }
+  }
+}

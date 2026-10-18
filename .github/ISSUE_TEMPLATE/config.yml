@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Explore ApiWall
+    url: https://eziodevio.github.io/ApiWall/
+    about: Browse every public API on one wall.
+  - name: Change a catalog listing at its source
+    url: https://github.com/public-apis/public-apis
+    about: Most listings come from public-apis. Facts like auth, HTTPS and CORS are best fixed upstream.

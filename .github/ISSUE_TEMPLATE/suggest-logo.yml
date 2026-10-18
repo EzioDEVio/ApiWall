@@ -1,0 +1,43 @@
+name: Suggest a logo
+description: Provide the official logo for an API that has none (or a poor one).
+title: "Logo: "
+labels: [logo]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for helping fill the wall. Please use the provider's **own** logo.
+        Square PNG, JPEG or WebP works best (up to 256 KB). SVG files are not accepted.
+  - type: input
+    id: listing
+    attributes:
+      label: Listing ID
+      description: Filled in automatically when you come from ApiWall. Otherwise leave blank and give the name below.
+  - type: input
+    id: name
+    attributes:
+      label: API name
+    validations:
+      required: true
+  - type: input
+    id: source
+    attributes:
+      label: Page where the provider publishes this logo (https)
+      description: For example their press kit, brand page or home page.
+      placeholder: https://example.com/brand
+    validations:
+      required: true
+  - type: textarea
+    id: logo
+    attributes:
+      label: Logo image
+      description: Drag the image file into this box, or paste it.
+    validations:
+      required: true
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before you submit
+      options:
+        - label: This is the provider's official logo, from the page linked above.
+          required: true

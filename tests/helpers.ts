@@ -1,0 +1,31 @@
+// Shared test fixtures.
+export const NOW = 1_800_000_000_000;
+export const validForm = (over: Record<string, string> = {}): Record<string, string> => ({
+  request: "listing",
+  providerName: "Acme Inc",
+  apiName: "Acme Weather",
+  website: "https://www.acmeweather.test",
+  docsUrl: "https://docs.acmeweather.test/api",
+  category: "Weather",
+  description: "Hourly forecasts and alerts for any location worldwide.",
+  contactEmail: "devrel@acmeweather.test",
+  logoUrl: "",
+  auth: "apiKey",
+  https: "yes",
+  cors: "no",
+  pricing: "Free: 1,000 calls/day; paid plans from $20/month",
+  rateLimits: "60 requests/minute",
+  claimSourceUrl: "https://acmeweather.test/pricing",
+  catalogListingId: "",
+  demoUseCase: "",
+  demoEndpoints: "",
+  demoRequestLimits: "",
+  demoCostOwner: "",
+  demoUserData: "",
+  demoAbuseContact: "",
+  agree: "yes",
+  startedAt: String(NOW - 60_000),
+  company_fax: "",
+  ...over,
+});
+

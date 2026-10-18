@@ -1,0 +1,36 @@
+name: Report a listing
+description: Something on a tile is wrong, outdated or broken.
+title: "Listing: "
+labels: [listing]
+body:
+  - type: input
+    id: listing
+    attributes:
+      label: Listing ID
+      description: Filled in automatically when you come from ApiWall.
+  - type: input
+    id: name
+    attributes:
+      label: API name
+    validations:
+      required: true
+  - type: dropdown
+    id: problem
+    attributes:
+      label: What is wrong?
+      options:
+        - Broken or moved documentation link
+        - Wrong auth, HTTPS or CORS details
+        - Wrong category
+        - Wrong or blurry logo
+        - The API has shut down
+        - Something else
+    validations:
+      required: true
+  - type: textarea
+    id: details
+    attributes:
+      label: Details and a source
+      description: What should it say instead, and where did you check? Never paste keys or tokens.
+    validations:
+      required: true

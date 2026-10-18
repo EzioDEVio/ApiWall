@@ -1,0 +1,39 @@
+name: Weekly catalog sync
+
+# Pulls the latest public-apis catalog, fetches logos for new listings, and opens a pull
+# request when anything changed. Existing tiles never move.
+# One-time setup: Settings → Actions → General → "Allow GitHub Actions to create and approve pull requests".
+on:
+  schedule:
+    - cron: "17 6 * * 1" # Mondays 06:17 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Import the upstream catalog
+        run: npm run catalog:import
+      - name: Fetch logos for new listings
+        run: npm run catalog:logos
+      - run: npm test
+      - uses: peter-evans/create-pull-request@v7
+        with:
+          branch: chore/catalog-sync
+          commit-message: "chore: sync public-apis catalog"
+          title: "Weekly catalog sync"
+          body: |
+            Automated import of the latest [public-apis](https://github.com/public-apis/public-apis) catalog and logos for new listings.
+            Existing tiles keep their positions. Review the snapshot summary in the workflow log before merging.
+          labels: catalog
+          delete-branch: true

@@ -1,0 +1,63 @@
+{
+  "name": "apiwall",
+  "version": "0.1.0",
+  "private": true,
+  "description": "An interactive mosaic for discovering public APIs, built from the public-apis/public-apis catalog.",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:e2e": "playwright test",
+    "catalog:import": "tsx scripts/import-catalog.ts",
+    "catalog:logos": "tsx scripts/fetch-logos.ts && tsx scripts/import-catalog.ts --offline",
+    "check:secrets": "tsx scripts/scan-secrets.ts",
+    "prebuild": "tsx scripts/check-data.ts",
+    "predev": "tsx scripts/check-data.ts",
+    "prestart": "tsx scripts/check-data.ts",
+    "reviewer:setup": "tsx scripts/setup-reviewer.ts",
+    "build:static": "node scripts/build-static.mjs",
+    "logos:add": "tsx scripts/community-logos.ts add",
+    "logos:remove": "tsx scripts/community-logos.ts remove",
+    "logos:promote": "tsx scripts/community-logos.ts promote",
+    "media:demo": "tsx scripts/record-demo.ts"
+  },
+  "dependencies": {
+    "next": "15.5.27",
+    "react": "19.1.10",
+    "react-dom": "19.1.10",
+    "server-only": "0.0.1",
+    "zod": "3.25.76"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "3.3.7",
+    "@iconify-json/tabler": "1.2.41",
+    "@playwright/test": "1.58.2",
+    "@testing-library/dom": "10.4.2",
+    "@testing-library/react": "16.3.3",
+    "@types/node": "22.20.5",
+    "@types/pngjs": "^6.0.5",
+    "@types/react": "19.1.17",
+    "@types/react-dom": "19.1.11",
+    "@vitejs/plugin-react": "4.7.0",
+    "eslint": "9.39.5",
+    "eslint-config-next": "15.5.27",
+    "gifenc": "^1.0.3",
+    "jsdom": "26.1.0",
+    "pngjs": "^7.0.0",
+    "simple-icons": "13.21.0",
+    "tsx": "4.23.15",
+    "typescript": "5.9.3",
+    "vitest": "3.2.7"
+  },
+  "engines": {
+    "node": ">=20.9"
+  },
+  "overrides": {
+    "next": {
+      "postcss": "8.5.25"
+    }
+  }
+}

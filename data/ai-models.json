@@ -1,0 +1,155 @@
+{
+  "version": 1,
+  "category": { "slug": "ai-models", "name": "AI Models" },
+  "about": "Curated by Tessera. Lists APIs whose official documentation states that they serve generative AI models (LLMs, multimodal, image or video generation) behind an API key. Each entry was checked against the official docs page linked here on the date shown. Pricing and free tiers were not verified and are shown as Unknown. The upstream public-apis catalog has no AI Models category, so upstream listings keep their own category and are only cross-tagged.",
+  "crossTags": [
+    {
+      "match": { "name": "Google Gemini", "host": "ai.google.dev" },
+      "provider": "Google",
+      "models": "Gemini family (the docs name Gemini 4 Argon and Gemini 3.8 Flash, among others), plus Nano Banana and Veo 3.1",
+      "authDetail": "API key in the x-goog-api-key header",
+      "apiHost": "generativelanguage.googleapis.com",
+      "docsUrl": "https://ai.google.dev/gemini-api/docs",
+      "verifiedAt": "2026-10-17"
+    },
+    {
+      "match": { "name": "Mistral AI", "host": "docs.mistral.ai" },
+      "provider": "Mistral AI",
+      "models": "mistral-large-latest, mistral-small-latest",
+      "authDetail": "Bearer API key in the Authorization header",
+      "apiHost": "api.mistral.ai",
+      "docsUrl": "https://docs.mistral.ai/api/",
+      "verifiedAt": "2026-10-17"
+    },
+    {
+      "match": { "name": "Cohere", "host": "docs.cohere.com" },
+      "provider": "Cohere",
+      "models": "Command, Embed, Rerank, Aya",
+      "authDetail": "Bearer API key in the Authorization header",
+      "apiHost": null,
+      "docsUrl": "https://docs.cohere.com/reference/about",
+      "verifiedAt": "2026-10-17"
+    },
+    {
+      "match": { "name": "Groq", "host": "console.groq.com" },
+      "provider": "Groq",
+      "models": "Hosted open models (the quickstart names llama-3.3-70b-versatile and GPT OSS models)",
+      "authDetail": "API key from the Groq console (GROQ_API_KEY)",
+      "apiHost": null,
+      "docsUrl": "https://console.groq.com/docs/quickstart",
+      "verifiedAt": "2026-10-17"
+    },
+    {
+      "match": { "name": "OpenRouter", "host": "openrouter.ai" },
+      "provider": "OpenRouter",
+      "models": "Routes to models from several providers (the quickstart names OpenAI GPT and Anthropic Claude models)",
+      "authDetail": "Bearer API key in the Authorization header",
+      "apiHost": "openrouter.ai/api/v1",
+      "docsUrl": "https://openrouter.ai/docs/quick-start",
+      "verifiedAt": "2026-10-17"
+    },
+    {
+      "match": { "name": "Together AI", "host": "docs.together.ai" },
+      "provider": "Together AI",
+      "models": "Hosted open models (the quickstart names MiniMaxAI/MiniMax-M3)",
+      "authDetail": "Bearer API key in the Authorization header (TOGETHER_API_KEY)",
+      "apiHost": "api.together.ai/v1",
+      "docsUrl": "https://docs.together.ai/docs/quickstart",
+      "verifiedAt": "2026-10-17"
+    },
+    {
+      "match": { "name": "Replicate", "host": "replicate.com" },
+      "provider": "Replicate",
+      "models": "Hosted generative models (the docs name stability-ai/sdxl, black-forest-labs/flux-schnell and meta/meta-llama-3-70b-instruct)",
+      "authDetail": "Bearer API token in the Authorization header",
+      "apiHost": "api.replicate.com/v1",
+      "docsUrl": "https://replicate.com/docs/reference/http",
+      "verifiedAt": "2026-10-17"
+    }
+  ],
+  "providers": [
+    {
+      "name": "OpenAI API",
+      "provider": "OpenAI",
+      "description": "GPT and o-series models for text, vision and reasoning through the OpenAI API",
+      "url": "https://developers.openai.com/api/reference/overview",
+      "auth": "apiKey",
+      "https": "Yes",
+      "cors": "Unknown",
+      "models": "gpt-4o, o4-mini (named in the API reference)",
+      "authDetail": "Bearer API key in the Authorization header",
+      "apiHost": "api.openai.com",
+      "verifiedAt": "2026-10-17"
+    },
+    {
+      "name": "Claude API",
+      "provider": "Anthropic",
+      "description": "Claude models for text, vision, coding and tool use through the Anthropic API",
+      "url": "https://platform.claude.com/docs/en/api/overview",
+      "auth": "apiKey",
+      "https": "Yes",
+      "cors": "Unknown",
+      "models": "Claude Opus, Sonnet and Haiku (the models page names Claude Opus 5.5, Sonnet 5.5 and Haiku 5.5, among others)",
+      "authDetail": "API key sent as a Bearer token in the Authorization header (x-api-key is also accepted)",
+      "apiHost": "api.anthropic.com",
+      "verifiedAt": "2026-10-17"
+    },
+    {
+      "name": "DeepSeek API",
+      "provider": "DeepSeek",
+      "description": "DeepSeek chat and reasoning models through an OpenAI-compatible API",
+      "url": "https://api-docs.deepseek.com/",
+      "auth": "apiKey",
+      "https": "Yes",
+      "cors": "Unknown",
+      "models": "deepseek-v4-pro, deepseek-flash",
+      "authDetail": "Bearer API key in the Authorization header",
+      "apiHost": "api.deepseek.com",
+      "verifiedAt": "2026-10-17"
+    },
+    {
+      "name": "xAI API",
+      "provider": "xAI",
+      "description": "Grok models through the xAI API",
+      "url": "https://docs.x.ai/docs/overview",
+      "auth": "apiKey",
+      "https": "Yes",
+      "cors": "Unknown",
+      "models": "Grok (the docs name grok-4.7)",
+      "authDetail": "Bearer API key in the Authorization header",
+      "apiHost": "api.x.ai",
+      "verifiedAt": "2026-10-17"
+    },
+    {
+      "name": "Perplexity API",
+      "provider": "Perplexity",
+      "description": "Model access with web-grounded answers through the Perplexity API",
+      "url": "https://docs.perplexity.ai/getting-started/overview",
+      "auth": "apiKey",
+      "https": "Yes",
+      "cors": "Unknown",
+      "models": "Models from several providers (the overview names openai/gpt-5.5)",
+      "authDetail": "Bearer API key in the Authorization header",
+      "apiHost": "api.perplexity.ai",
+      "verifiedAt": "2026-10-17"
+    },
+    {
+      "name": "Cerebras Inference",
+      "provider": "Cerebras",
+      "description": "Fast inference for hosted open models on Cerebras hardware",
+      "url": "https://inference-docs.cerebras.ai/introduction",
+      "auth": "apiKey",
+      "https": "Yes",
+      "cors": "Unknown",
+      "models": "Hosted open models (the docs name qwen-3.8-27b)",
+      "authDetail": "Bearer API key in the Authorization header (CEREBRAS_API_KEY)",
+      "apiHost": "api.cerebras.ai/v1",
+      "verifiedAt": "2026-10-17"
+    }
+  ],
+  "notVerified": [
+    { "provider": "AI21 Labs", "url": "https://docs.ai21.com/", "reason": "Docs page reachable but did not state authentication or a model API host" },
+    { "provider": "Fireworks AI", "url": "https://docs.fireworks.ai/getting-started/introduction", "reason": "Docs page did not name models or authentication" },
+    { "provider": "Stability AI", "url": "https://platform.stability.ai/docs/api-reference", "reason": "Page content could not be read to confirm authentication or models" }
+  ]
+}

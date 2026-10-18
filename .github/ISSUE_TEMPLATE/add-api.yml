@@ -1,0 +1,72 @@
+name: Add an API
+description: Suggest a public API (or your own) for the wall.
+title: "Add API: "
+labels: [add-api]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **Never paste API keys, tokens or passwords here. Issues are public.**
+        A maintainer checks each detail against the source you give before adding it.
+  - type: input
+    id: name
+    attributes:
+      label: API name
+      placeholder: Acme Weather
+    validations:
+      required: true
+  - type: input
+    id: docs
+    attributes:
+      label: Official documentation URL (https)
+      placeholder: https://docs.example.com/api
+    validations:
+      required: true
+  - type: input
+    id: category
+    attributes:
+      label: Category
+      description: An existing category on the wall, e.g. Weather, Finance, AI Models.
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: Short description
+      description: One or two sentences, no marketing.
+    validations:
+      required: true
+  - type: dropdown
+    id: auth
+    attributes:
+      label: Authentication
+      options: ["No auth", "API key", "OAuth", "Other / not sure"]
+    validations:
+      required: true
+  - type: dropdown
+    id: https
+    attributes:
+      label: HTTPS
+      options: ["Yes", "No", "Not sure"]
+    validations:
+      required: true
+  - type: dropdown
+    id: cors
+    attributes:
+      label: CORS (can browsers call it directly?)
+      options: ["Yes", "No", "Not sure"]
+    validations:
+      required: true
+  - type: input
+    id: source
+    attributes:
+      label: Where are pricing or free-tier terms published? (optional, https)
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before you submit
+      options:
+        - label: This issue contains no API keys, tokens or passwords.
+          required: true
+        - label: I linked the provider's own documentation, not a third-party page.
+          required: true

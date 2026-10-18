@@ -53,6 +53,7 @@ export function CompareDialog({ open, entries, categoryIndex, dark, onClose, onR
       aria-labelledby="compare-title"
       data-testid="compare-dialog"
       onClose={() => {
+        if (ref.current?.open) return; // a late event from an earlier close
         const back = opener.current;
         opener.current = null;
         if (back && document.contains(back)) back.focus({ preventScroll: true });

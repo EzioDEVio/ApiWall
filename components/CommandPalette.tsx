@@ -45,6 +45,9 @@ export function CommandPalette({ open, entries, categories, actions, categoryInd
   const pick = (item: PaletteItem) => {
     picked.current = true; // the picked action moves focus itself
     ref.current?.close();
+    // Report the close now: the dialog's own "close" event arrives a moment later, and a quick
+    // Ctrl+K in between must open a fresh palette rather than be undone by that late event.
+    onClose();
     onPick(item);
   };
   const onKey = (e: React.KeyboardEvent) => {
@@ -71,6 +74,7 @@ export function CommandPalette({ open, entries, categories, actions, categoryInd
       aria-label="Command palette"
       data-testid="palette"
       onClose={() => {
+        if (ref.current?.open) return; // a late event from an earlier close; the palette is open again
         const back = opener.current;
         opener.current = null;
         if (!picked.current && back && document.contains(back)) back.focus({ preventScroll: true });

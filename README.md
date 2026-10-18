@@ -16,7 +16,7 @@ auth, and open the docs in a click.
 ![APIs](https://img.shields.io/badge/APIs-2%2C150%2B-16a37f.svg)
 ![Next.js](https://img.shields.io/badge/Next.js-15-14161f.svg)
 
-<img src="docs/media/apiwall-demo.gif" alt="Zooming across the ApiWall mosaic, picking the AI Models category, opening an API with starter code, and searching for weather APIs" width="880">
+   <img src="docs/media/apiwall-banner.png" alt="ApiWall: every public API on one zoomable wall" width="880">
 
 </div>
 

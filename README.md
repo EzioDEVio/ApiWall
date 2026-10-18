@@ -1,6 +1,6 @@
 <div align="center">
 
-# ApiWall
+<img src="docs/media/apiwall-hero.svg" alt="ApiWall: a wall of colourful API tiles lighting up in a wave" width="100%">
 
 **Every public API on one zoomable wall.**
 Search 2,150+ APIs, 20 MCP servers and a curated list of AI model APIs, filter by category or
@@ -14,9 +14,11 @@ auth, and open the docs in a click.
 [![Deploy](https://github.com/EzioDEVio/ApiWall/actions/workflows/pages.yml/badge.svg)](https://github.com/EzioDEVio/ApiWall/actions/workflows/pages.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-3d3bff.svg)](LICENSE)
 ![APIs](https://img.shields.io/badge/APIs-2%2C150%2B-16a37f.svg)
+[![API pages](https://img.shields.io/badge/API_pages-2%2C176-f2702b.svg)](https://eziodevio.github.io/ApiWall/apis/)
+[![Public API](https://img.shields.io/badge/public_API-v1-8f8fff.svg)](https://eziodevio.github.io/ApiWall/developers/)
 ![Next.js](https://img.shields.io/badge/Next.js-15-14161f.svg)
 
-   <img src="docs/media/apiwall-demo.gif" alt="Zooming across the ApiWall mosaic, picking the AI Models category, opening an API with starter code, and searching for weather APIs" width="880">
+   <img src="docs/media/apiwall-demo.gif" alt="Flying over the ApiWall mosaic, colouring it by auth, picking AI Models, comparing three APIs side by side, jumping to Weather with Ctrl+K, opening an API's own page, and switching to dark mode" width="880">
 
 </div>
 
@@ -70,7 +72,17 @@ auth, and open the docs in a click.
 <td><img src="docs/media/apiwall-ai-models.png" alt="AI Models category on the wall"></td>
 <td><img src="docs/media/apiwall-details.png" alt="API details with starter code"></td>
 </tr>
+<tr>
+<td><img src="docs/media/apiwall-compare.png" alt="Three AI model APIs compared side by side, differences marked"></td>
+<td><img src="docs/media/apiwall-palette.png" alt="The Ctrl+K palette finding weather APIs and the Weather category"></td>
+</tr>
+<tr>
+<td><img src="docs/media/apiwall-api-page.png" alt="An API's own page with facts, the docs link check and related APIs"></td>
+<td><img src="docs/media/apiwall-lens.png" alt="The wall coloured by authentication"></td>
+</tr>
 </table>
+
+<p align="center"><img src="docs/media/apiwall-divider.svg" alt="" width="100%"></p>
 
 ## Contribute in two minutes
 
@@ -85,6 +97,8 @@ No setup needed. Open a pre-filled form from any tile, or here:
 Code contributions are welcome too: see [CONTRIBUTING.md](CONTRIBUTING.md). If you like the
 project, a ⭐ helps others find it.
 
+<p align="center"><img src="docs/media/apiwall-divider.svg" alt="" width="100%"></p>
+
 ## Quick start
 
 ```bash
@@ -96,6 +110,8 @@ npm run dev            # http://localhost:3000
 
 The catalog snapshot is committed, so the site works offline. To refresh logos from each
 provider's site, run `npm run catalog:logos` (about 3 minutes).
+
+<p align="center"><img src="docs/media/apiwall-divider.svg" alt="" width="100%"></p>
 
 ## How it works
 
@@ -141,6 +157,9 @@ To try the Pages build locally (Windows, macOS or Linux), stop `npm run dev` fir
 `.github/workflows/catalog-sync.yml` imports the latest catalog every Monday, fetches logos
 for new listings and opens a pull request. Enable **Settings → Actions → General → Allow
 GitHub Actions to create and approve pull requests** once (and press that section's **Save**).
+In an organization, tick the same box under **Organization settings → Actions → General** first;
+otherwise the repository setting has no effect. GitHub may ask you to **Approve and run
+workflows** on the sync pull request before its checks run.
 Weeks where only the "last checked" timestamps changed don't open a pull request
 (`scripts/drop-timestamp-only-changes.mjs`).
 
@@ -385,16 +404,18 @@ tests/unit, tests/e2e
 
 ## Dependency audit
 
-`npm audit` reports issues only in development tools, none in code the website runs:
+`npm audit --omit=dev` reports **no vulnerabilities** in anything the website ships, and CI
+fails if that ever changes (`npm audit --omit=dev --audit-level=high`).
 
-- **Vitest 3.2.7** (test runner) and its `tinypool` dependency. The fixed Vitest 4.1.11+
-  cannot currently be installed with npm 10 (an npm bug resolving Vitest 4's optional
-  peer packages). These run only when you run `npm test` on your own code.
-- **braces**, through the Next.js ESLint plugin. No fixed version has been published; it
-  runs only during `npm run lint`.
+Development tools are up to date: Vitest 5.0.5 (fixes the Vitest and `tinypool` advisories),
+sharp 0.35.5 (fixes the libvips, libheif and librsvg advisories), Next.js's internal PostCSS is
+overridden to 8.5.25, and Playwright is 1.58.2. One advisory remains in development only:
+**braces** (GHSA-vfj7-8cjw-p6xm), pulled in by the Next.js ESLint plugin. No fixed version has
+been published, and it only runs during `npm run lint` on this repository's own files.
+Do not run `npm audit fix --force`; it downgrades `eslint-config-next` to 14.x.
 
-Fixed: Next.js's internal PostCSS is overridden to 8.5.25, and Playwright is 1.58.2.
-Do not run `npm audit fix --force`; it installs breaking major versions.
+Dependabot (`.github/dependabot.yml`) groups routine updates into one weekly npm pull request
+and one monthly GitHub Actions pull request.
 
 ## License and attribution
 

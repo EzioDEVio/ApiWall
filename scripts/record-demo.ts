@@ -67,39 +67,94 @@ async function main() {
   await hold(page, 1400);
   await page.screenshot({ path: path.join(outDir, "apiwall-ai-models.png") });
 
-  // Open a tile: docs link, verified facts and starter code.
+  // Open a tile: docs link, verified facts and starter code; add it to a comparison.
   await page.getByRole("button", { name: "List", exact: true }).click();
   await film(page, 400);
-  await page.getByTestId("list-cards").locator("li", { hasText: "Claude API" }).getByRole("button").click();
+  const cards = page.getByTestId("list-cards");
+  await cards.locator("li", { hasText: "Claude API" }).locator("button.card-hit").click();
   await film(page, 500);
   await page.getByTestId("detail-dialog").getByTestId("code-samples").scrollIntoViewIfNeeded();
-  await film(page, 500);
-  await hold(page, 1800);
-  await page.screenshot({ path: path.join(outDir, "apiwall-details.png") });
-  await page.keyboard.press("Escape");
-  await page.getByRole("button", { name: "Map", exact: true }).click();
-
-  // Search as you type, across every category.
-  await page.getByRole("navigation", { name: "Categories" }).getByRole("button", { name: /^All APIs, / }).click();
-  const search = page.getByLabel("Search APIs by name or description");
-  for (const ch of "weather") {
-    await search.type(ch);
-    await snap(page, 140);
-  }
-  await film(page, 1100);
+  await film(page, 400);
   await hold(page, 1400);
+  await page.screenshot({ path: path.join(outDir, "apiwall-details.png") });
+  await page.getByTestId("detail-dialog").getByTestId("compare-api").click();
+  await snap(page, 400);
+  for (const name of ["OpenAI API", "Perplexity API"]) {
+    await page.keyboard.press("Escape"); // the side panel covers the list
+    await snap(page, 200);
+    await cards.locator("li", { hasText: name }).locator("button.card-hit").click();
+    await film(page, 300);
+    await page.getByTestId("detail-dialog").getByTestId("compare-api").click();
+    await snap(page, 350);
+  }
+  await page.keyboard.press("Escape");
+  await film(page, 300);
 
-  // Surprise me.
+  // Compare them side by side, differences marked.
+  await page.getByTestId("compare-open").click();
+  await film(page, 500);
+  await hold(page, 2000);
+  await page.screenshot({ path: path.join(outDir, "apiwall-compare.png") });
+  await page.keyboard.press("Escape");
+  await page.getByTestId("compare-tray").getByRole("button", { name: "Clear" }).click();
+  await page.getByRole("button", { name: "Map", exact: true }).click();
+  await film(page, 300);
+
+  // Ctrl+K: jump anywhere by typing.
+  await page.keyboard.press("Control+k");
+  await film(page, 300);
+  const palette = page.getByTestId("palette").getByRole("combobox");
+  for (const ch of "weather") {
+    await palette.type(ch);
+    await snap(page, 120);
+  }
+  await hold(page, 1200);
+  await page.screenshot({ path: path.join(outDir, "apiwall-palette.png") });
+  const weather = page.getByTestId("palette").getByRole("group", { name: "Categories" }).getByRole("option", { name: /^Weather/ });
+  for (let i = 0; i < 10 && (await weather.getAttribute("aria-selected")) !== "true"; i++) {
+    await page.keyboard.press("ArrowDown");
+    await snap(page, 110);
+  }
+  await page.keyboard.press("Enter");
+  await film(page, 1000);
+  await hold(page, 1200);
+
+  // Every API has its own page.
+  await page.getByRole("button", { name: "List", exact: true }).click();
+  await film(page, 300);
+  await page.getByTestId("list-cards").locator("button.card-hit").first().click();
+  await film(page, 400);
+  await page.getByTestId("detail-dialog").getByTestId("api-page-link").click();
+  await page.getByTestId("api-page").waitFor();
+  await film(page, 500);
+  await hold(page, 1500);
+  await page.screenshot({ path: path.join(outDir, "apiwall-api-page.png") });
+  for (let i = 0; i < 8; i++) {
+    await page.mouse.wheel(0, 70);
+    await snap(page, 90);
+  }
+  await hold(page, 1200);
+
+  // Back on the wall, in the dark.
+  await page.goto(base + "/", { waitUntil: "networkidle" });
+  await page.getByTestId("mosaic-canvas").waitFor();
+  await page.keyboard.press("Control+k");
+  await page.getByTestId("palette").getByRole("combobox").fill("dark theme");
+  await snap(page, 500);
+  await page.keyboard.press("Enter");
+  await film(page, 800);
   await page.getByTestId("surprise").click();
   await film(page, 600);
-  await hold(page, 1600);
+  await hold(page, 1800);
+  // Leave the browser profile as it was found.
+  await page.evaluate(() => localStorage.removeItem("apiwall.theme"));
   await browser.close();
 
   // Encode: one palette per frame keeps logos and colours faithful.
   const gif = GIFEncoder();
   for (const f of frames) {
     const img = PNG.sync.read(f.png);
-    const scale = 0.8;
+    const scale = 0.72;
     const w = Math.round(img.width * scale);
     const h = Math.round(img.height * scale);
     const rgba = new Uint8Array(w * h * 4);

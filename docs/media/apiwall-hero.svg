@@ -1,0 +1,401 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="300" viewBox="0 0 1200 300" role="img" aria-labelledby="t d">
+<title id="t">ApiWall</title><desc id="d">A wall of colourful API tiles lighting up in a wave, with the ApiWall name.</desc>
+<style>
+.bg{fill:#f2f3f7}.fade{stop-color:#f2f3f7}.ink{fill:#14161f}.sub{fill:#4b5163}.card{fill:#ffffff;stroke:#e2e4ea}
+.t{opacity:.22;animation:pulse 6s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
+.open{fill:none;stroke:#3d3dff;stroke-width:2;stroke-dasharray:4 3;opacity:.9;animation:open 3s ease-in-out infinite}
+.dot{animation:blink 1.2s steps(1) infinite}
+@keyframes pulse{0%,100%{opacity:.18;transform:scale(.92)}12%{opacity:.95;transform:scale(1)}30%{opacity:.35;transform:scale(.96)}}
+@keyframes open{0%,100%{stroke-dashoffset:0}50%{stroke-dashoffset:14}}
+@keyframes blink{50%{opacity:0}}
+@media (prefers-color-scheme:dark){.bg{fill:#0c0e14}.fade{stop-color:#0c0e14}.ink{fill:#f2f3f7}.sub{fill:#a3a9b8}.card{fill:#151821;stroke:#2b2f3a}.open{stroke:#8f8fff}}
+@media (prefers-reduced-motion:reduce){.t,.open,.dot{animation:none}.t{opacity:.4}}
+</style>
+<defs><linearGradient id="g" x1="0" x2="1"><stop offset="0" class="fade" stop-opacity="0"/><stop offset=".32" class="fade" stop-opacity=".9"/><stop offset=".68" class="fade" stop-opacity=".9"/><stop offset="1" class="fade" stop-opacity="0"/></linearGradient></defs>
+<rect class="bg" width="1200" height="300"/>
+<rect class="t" x="-4" y="-6" width="26" height="26" rx="6" fill="hsl(200 70% 52%)" style="animation-delay:2.65s"/>
+<rect class="t" x="28" y="-6" width="26" height="26" rx="6" fill="hsl(350 70% 52%)" style="animation-delay:2.55s"/>
+<rect class="t" x="60" y="-6" width="26" height="26" rx="6" fill="hsl(22 70% 58%)" style="animation-delay:2.45s"/>
+<rect class="open" x="93" y="-5" width="24" height="24" rx="6"/>
+<rect class="t" x="124" y="-6" width="26" height="26" rx="6" fill="hsl(225 70% 58%)" style="animation-delay:2.25s"/>
+<rect class="t" x="156" y="-6" width="26" height="26" rx="6" fill="hsl(22 70% 64%)" style="animation-delay:2.16s"/>
+<rect class="t" x="188" y="-6" width="26" height="26" rx="6" fill="hsl(320 70% 52%)" style="animation-delay:2.06s"/>
+<rect class="t" x="220" y="-6" width="26" height="26" rx="6" fill="hsl(320 70% 52%)" style="animation-delay:1.96s"/>
+<rect class="t" x="252" y="-6" width="26" height="26" rx="6" fill="hsl(225 70% 52%)" style="animation-delay:1.86s"/>
+<rect class="t" x="284" y="-6" width="26" height="26" rx="6" fill="hsl(350 70% 64%)" style="animation-delay:1.76s"/>
+<rect class="t" x="316" y="-6" width="26" height="26" rx="6" fill="hsl(170 70% 58%)" style="animation-delay:1.66s"/>
+<rect class="t" x="348" y="-6" width="26" height="26" rx="6" fill="hsl(22 70% 64%)" style="animation-delay:1.56s"/>
+<rect class="t" x="380" y="-6" width="26" height="26" rx="6" fill="hsl(45 70% 52%)" style="animation-delay:1.46s"/>
+<rect class="t" x="412" y="-6" width="26" height="26" rx="6" fill="hsl(140 70% 58%)" style="animation-delay:1.36s"/>
+<rect class="t" x="444" y="-6" width="26" height="26" rx="6" fill="hsl(22 70% 64%)" style="animation-delay:1.26s"/>
+<rect class="t" x="476" y="-6" width="26" height="26" rx="6" fill="hsl(140 70% 58%)" style="animation-delay:1.17s"/>
+<rect class="t" x="508" y="-6" width="26" height="26" rx="6" fill="hsl(225 70% 58%)" style="animation-delay:1.07s"/>
+<rect class="t" x="540" y="-6" width="26" height="26" rx="6" fill="hsl(260 70% 58%)" style="animation-delay:0.97s"/>
+<rect class="t" x="572" y="-6" width="26" height="26" rx="6" fill="hsl(45 70% 64%)" style="animation-delay:0.87s"/>
+<rect class="t" x="604" y="-6" width="26" height="26" rx="6" fill="hsl(22 70% 64%)" style="animation-delay:0.77s"/>
+<rect class="t" x="636" y="-6" width="26" height="26" rx="6" fill="hsl(260 70% 58%)" style="animation-delay:0.87s"/>
+<rect class="t" x="668" y="-6" width="26" height="26" rx="6" fill="hsl(170 70% 64%)" style="animation-delay:0.97s"/>
+<rect class="t" x="700" y="-6" width="26" height="26" rx="6" fill="hsl(22 70% 64%)" style="animation-delay:1.07s"/>
+<rect class="t" x="732" y="-6" width="26" height="26" rx="6" fill="hsl(200 70% 52%)" style="animation-delay:1.17s"/>
+<rect class="t" x="764" y="-6" width="26" height="26" rx="6" fill="hsl(225 70% 52%)" style="animation-delay:1.26s"/>
+<rect class="t" x="796" y="-6" width="26" height="26" rx="6" fill="hsl(22 70% 64%)" style="animation-delay:1.36s"/>
+<rect class="t" x="828" y="-6" width="26" height="26" rx="6" fill="hsl(200 70% 58%)" style="animation-delay:1.46s"/>
+<rect class="t" x="860" y="-6" width="26" height="26" rx="6" fill="hsl(320 70% 58%)" style="animation-delay:1.56s"/>
+<rect class="t" x="892" y="-6" width="26" height="26" rx="6" fill="hsl(260 70% 52%)" style="animation-delay:1.66s"/>
+<rect class="t" x="924" y="-6" width="26" height="26" rx="6" fill="hsl(170 70% 58%)" style="animation-delay:1.76s"/>
+<rect class="t" x="956" y="-6" width="26" height="26" rx="6" fill="hsl(22 70% 52%)" style="animation-delay:1.86s"/>
+<rect class="t" x="988" y="-6" width="26" height="26" rx="6" fill="hsl(170 70% 64%)" style="animation-delay:1.96s"/>
+<rect class="t" x="1020" y="-6" width="26" height="26" rx="6" fill="hsl(260 70% 58%)" style="animation-delay:2.06s"/>
+<rect class="t" x="1052" y="-6" width="26" height="26" rx="6" fill="hsl(200 70% 52%)" style="animation-delay:2.16s"/>
+<rect class="t" x="1084" y="-6" width="26" height="26" rx="6" fill="hsl(200 70% 52%)" style="animation-delay:2.25s"/>
+<rect class="t" x="1116" y="-6" width="26" height="26" rx="6" fill="hsl(260 70% 52%)" style="animation-delay:2.35s"/>
+<rect class="t" x="1148" y="-6" width="26" height="26" rx="6" fill="hsl(170 70% 52%)" style="animation-delay:2.45s"/>
+<rect class="t" x="1180" y="-6" width="26" height="26" rx="6" fill="hsl(225 70% 58%)" style="animation-delay:2.55s"/>
+<rect class="t" x="-4" y="26" width="26" height="26" rx="6" fill="hsl(260 70% 52%)" style="animation-delay:2.50s"/>
+<rect class="t" x="28" y="26" width="26" height="26" rx="6" fill="hsl(225 70% 64%)" style="animation-delay:2.40s"/>
+<rect class="t" x="60" y="26" width="26" height="26" rx="6" fill="hsl(45 70% 58%)" style="animation-delay:2.30s"/>
+<rect class="t" x="92" y="26" width="26" height="26" rx="6" fill="hsl(170 70% 64%)" style="animation-delay:2.20s"/>
+<rect class="t" x="124" y="26" width="26" height="26" rx="6" fill="hsl(200 70% 64%)" style="animation-delay:2.10s"/>
+<rect class="t" x="156" y="26" width="26" height="26" rx="6" fill="hsl(140 70% 52%)" style="animation-delay:2.00s"/>
+<rect class="t" x="188" y="26" width="26" height="26" rx="6" fill="hsl(45 70% 52%)" style="animation-delay:1.90s"/>
+<rect class="t" x="220" y="26" width="26" height="26" rx="6" fill="hsl(350 70% 58%)" style="animation-delay:1.80s"/>
+<rect class="t" x="252" y="26" width="26" height="26" rx="6" fill="hsl(45 70% 58%)" style="animation-delay:1.71s"/>
+<rect class="t" x="284" y="26" width="26" height="26" rx="6" fill="hsl(45 70% 58%)" style="animation-delay:1.61s"/>
+<rect class="t" x="316" y="26" width="26" height="26" rx="6" fill="hsl(320 70% 64%)" style="animation-delay:1.51s"/>
+<rect class="t" x="348" y="26" width="26" height="26" rx="6" fill="hsl(45 70% 64%)" style="animation-delay:1.41s"/>
+<rect class="t" x="380" y="26" width="26" height="26" rx="6" fill="hsl(320 70% 64%)" style="animation-delay:1.31s"/>
+<rect class="t" x="412" y="26" width="26" height="26" rx="6" fill="hsl(350 70% 58%)" style="animation-delay:1.21s"/>
+<rect class="t" x="444" y="26" width="26" height="26" rx="6" fill="hsl(290 70% 58%)" style="animation-delay:1.11s"/>
+<rect class="t" x="476" y="26" width="26" height="26" rx="6" fill="hsl(225 70% 52%)" style="animation-delay:1.01s"/>
+<rect class="t" x="508" y="26" width="26" height="26" rx="6" fill="hsl(225 70% 52%)" style="animation-delay:0.91s"/>
+<rect class="t" x="540" y="26" width="26" height="26" rx="6" fill="hsl(140 70% 58%)" style="animation-delay:0.81s"/>
+<rect class="t" x="572" y="26" width="26" height="26" rx="6" fill="hsl(200 70% 64%)" style="animation-delay:0.71s"/>
+<rect class="t" x="604" y="26" width="26" height="26" rx="6" fill="hsl(350 70% 64%)" style="animation-delay:0.62s"/>
+<rect class="t" x="636" y="26" width="26" height="26" rx="6" fill="hsl(22 70% 58%)" style="animation-delay:0.71s"/>
+<rect class="t" x="668" y="26" width="26" height="26" rx="6" fill="hsl(22 70% 52%)" style="animation-delay:0.81s"/>
+<rect class="t" x="700" y="26" width="26" height="26" rx="6" fill="hsl(45 70% 64%)" style="animation-delay:0.91s"/>
+<rect class="t" x="732" y="26" width="26" height="26" rx="6" fill="hsl(200 70% 64%)" style="animation-delay:1.01s"/>
+<rect class="t" x="764" y="26" width="26" height="26" rx="6" fill="hsl(22 70% 52%)" style="animation-delay:1.11s"/>
+<rect class="t" x="796" y="26" width="26" height="26" rx="6" fill="hsl(260 70% 58%)" style="animation-delay:1.21s"/>
+<rect class="t" x="828" y="26" width="26" height="26" rx="6" fill="hsl(22 70% 52%)" style="animation-delay:1.31s"/>
+<rect class="t" x="860" y="26" width="26" height="26" rx="6" fill="hsl(200 70% 64%)" style="animation-delay:1.41s"/>
+<rect class="open" x="893" y="27" width="24" height="24" rx="6"/>
+<rect class="t" x="924" y="26" width="26" height="26" rx="6" fill="hsl(290 70% 58%)" style="animation-delay:1.61s"/>
+<rect class="t" x="956" y="26" width="26" height="26" rx="6" fill="hsl(290 70% 52%)" style="animation-delay:1.71s"/>
+<rect class="t" x="988" y="26" width="26" height="26" rx="6" fill="hsl(170 70% 64%)" style="animation-delay:1.80s"/>
+<rect class="t" x="1020" y="26" width="26" height="26" rx="6" fill="hsl(170 70% 64%)" style="animation-delay:1.90s"/>
+<rect class="t" x="1052" y="26" width="26" height="26" rx="6" fill="hsl(45 70% 58%)" style="animation-delay:2.00s"/>
+<rect class="t" x="1084" y="26" width="26" height="26" rx="6" fill="hsl(290 70% 64%)" style="animation-delay:2.10s"/>
+<rect class="t" x="1116" y="26" width="26" height="26" rx="6" fill="hsl(200 70% 64%)" style="animation-delay:2.20s"/>
+<rect class="t" x="1148" y="26" width="26" height="26" rx="6" fill="hsl(140 70% 52%)" style="animation-delay:2.30s"/>
+<rect class="t" x="1180" y="26" width="26" height="26" rx="6" fill="hsl(140 70% 52%)" style="animation-delay:2.40s"/>
+<rect class="open" x="-3" y="59" width="24" height="24" rx="6"/>
+<rect class="t" x="28" y="58" width="26" height="26" rx="6" fill="hsl(350 70% 58%)" style="animation-delay:2.24s"/>
+<rect class="t" x="60" y="58" width="26" height="26" rx="6" fill="hsl(140 70% 64%)" style="animation-delay:2.15s"/>
+<rect class="t" x="92" y="58" width="26" height="26" rx="6" fill="hsl(200 70% 58%)" style="animation-delay:2.05s"/>
+<rect class="t" x="124" y="58" width="26" height="26" rx="6" fill="hsl(200 70% 58%)" style="animation-delay:1.95s"/>
+<rect class="t" x="156" y="58" width="26" height="26" rx="6" fill="hsl(22 70% 52%)" style="animation-delay:1.85s"/>
+<rect class="t" x="188" y="58" width="26" height="26" rx="6" fill="hsl(200 70% 52%)" style="animation-delay:1.75s"/>
+<rect class="t" x="220" y="58" width="26" height="26" rx="6" fill="hsl(320 70% 52%)" style="animation-delay:1.65s"/>
+<rect class="t" x="252" y="58" width="26" height="26" rx="6" fill="hsl(200 70% 64%)" style="animation-delay:1.55s"/>
+<rect class="t" x="284" y="58" width="26" height="26" rx="6" fill="hsl(22 70% 58%)" style="animation-delay:1.45s"/>
+<rect class="t" x="316" y="58" width="26" height="26" rx="6" fill="hsl(140 70% 58%)" style="animation-delay:1.35s"/>
+<rect class="t" x="348" y="58" width="26" height="26" rx="6" fill="hsl(225 70% 64%)" style="animation-delay:1.25s"/>
+<rect class="t" x="380" y="58" width="26" height="26" rx="6" fill="hsl(225 70% 58%)" style="animation-delay:1.16s"/>
+<rect class="t" x="412" y="58" width="26" height="26" rx="6" fill="hsl(22 70% 64%)" style="animation-delay:1.06s"/>
+<rect class="t" x="444" y="58" width="26" height="26" rx="6" fill="hsl(45 70% 52%)" style="animation-delay:0.96s"/>
+<rect class="t" x="476" y="58" width="26" height="26" rx="6" fill="hsl(260 70% 64%)" style="animation-delay:0.86s"/>
+<rect class="t" x="508" y="58" width="26" height="26" rx="6" fill="hsl(320 70% 58%)" style="animation-delay:0.76s"/>
+<rect class="t" x="540" y="58" width="26" height="26" rx="6" fill="hsl(200 70% 52%)" style="animation-delay:0.66s"/>
+<rect class="open" x="573" y="59" width="24" height="24" rx="6"/>
+<rect class="t" x="604" y="58" width="26" height="26" rx="6" fill="hsl(22 70% 64%)" style="animation-delay:0.46s"/>
+<rect class="t" x="636" y="58" width="26" height="26" rx="6" fill="hsl(45 70% 58%)" style="animation-delay:0.56s"/>
+<rect class="open" x="669" y="59" width="24" height="24" rx="6"/>
+<rect class="t" x="700" y="58" width="26" height="26" rx="6" fill="hsl(140 70% 58%)" style="animation-delay:0.76s"/>
+<rect class="t" x="732" y="58" width="26" height="26" rx="6" fill="hsl(320 70% 58%)" style="animation-delay:0.86s"/>
+<rect class="t" x="764" y="58" width="26" height="26" rx="6" fill="hsl(225 70% 52%)" style="animation-delay:0.96s"/>
+<rect class="t" x="796" y="58" width="26" height="26" rx="6" fill="hsl(200 70% 58%)" style="animation-delay:1.06s"/>
+<rect class="t" x="828" y="58" width="26" height="26" rx="6" fill="hsl(290 70% 58%)" style="animation-delay:1.16s"/>
+<rect class="t" x="860" y="58" width="26" height="26" rx="6" fill="hsl(290 70% 52%)" style="animation-delay:1.25s"/>
+<rect class="open" x="893" y="59" width="24" height="24" rx="6"/>
+<rect class="t" x="924" y="58" width="26" height="26" rx="6" fill="hsl(260 70% 52%)" style="animation-delay:1.45s"/>
+<rect class="t" x="956" y="58" width="26" height="26" rx="6" fill="hsl(45 70% 52%)" style="animation-delay:1.55s"/>
+<rect class="t" x="988" y="58" width="26" height="26" rx="6" fill="hsl(320 70% 64%)" style="animation-delay:1.65s"/>
+<rect class="t" x="1020" y="58" width="26" height="26" rx="6" fill="hsl(350 70% 58%)" style="animation-delay:1.75s"/>
+<rect class="t" x="1052" y="58" width="26" height="26" rx="6" fill="hsl(290 70% 64%)" style="animation-delay:1.85s"/>
+<rect class="t" x="1084" y="58" width="26" height="26" rx="6" fill="hsl(22 70% 64%)" style="animation-delay:1.95s"/>
+<rect class="t" x="1116" y="58" width="26" height="26" rx="6" fill="hsl(140 70% 58%)" style="animation-delay:2.05s"/>
+<rect class="t" x="1148" y="58" width="26" height="26" rx="6" fill="hsl(22 70% 64%)" style="animation-delay:2.15s"/>
+<rect class="t" x="1180" y="58" width="26" height="26" rx="6" fill="hsl(350 70% 52%)" style="animation-delay:2.24s"/>
+<rect class="t" x="-4" y="90" width="26" height="26" rx="6" fill="hsl(320 70% 64%)" style="animation-delay:2.19s"/>
+<rect class="t" x="28" y="90" width="26" height="26" rx="6" fill="hsl(140 70% 64%)" style="animation-delay:2.09s"/>
+<rect class="t" x="60" y="90" width="26" height="26" rx="6" fill="hsl(290 70% 64%)" style="animation-delay:1.99s"/>
+<rect class="t" x="92" y="90" width="26" height="26" rx="6" fill="hsl(290 70% 52%)" style="animation-delay:1.89s"/>
+<rect class="t" x="124" y="90" width="26" height="26" rx="6" fill="hsl(170 70% 64%)" style="animation-delay:1.79s"/>
+<rect class="t" x="156" y="90" width="26" height="26" rx="6" fill="hsl(140 70% 58%)" style="animation-delay:1.69s"/>
+<rect class="t" x="188" y="90" width="26" height="26" rx="6" fill="hsl(22 70% 58%)" style="animation-delay:1.59s"/>
+<rect class="t" x="220" y="90" width="26" height="26" rx="6" fill="hsl(22 70% 64%)" style="animation-delay:1.50s"/>
+<rect class="t" x="252" y="90" width="26" height="26" rx="6" fill="hsl(22 70% 52%)" style="animation-delay:1.40s"/>
+<rect class="t" x="284" y="90" width="26" height="26" rx="6" fill="hsl(22 70% 52%)" style="animation-delay:1.30s"/>
+<rect class="t" x="316" y="90" width="26" height="26" rx="6" fill="hsl(200 70% 52%)" style="animation-delay:1.20s"/>
+<rect class="t" x="348" y="90" width="26" height="26" rx="6" fill="hsl(45 70% 58%)" style="animation-delay:1.10s"/>
+<rect class="t" x="380" y="90" width="26" height="26" rx="6" fill="hsl(22 70% 58%)" style="animation-delay:1.00s"/>
+<rect class="t" x="412" y="90" width="26" height="26" rx="6" fill="hsl(45 70% 64%)" style="animation-delay:0.90s"/>
+<rect class="t" x="444" y="90" width="26" height="26" rx="6" fill="hsl(45 70% 64%)" style="animation-delay:0.80s"/>
+<rect class="t" x="476" y="90" width="26" height="26" rx="6" fill="hsl(290 70% 58%)" style="animation-delay:0.70s"/>
+<rect class="t" x="508" y="90" width="26" height="26" rx="6" fill="hsl(140 70% 58%)" style="animation-delay:0.60s"/>
+<rect class="t" x="540" y="90" width="26" height="26" rx="6" fill="hsl(200 70% 52%)" style="animation-delay:0.51s"/>
+<rect class="t" x="572" y="90" width="26" height="26" rx="6" fill="hsl(260 70% 58%)" style="animation-delay:0.41s"/>
+<rect class="t" x="604" y="90" width="26" height="26" rx="6" fill="hsl(225 70% 58%)" style="animation-delay:0.31s"/>
+<rect class="t" x="636" y="90" width="26" height="26" rx="6" fill="hsl(170 70% 64%)" style="animation-delay:0.41s"/>
+<rect class="t" x="668" y="90" width="26" height="26" rx="6" fill="hsl(22 70% 52%)" style="animation-delay:0.51s"/>
+<rect class="t" x="700" y="90" width="26" height="26" rx="6" fill="hsl(22 70% 52%)" style="animation-delay:0.60s"/>
+<rect class="t" x="732" y="90" width="26" height="26" rx="6" fill="hsl(350 70% 52%)" style="animation-delay:0.70s"/>
+<rect class="t" x="764" y="90" width="26" height="26" rx="6" fill="hsl(45 70% 58%)" style="animation-delay:0.80s"/>
+<rect class="t" x="796" y="90" width="26" height="26" rx="6" fill="hsl(170 70% 58%)" style="animation-delay:0.90s"/>
+<rect class="t" x="828" y="90" width="26" height="26" rx="6" fill="hsl(290 70% 64%)" style="animation-delay:1.00s"/>
+<rect class="t" x="860" y="90" width="26" height="26" rx="6" fill="hsl(200 70% 52%)" style="animation-delay:1.10s"/>
+<rect class="t" x="892" y="90" width="26" height="26" rx="6" fill="hsl(45 70% 58%)" style="animation-delay:1.20s"/>
+<rect class="t" x="924" y="90" width="26" height="26" rx="6" fill="hsl(170 70% 52%)" style="animation-delay:1.30s"/>
+<rect class="t" x="956" y="90" width="26" height="26" rx="6" fill="hsl(170 70% 52%)" style="animation-delay:1.40s"/>
+<rect class="t" x="988" y="90" width="26" height="26" rx="6" fill="hsl(140 70% 52%)" style="animation-delay:1.50s"/>
+<rect class="open" x="1021" y="91" width="24" height="24" rx="6"/>
+<rect class="t" x="1052" y="90" width="26" height="26" rx="6" fill="hsl(290 70% 58%)" style="animation-delay:1.69s"/>
+<rect class="t" x="1084" y="90" width="26" height="26" rx="6" fill="hsl(170 70% 64%)" style="animation-delay:1.79s"/>
+<rect class="t" x="1116" y="90" width="26" height="26" rx="6" fill="hsl(290 70% 64%)" style="animation-delay:1.89s"/>
+<rect class="t" x="1148" y="90" width="26" height="26" rx="6" fill="hsl(22 70% 52%)" style="animation-delay:1.99s"/>
+<rect class="t" x="1180" y="90" width="26" height="26" rx="6" fill="hsl(45 70% 52%)" style="animation-delay:2.09s"/>
+<rect class="t" x="-4" y="122" width="26" height="26" rx="6" fill="hsl(170 70% 64%)" style="animation-delay:2.04s"/>
+<rect class="t" x="28" y="122" width="26" height="26" rx="6" fill="hsl(170 70% 58%)" style="animation-delay:1.94s"/>
+<rect class="t" x="60" y="122" width="26" height="26" rx="6" fill="hsl(45 70% 58%)" style="animation-delay:1.84s"/>
+<rect class="open" x="93" y="123" width="24" height="24" rx="6"/>
+<rect class="t" x="124" y="122" width="26" height="26" rx="6" fill="hsl(350 70% 64%)" style="animation-delay:1.64s"/>
+<rect class="t" x="156" y="122" width="26" height="26" rx="6" fill="hsl(140 70% 64%)" style="animation-delay:1.54s"/>
+<rect class="t" x="188" y="122" width="26" height="26" rx="6" fill="hsl(260 70% 52%)" style="animation-delay:1.44s"/>
+<rect class="t" x="220" y="122" width="26" height="26" rx="6" fill="hsl(225 70% 64%)" style="animation-delay:1.34s"/>
+<rect class="t" x="252" y="122" width="26" height="26" rx="6" fill="hsl(225 70% 64%)" style="animation-delay:1.24s"/>
+<rect class="t" x="284" y="122" width="26" height="26" rx="6" fill="hsl(140 70% 52%)" style="animation-delay:1.14s"/>
+<rect class="t" x="316" y="122" width="26" height="26" rx="6" fill="hsl(45 70% 58%)" style="animation-delay:1.04s"/>
+<rect class="open" x="349" y="123" width="24" height="24" rx="6"/>
+<rect class="t" x="380" y="122" width="26" height="26" rx="6" fill="hsl(170 70% 58%)" style="animation-delay:0.85s"/>
+<rect class="t" x="412" y="122" width="26" height="26" rx="6" fill="hsl(22 70% 64%)" style="animation-delay:0.75s"/>
+<rect class="t" x="444" y="122" width="26" height="26" rx="6" fill="hsl(290 70% 64%)" style="animation-delay:0.65s"/>
+<rect class="t" x="476" y="122" width="26" height="26" rx="6" fill="hsl(320 70% 52%)" style="animation-delay:0.55s"/>
+<rect class="t" x="508" y="122" width="26" height="26" rx="6" fill="hsl(350 70% 58%)" style="animation-delay:0.45s"/>
+<rect class="open" x="541" y="123" width="24" height="24" rx="6"/>
+<rect class="t" x="572" y="122" width="26" height="26" rx="6" fill="hsl(200 70% 58%)" style="animation-delay:0.25s"/>
+<rect class="t" x="604" y="122" width="26" height="26" rx="6" fill="hsl(290 70% 58%)" style="animation-delay:0.15s"/>
+<rect class="t" x="636" y="122" width="26" height="26" rx="6" fill="hsl(170 70% 52%)" style="animation-delay:0.25s"/>
+<rect class="t" x="668" y="122" width="26" height="26" rx="6" fill="hsl(350 70% 58%)" style="animation-delay:0.35s"/>
+<rect class="t" x="700" y="122" width="26" height="26" rx="6" fill="hsl(260 70% 58%)" style="animation-delay:0.45s"/>
+<rect class="t" x="732" y="122" width="26" height="26" rx="6" fill="hsl(140 70% 52%)" style="animation-delay:0.55s"/>
+<rect class="t" x="764" y="122" width="26" height="26" rx="6" fill="hsl(350 70% 52%)" style="animation-delay:0.65s"/>
+<rect class="t" x="796" y="122" width="26" height="26" rx="6" fill="hsl(22 70% 52%)" style="animation-delay:0.75s"/>
+<rect class="open" x="829" y="123" width="24" height="24" rx="6"/>
+<rect class="t" x="860" y="122" width="26" height="26" rx="6" fill="hsl(170 70% 64%)" style="animation-delay:0.95s"/>
+<rect class="t" x="892" y="122" width="26" height="26" rx="6" fill="hsl(320 70% 64%)" style="animation-delay:1.04s"/>
+<rect class="t" x="924" y="122" width="26" height="26" rx="6" fill="hsl(45 70% 64%)" style="animation-delay:1.14s"/>
+<rect class="t" x="956" y="122" width="26" height="26" rx="6" fill="hsl(320 70% 58%)" style="animation-delay:1.24s"/>
+<rect class="t" x="988" y="122" width="26" height="26" rx="6" fill="hsl(260 70% 52%)" style="animation-delay:1.34s"/>
+<rect class="t" x="1020" y="122" width="26" height="26" rx="6" fill="hsl(320 70% 64%)" style="animation-delay:1.44s"/>
+<rect class="t" x="1052" y="122" width="26" height="26" rx="6" fill="hsl(290 70% 64%)" style="animation-delay:1.54s"/>
+<rect class="t" x="1084" y="122" width="26" height="26" rx="6" fill="hsl(290 70% 52%)" style="animation-delay:1.64s"/>
+<rect class="t" x="1116" y="122" width="26" height="26" rx="6" fill="hsl(290 70% 64%)" style="animation-delay:1.74s"/>
+<rect class="t" x="1148" y="122" width="26" height="26" rx="6" fill="hsl(350 70% 64%)" style="animation-delay:1.84s"/>
+<rect class="open" x="1181" y="123" width="24" height="24" rx="6"/>
+<rect class="t" x="-4" y="154" width="26" height="26" rx="6" fill="hsl(45 70% 64%)" style="animation-delay:1.88s"/>
+<rect class="t" x="28" y="154" width="26" height="26" rx="6" fill="hsl(22 70% 58%)" style="animation-delay:1.78s"/>
+<rect class="t" x="60" y="154" width="26" height="26" rx="6" fill="hsl(290 70% 52%)" style="animation-delay:1.68s"/>
+<rect class="t" x="92" y="154" width="26" height="26" rx="6" fill="hsl(290 70% 64%)" style="animation-delay:1.58s"/>
+<rect class="t" x="124" y="154" width="26" height="26" rx="6" fill="hsl(170 70% 52%)" style="animation-delay:1.49s"/>
+<rect class="t" x="156" y="154" width="26" height="26" rx="6" fill="hsl(22 70% 64%)" style="animation-delay:1.39s"/>
+<rect class="t" x="188" y="154" width="26" height="26" rx="6" fill="hsl(290 70% 52%)" style="animation-delay:1.29s"/>
+<rect class="t" x="220" y="154" width="26" height="26" rx="6" fill="hsl(22 70% 64%)" style="animation-delay:1.19s"/>
+<rect class="t" x="252" y="154" width="26" height="26" rx="6" fill="hsl(170 70% 52%)" style="animation-delay:1.09s"/>
+<rect class="t" x="284" y="154" width="26" height="26" rx="6" fill="hsl(140 70% 64%)" style="animation-delay:0.99s"/>
+<rect class="t" x="316" y="154" width="26" height="26" rx="6" fill="hsl(140 70% 64%)" style="animation-delay:0.89s"/>
+<rect class="t" x="348" y="154" width="26" height="26" rx="6" fill="hsl(260 70% 58%)" style="animation-delay:0.79s"/>
+<rect class="t" x="380" y="154" width="26" height="26" rx="6" fill="hsl(22 70% 58%)" style="animation-delay:0.69s"/>
+<rect class="t" x="412" y="154" width="26" height="26" rx="6" fill="hsl(170 70% 52%)" style="animation-delay:0.59s"/>
+<rect class="t" x="444" y="154" width="26" height="26" rx="6" fill="hsl(140 70% 52%)" style="animation-delay:0.49s"/>
+<rect class="t" x="476" y="154" width="26" height="26" rx="6" fill="hsl(200 70% 58%)" style="animation-delay:0.40s"/>
+<rect class="t" x="508" y="154" width="26" height="26" rx="6" fill="hsl(170 70% 64%)" style="animation-delay:0.30s"/>
+<rect class="t" x="540" y="154" width="26" height="26" rx="6" fill="hsl(350 70% 58%)" style="animation-delay:0.20s"/>
+<rect class="t" x="572" y="154" width="26" height="26" rx="6" fill="hsl(170 70% 64%)" style="animation-delay:0.10s"/>
+<rect class="t" x="604" y="154" width="26" height="26" rx="6" fill="hsl(140 70% 64%)" style="animation-delay:0.00s"/>
+<rect class="t" x="636" y="154" width="26" height="26" rx="6" fill="hsl(290 70% 58%)" style="animation-delay:0.10s"/>
+<rect class="t" x="668" y="154" width="26" height="26" rx="6" fill="hsl(260 70% 52%)" style="animation-delay:0.20s"/>
+<rect class="t" x="700" y="154" width="26" height="26" rx="6" fill="hsl(290 70% 52%)" style="animation-delay:0.30s"/>
+<rect class="open" x="733" y="155" width="24" height="24" rx="6"/>
+<rect class="t" x="764" y="154" width="26" height="26" rx="6" fill="hsl(260 70% 52%)" style="animation-delay:0.49s"/>
+<rect class="t" x="796" y="154" width="26" height="26" rx="6" fill="hsl(260 70% 58%)" style="animation-delay:0.59s"/>
+<rect class="t" x="828" y="154" width="26" height="26" rx="6" fill="hsl(140 70% 52%)" style="animation-delay:0.69s"/>
+<rect class="t" x="860" y="154" width="26" height="26" rx="6" fill="hsl(45 70% 64%)" style="animation-delay:0.79s"/>
+<rect class="t" x="892" y="154" width="26" height="26" rx="6" fill="hsl(200 70% 52%)" style="animation-delay:0.89s"/>
+<rect class="t" x="924" y="154" width="26" height="26" rx="6" fill="hsl(290 70% 58%)" style="animation-delay:0.99s"/>
+<rect class="t" x="956" y="154" width="26" height="26" rx="6" fill="hsl(200 70% 52%)" style="animation-delay:1.09s"/>
+<rect class="open" x="989" y="155" width="24" height="24" rx="6"/>
+<rect class="t" x="1020" y="154" width="26" height="26" rx="6" fill="hsl(350 70% 58%)" style="animation-delay:1.29s"/>
+<rect class="t" x="1052" y="154" width="26" height="26" rx="6" fill="hsl(225 70% 58%)" style="animation-delay:1.39s"/>
+<rect class="t" x="1084" y="154" width="26" height="26" rx="6" fill="hsl(225 70% 58%)" style="animation-delay:1.49s"/>
+<rect class="open" x="1117" y="155" width="24" height="24" rx="6"/>
+<rect class="t" x="1148" y="154" width="26" height="26" rx="6" fill="hsl(200 70% 58%)" style="animation-delay:1.68s"/>
+<rect class="open" x="1181" y="155" width="24" height="24" rx="6"/>
+<rect class="t" x="-4" y="186" width="26" height="26" rx="6" fill="hsl(170 70% 58%)" style="animation-delay:2.04s"/>
+<rect class="t" x="28" y="186" width="26" height="26" rx="6" fill="hsl(225 70% 58%)" style="animation-delay:1.94s"/>
+<rect class="t" x="60" y="186" width="26" height="26" rx="6" fill="hsl(320 70% 52%)" style="animation-delay:1.84s"/>
+<rect class="t" x="92" y="186" width="26" height="26" rx="6" fill="hsl(225 70% 58%)" style="animation-delay:1.74s"/>
+<rect class="t" x="124" y="186" width="26" height="26" rx="6" fill="hsl(170 70% 52%)" style="animation-delay:1.64s"/>
+<rect class="t" x="156" y="186" width="26" height="26" rx="6" fill="hsl(170 70% 64%)" style="animation-delay:1.54s"/>
+<rect class="t" x="188" y="186" width="26" height="26" rx="6" fill="hsl(140 70% 58%)" style="animation-delay:1.44s"/>
+<rect class="t" x="220" y="186" width="26" height="26" rx="6" fill="hsl(200 70% 52%)" style="animation-delay:1.34s"/>
+<rect class="t" x="252" y="186" width="26" height="26" rx="6" fill="hsl(225 70% 52%)" style="animation-delay:1.24s"/>
+<rect class="t" x="284" y="186" width="26" height="26" rx="6" fill="hsl(225 70% 64%)" style="animation-delay:1.14s"/>
+<rect class="t" x="316" y="186" width="26" height="26" rx="6" fill="hsl(22 70% 52%)" style="animation-delay:1.04s"/>
+<rect class="t" x="348" y="186" width="26" height="26" rx="6" fill="hsl(225 70% 58%)" style="animation-delay:0.95s"/>
+<rect class="t" x="380" y="186" width="26" height="26" rx="6" fill="hsl(45 70% 64%)" style="animation-delay:0.85s"/>
+<rect class="t" x="412" y="186" width="26" height="26" rx="6" fill="hsl(260 70% 52%)" style="animation-delay:0.75s"/>
+<rect class="t" x="444" y="186" width="26" height="26" rx="6" fill="hsl(290 70% 52%)" style="animation-delay:0.65s"/>
+<rect class="t" x="476" y="186" width="26" height="26" rx="6" fill="hsl(225 70% 58%)" style="animation-delay:0.55s"/>
+<rect class="t" x="508" y="186" width="26" height="26" rx="6" fill="hsl(170 70% 64%)" style="animation-delay:0.45s"/>
+<rect class="t" x="540" y="186" width="26" height="26" rx="6" fill="hsl(170 70% 58%)" style="animation-delay:0.35s"/>
+<rect class="t" x="572" y="186" width="26" height="26" rx="6" fill="hsl(170 70% 58%)" style="animation-delay:0.25s"/>
+<rect class="t" x="604" y="186" width="26" height="26" rx="6" fill="hsl(225 70% 52%)" style="animation-delay:0.15s"/>
+<rect class="t" x="636" y="186" width="26" height="26" rx="6" fill="hsl(45 70% 52%)" style="animation-delay:0.25s"/>
+<rect class="t" x="668" y="186" width="26" height="26" rx="6" fill="hsl(260 70% 64%)" style="animation-delay:0.35s"/>
+<rect class="t" x="700" y="186" width="26" height="26" rx="6" fill="hsl(200 70% 58%)" style="animation-delay:0.45s"/>
+<rect class="t" x="732" y="186" width="26" height="26" rx="6" fill="hsl(290 70% 52%)" style="animation-delay:0.55s"/>
+<rect class="t" x="764" y="186" width="26" height="26" rx="6" fill="hsl(45 70% 58%)" style="animation-delay:0.65s"/>
+<rect class="t" x="796" y="186" width="26" height="26" rx="6" fill="hsl(200 70% 52%)" style="animation-delay:0.75s"/>
+<rect class="t" x="828" y="186" width="26" height="26" rx="6" fill="hsl(320 70% 52%)" style="animation-delay:0.85s"/>
+<rect class="t" x="860" y="186" width="26" height="26" rx="6" fill="hsl(225 70% 58%)" style="animation-delay:0.95s"/>
+<rect class="t" x="892" y="186" width="26" height="26" rx="6" fill="hsl(290 70% 52%)" style="animation-delay:1.04s"/>
+<rect class="t" x="924" y="186" width="26" height="26" rx="6" fill="hsl(200 70% 52%)" style="animation-delay:1.14s"/>
+<rect class="t" x="956" y="186" width="26" height="26" rx="6" fill="hsl(320 70% 58%)" style="animation-delay:1.24s"/>
+<rect class="t" x="988" y="186" width="26" height="26" rx="6" fill="hsl(290 70% 64%)" style="animation-delay:1.34s"/>
+<rect class="t" x="1020" y="186" width="26" height="26" rx="6" fill="hsl(140 70% 52%)" style="animation-delay:1.44s"/>
+<rect class="t" x="1052" y="186" width="26" height="26" rx="6" fill="hsl(140 70% 58%)" style="animation-delay:1.54s"/>
+<rect class="t" x="1084" y="186" width="26" height="26" rx="6" fill="hsl(260 70% 58%)" style="animation-delay:1.64s"/>
+<rect class="open" x="1117" y="187" width="24" height="24" rx="6"/>
+<rect class="t" x="1148" y="186" width="26" height="26" rx="6" fill="hsl(260 70% 64%)" style="animation-delay:1.84s"/>
+<rect class="t" x="1180" y="186" width="26" height="26" rx="6" fill="hsl(22 70% 58%)" style="animation-delay:1.94s"/>
+<rect class="t" x="-4" y="218" width="26" height="26" rx="6" fill="hsl(290 70% 58%)" style="animation-delay:2.19s"/>
+<rect class="t" x="28" y="218" width="26" height="26" rx="6" fill="hsl(140 70% 52%)" style="animation-delay:2.09s"/>
+<rect class="t" x="60" y="218" width="26" height="26" rx="6" fill="hsl(45 70% 64%)" style="animation-delay:1.99s"/>
+<rect class="t" x="92" y="218" width="26" height="26" rx="6" fill="hsl(22 70% 64%)" style="animation-delay:1.89s"/>
+<rect class="t" x="124" y="218" width="26" height="26" rx="6" fill="hsl(260 70% 52%)" style="animation-delay:1.79s"/>
+<rect class="t" x="156" y="218" width="26" height="26" rx="6" fill="hsl(350 70% 52%)" style="animation-delay:1.69s"/>
+<rect class="t" x="188" y="218" width="26" height="26" rx="6" fill="hsl(140 70% 64%)" style="animation-delay:1.59s"/>
+<rect class="t" x="220" y="218" width="26" height="26" rx="6" fill="hsl(170 70% 52%)" style="animation-delay:1.50s"/>
+<rect class="t" x="252" y="218" width="26" height="26" rx="6" fill="hsl(290 70% 64%)" style="animation-delay:1.40s"/>
+<rect class="t" x="284" y="218" width="26" height="26" rx="6" fill="hsl(22 70% 52%)" style="animation-delay:1.30s"/>
+<rect class="t" x="316" y="218" width="26" height="26" rx="6" fill="hsl(290 70% 64%)" style="animation-delay:1.20s"/>
+<rect class="t" x="348" y="218" width="26" height="26" rx="6" fill="hsl(170 70% 52%)" style="animation-delay:1.10s"/>
+<rect class="t" x="380" y="218" width="26" height="26" rx="6" fill="hsl(350 70% 52%)" style="animation-delay:1.00s"/>
+<rect class="t" x="412" y="218" width="26" height="26" rx="6" fill="hsl(260 70% 58%)" style="animation-delay:0.90s"/>
+<rect class="t" x="444" y="218" width="26" height="26" rx="6" fill="hsl(140 70% 58%)" style="animation-delay:0.80s"/>
+<rect class="open" x="477" y="219" width="24" height="24" rx="6"/>
+<rect class="t" x="508" y="218" width="26" height="26" rx="6" fill="hsl(225 70% 64%)" style="animation-delay:0.60s"/>
+<rect class="t" x="540" y="218" width="26" height="26" rx="6" fill="hsl(350 70% 52%)" style="animation-delay:0.51s"/>
+<rect class="t" x="572" y="218" width="26" height="26" rx="6" fill="hsl(225 70% 52%)" style="animation-delay:0.41s"/>
+<rect class="t" x="604" y="218" width="26" height="26" rx="6" fill="hsl(225 70% 58%)" style="animation-delay:0.31s"/>
+<rect class="t" x="636" y="218" width="26" height="26" rx="6" fill="hsl(350 70% 64%)" style="animation-delay:0.41s"/>
+<rect class="t" x="668" y="218" width="26" height="26" rx="6" fill="hsl(225 70% 58%)" style="animation-delay:0.51s"/>
+<rect class="t" x="700" y="218" width="26" height="26" rx="6" fill="hsl(140 70% 52%)" style="animation-delay:0.60s"/>
+<rect class="t" x="732" y="218" width="26" height="26" rx="6" fill="hsl(290 70% 52%)" style="animation-delay:0.70s"/>
+<rect class="t" x="764" y="218" width="26" height="26" rx="6" fill="hsl(140 70% 58%)" style="animation-delay:0.80s"/>
+<rect class="t" x="796" y="218" width="26" height="26" rx="6" fill="hsl(140 70% 52%)" style="animation-delay:0.90s"/>
+<rect class="t" x="828" y="218" width="26" height="26" rx="6" fill="hsl(170 70% 58%)" style="animation-delay:1.00s"/>
+<rect class="t" x="860" y="218" width="26" height="26" rx="6" fill="hsl(320 70% 58%)" style="animation-delay:1.10s"/>
+<rect class="t" x="892" y="218" width="26" height="26" rx="6" fill="hsl(140 70% 58%)" style="animation-delay:1.20s"/>
+<rect class="t" x="924" y="218" width="26" height="26" rx="6" fill="hsl(350 70% 64%)" style="animation-delay:1.30s"/>
+<rect class="t" x="956" y="218" width="26" height="26" rx="6" fill="hsl(225 70% 52%)" style="animation-delay:1.40s"/>
+<rect class="t" x="988" y="218" width="26" height="26" rx="6" fill="hsl(320 70% 52%)" style="animation-delay:1.50s"/>
+<rect class="t" x="1020" y="218" width="26" height="26" rx="6" fill="hsl(350 70% 52%)" style="animation-delay:1.59s"/>
+<rect class="t" x="1052" y="218" width="26" height="26" rx="6" fill="hsl(200 70% 64%)" style="animation-delay:1.69s"/>
+<rect class="t" x="1084" y="218" width="26" height="26" rx="6" fill="hsl(22 70% 52%)" style="animation-delay:1.79s"/>
+<rect class="t" x="1116" y="218" width="26" height="26" rx="6" fill="hsl(45 70% 64%)" style="animation-delay:1.89s"/>
+<rect class="t" x="1148" y="218" width="26" height="26" rx="6" fill="hsl(260 70% 52%)" style="animation-delay:1.99s"/>
+<rect class="t" x="1180" y="218" width="26" height="26" rx="6" fill="hsl(225 70% 58%)" style="animation-delay:2.09s"/>
+<rect class="t" x="-4" y="250" width="26" height="26" rx="6" fill="hsl(260 70% 52%)" style="animation-delay:2.34s"/>
+<rect class="t" x="28" y="250" width="26" height="26" rx="6" fill="hsl(22 70% 58%)" style="animation-delay:2.24s"/>
+<rect class="t" x="60" y="250" width="26" height="26" rx="6" fill="hsl(225 70% 52%)" style="animation-delay:2.15s"/>
+<rect class="t" x="92" y="250" width="26" height="26" rx="6" fill="hsl(140 70% 58%)" style="animation-delay:2.05s"/>
+<rect class="t" x="124" y="250" width="26" height="26" rx="6" fill="hsl(170 70% 58%)" style="animation-delay:1.95s"/>
+<rect class="t" x="156" y="250" width="26" height="26" rx="6" fill="hsl(260 70% 52%)" style="animation-delay:1.85s"/>
+<rect class="t" x="188" y="250" width="26" height="26" rx="6" fill="hsl(260 70% 52%)" style="animation-delay:1.75s"/>
+<rect class="t" x="220" y="250" width="26" height="26" rx="6" fill="hsl(260 70% 52%)" style="animation-delay:1.65s"/>
+<rect class="t" x="252" y="250" width="26" height="26" rx="6" fill="hsl(140 70% 64%)" style="animation-delay:1.55s"/>
+<rect class="open" x="285" y="251" width="24" height="24" rx="6"/>
+<rect class="t" x="316" y="250" width="26" height="26" rx="6" fill="hsl(22 70% 52%)" style="animation-delay:1.35s"/>
+<rect class="t" x="348" y="250" width="26" height="26" rx="6" fill="hsl(22 70% 64%)" style="animation-delay:1.25s"/>
+<rect class="t" x="380" y="250" width="26" height="26" rx="6" fill="hsl(170 70% 58%)" style="animation-delay:1.16s"/>
+<rect class="t" x="412" y="250" width="26" height="26" rx="6" fill="hsl(320 70% 52%)" style="animation-delay:1.06s"/>
+<rect class="t" x="444" y="250" width="26" height="26" rx="6" fill="hsl(200 70% 58%)" style="animation-delay:0.96s"/>
+<rect class="t" x="476" y="250" width="26" height="26" rx="6" fill="hsl(320 70% 64%)" style="animation-delay:0.86s"/>
+<rect class="t" x="508" y="250" width="26" height="26" rx="6" fill="hsl(22 70% 52%)" style="animation-delay:0.76s"/>
+<rect class="t" x="540" y="250" width="26" height="26" rx="6" fill="hsl(22 70% 58%)" style="animation-delay:0.66s"/>
+<rect class="t" x="572" y="250" width="26" height="26" rx="6" fill="hsl(260 70% 58%)" style="animation-delay:0.56s"/>
+<rect class="t" x="604" y="250" width="26" height="26" rx="6" fill="hsl(225 70% 58%)" style="animation-delay:0.46s"/>
+<rect class="open" x="637" y="251" width="24" height="24" rx="6"/>
+<rect class="t" x="668" y="250" width="26" height="26" rx="6" fill="hsl(170 70% 64%)" style="animation-delay:0.66s"/>
+<rect class="t" x="700" y="250" width="26" height="26" rx="6" fill="hsl(320 70% 52%)" style="animation-delay:0.76s"/>
+<rect class="t" x="732" y="250" width="26" height="26" rx="6" fill="hsl(200 70% 58%)" style="animation-delay:0.86s"/>
+<rect class="t" x="764" y="250" width="26" height="26" rx="6" fill="hsl(320 70% 52%)" style="animation-delay:0.96s"/>
+<rect class="t" x="796" y="250" width="26" height="26" rx="6" fill="hsl(225 70% 52%)" style="animation-delay:1.06s"/>
+<rect class="open" x="829" y="251" width="24" height="24" rx="6"/>
+<rect class="t" x="860" y="250" width="26" height="26" rx="6" fill="hsl(290 70% 64%)" style="animation-delay:1.25s"/>
+<rect class="t" x="892" y="250" width="26" height="26" rx="6" fill="hsl(225 70% 52%)" style="animation-delay:1.35s"/>
+<rect class="t" x="924" y="250" width="26" height="26" rx="6" fill="hsl(170 70% 64%)" style="animation-delay:1.45s"/>
+<rect class="t" x="956" y="250" width="26" height="26" rx="6" fill="hsl(22 70% 58%)" style="animation-delay:1.55s"/>
+<rect class="t" x="988" y="250" width="26" height="26" rx="6" fill="hsl(260 70% 52%)" style="animation-delay:1.65s"/>
+<rect class="t" x="1020" y="250" width="26" height="26" rx="6" fill="hsl(225 70% 58%)" style="animation-delay:1.75s"/>
+<rect class="t" x="1052" y="250" width="26" height="26" rx="6" fill="hsl(140 70% 64%)" style="animation-delay:1.85s"/>
+<rect class="t" x="1084" y="250" width="26" height="26" rx="6" fill="hsl(22 70% 58%)" style="animation-delay:1.95s"/>
+<rect class="t" x="1116" y="250" width="26" height="26" rx="6" fill="hsl(320 70% 58%)" style="animation-delay:2.05s"/>
+<rect class="t" x="1148" y="250" width="26" height="26" rx="6" fill="hsl(170 70% 52%)" style="animation-delay:2.15s"/>
+<rect class="t" x="1180" y="250" width="26" height="26" rx="6" fill="hsl(45 70% 52%)" style="animation-delay:2.24s"/>
+<rect class="t" x="-4" y="282" width="26" height="26" rx="6" fill="hsl(170 70% 64%)" style="animation-delay:2.50s"/>
+<rect class="t" x="28" y="282" width="26" height="26" rx="6" fill="hsl(22 70% 58%)" style="animation-delay:2.40s"/>
+<rect class="t" x="60" y="282" width="26" height="26" rx="6" fill="hsl(140 70% 64%)" style="animation-delay:2.30s"/>
+<rect class="t" x="92" y="282" width="26" height="26" rx="6" fill="hsl(22 70% 64%)" style="animation-delay:2.20s"/>
+<rect class="open" x="125" y="283" width="24" height="24" rx="6"/>
+<rect class="t" x="156" y="282" width="26" height="26" rx="6" fill="hsl(140 70% 58%)" style="animation-delay:2.00s"/>
+<rect class="t" x="188" y="282" width="26" height="26" rx="6" fill="hsl(350 70% 58%)" style="animation-delay:1.90s"/>
+<rect class="t" x="220" y="282" width="26" height="26" rx="6" fill="hsl(350 70% 52%)" style="animation-delay:1.80s"/>
+<rect class="t" x="252" y="282" width="26" height="26" rx="6" fill="hsl(320 70% 52%)" style="animation-delay:1.71s"/>
+<rect class="t" x="284" y="282" width="26" height="26" rx="6" fill="hsl(200 70% 64%)" style="animation-delay:1.61s"/>
+<rect class="t" x="316" y="282" width="26" height="26" rx="6" fill="hsl(260 70% 64%)" style="animation-delay:1.51s"/>
+<rect class="t" x="348" y="282" width="26" height="26" rx="6" fill="hsl(350 70% 52%)" style="animation-delay:1.41s"/>
+<rect class="t" x="380" y="282" width="26" height="26" rx="6" fill="hsl(320 70% 58%)" style="animation-delay:1.31s"/>
+<rect class="t" x="412" y="282" width="26" height="26" rx="6" fill="hsl(200 70% 58%)" style="animation-delay:1.21s"/>
+<rect class="open" x="445" y="283" width="24" height="24" rx="6"/>
+<rect class="t" x="476" y="282" width="26" height="26" rx="6" fill="hsl(140 70% 52%)" style="animation-delay:1.01s"/>
+<rect class="t" x="508" y="282" width="26" height="26" rx="6" fill="hsl(225 70% 64%)" style="animation-delay:0.91s"/>
+<rect class="t" x="540" y="282" width="26" height="26" rx="6" fill="hsl(320 70% 58%)" style="animation-delay:0.81s"/>
+<rect class="t" x="572" y="282" width="26" height="26" rx="6" fill="hsl(350 70% 58%)" style="animation-delay:0.71s"/>
+<rect class="t" x="604" y="282" width="26" height="26" rx="6" fill="hsl(22 70% 58%)" style="animation-delay:0.62s"/>
+<rect class="t" x="636" y="282" width="26" height="26" rx="6" fill="hsl(225 70% 64%)" style="animation-delay:0.71s"/>
+<rect class="t" x="668" y="282" width="26" height="26" rx="6" fill="hsl(290 70% 52%)" style="animation-delay:0.81s"/>
+<rect class="t" x="700" y="282" width="26" height="26" rx="6" fill="hsl(225 70% 64%)" style="animation-delay:0.91s"/>
+<rect class="t" x="732" y="282" width="26" height="26" rx="6" fill="hsl(170 70% 64%)" style="animation-delay:1.01s"/>
+<rect class="t" x="764" y="282" width="26" height="26" rx="6" fill="hsl(350 70% 58%)" style="animation-delay:1.11s"/>
+<rect class="t" x="796" y="282" width="26" height="26" rx="6" fill="hsl(200 70% 58%)" style="animation-delay:1.21s"/>
+<rect class="t" x="828" y="282" width="26" height="26" rx="6" fill="hsl(200 70% 64%)" style="animation-delay:1.31s"/>
+<rect class="t" x="860" y="282" width="26" height="26" rx="6" fill="hsl(225 70% 52%)" style="animation-delay:1.41s"/>
+<rect class="t" x="892" y="282" width="26" height="26" rx="6" fill="hsl(225 70% 52%)" style="animation-delay:1.51s"/>
+<rect class="t" x="924" y="282" width="26" height="26" rx="6" fill="hsl(22 70% 58%)" style="animation-delay:1.61s"/>
+<rect class="t" x="956" y="282" width="26" height="26" rx="6" fill="hsl(200 70% 58%)" style="animation-delay:1.71s"/>
+<rect class="t" x="988" y="282" width="26" height="26" rx="6" fill="hsl(45 70% 52%)" style="animation-delay:1.80s"/>
+<rect class="t" x="1020" y="282" width="26" height="26" rx="6" fill="hsl(45 70% 64%)" style="animation-delay:1.90s"/>
+<rect class="t" x="1052" y="282" width="26" height="26" rx="6" fill="hsl(225 70% 52%)" style="animation-delay:2.00s"/>
+<rect class="t" x="1084" y="282" width="26" height="26" rx="6" fill="hsl(200 70% 64%)" style="animation-delay:2.10s"/>
+<rect class="t" x="1116" y="282" width="26" height="26" rx="6" fill="hsl(45 70% 58%)" style="animation-delay:2.20s"/>
+<rect class="t" x="1148" y="282" width="26" height="26" rx="6" fill="hsl(290 70% 52%)" style="animation-delay:2.30s"/>
+<rect class="t" x="1180" y="282" width="26" height="26" rx="6" fill="hsl(22 70% 58%)" style="animation-delay:2.40s"/>
+<rect width="1200" height="300" fill="url(#g)"/>
+<rect class="card" x="300.0" y="68.0" width="600" height="164" rx="22"/>
+<g transform="translate(368.0,106.0)"><rect width="38" height="38" rx="8" fill="#3d3dff"/><rect x="44" width="38" height="38" rx="8" fill="#16a37f"/><rect y="44" width="38" height="38" rx="8" fill="#f2702b"/><rect class="open" x="45" y="45" width="36" height="36" rx="8"/></g>
+<text class="ink" x="470.0" y="156.0" font-family="Inter,Segoe UI,system-ui,-apple-system,sans-serif" font-size="58" font-weight="800" letter-spacing="-1.5">ApiWall</text>
+<text class="sub" x="472.0" y="194.0" font-family="Inter,Segoe UI,system-ui,-apple-system,sans-serif" font-size="19">Every public API on one zoomable wall<tspan class="dot">▍</tspan></text>
+</svg>

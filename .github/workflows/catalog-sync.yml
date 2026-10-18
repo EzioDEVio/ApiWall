@@ -14,10 +14,10 @@ permissions:
 
 jobs:
   sync:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
         with:
           node-version: 22
           cache: npm
@@ -34,7 +34,7 @@ jobs:
       - run: npm test
       - name: Skip the pull request when only timestamps changed
         run: node scripts/drop-timestamp-only-changes.mjs
-      - uses: peter-evans/create-pull-request@v7
+      - uses: peter-evans/create-pull-request@v8
         with:
           branch: chore/catalog-sync
           commit-message: "chore: sync public-apis catalog"

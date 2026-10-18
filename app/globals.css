@@ -3117,3 +3117,35 @@ dialog.compare {
   margin: 14px 0 22px;
   min-height: 40px;
 }
+
+/* Mid-size windows: keep the header on one row; the links scroll sideways if they must. */
+@media (min-width: 641px) and (max-width: 1240px) {
+  .main-nav {
+    flex-wrap: nowrap;
+    min-width: 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+    mask-image: linear-gradient(90deg, #000 92%, transparent);
+    -webkit-mask-image: linear-gradient(90deg, #000 92%, transparent);
+  }
+  .main-nav::-webkit-scrollbar {
+    display: none;
+  }
+  .main-nav a {
+    padding: 8px 7px;
+    white-space: nowrap;
+  }
+  .star-label {
+    display: none;
+  }
+}
+/* Long code examples scroll inside their box instead of widening the page. */
+.prose pre {
+  max-width: 100%;
+  overflow-x: auto;
+  padding: 12px 14px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--ink) 5%, transparent);
+  font-size: 0.84rem;
+}

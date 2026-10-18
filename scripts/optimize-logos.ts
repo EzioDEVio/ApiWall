@@ -43,7 +43,7 @@ async function main() {
     if (!all && existsSync(dest) && statSync(dest).mtimeMs >= statSync(src).mtimeMs) continue;
     const bytes = new Uint8Array(readFileSync(src));
     try {
-      let img: sharp.Sharp;
+      let img: ReturnType<typeof sharp>;
       if (/\.ico$/i.test(rel)) {
         const best = bestIcoImage(bytes);
         if (!best) {

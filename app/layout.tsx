@@ -78,6 +78,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <Link href="/submit">Submit an API</Link>
               <Link href="/providers">For Providers</Link>
               <Link href="/changes">What&apos;s new</Link>
+              <Link href="/developers">Developers</Link>
               <Link href="/about">About &amp; Source</Link>
             </nav>
             <div className="header-actions">

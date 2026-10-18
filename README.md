@@ -44,6 +44,8 @@ auth, and open the docs in a click.
   the differences marked. The comparison has its own link, so you can share it.
 - **Jump to anything.** Press <kbd>Ctrl</kbd>+<kbd>K</kbd> (<kbd>⌘</kbd>+<kbd>K</kbd> on a Mac) and
   type: open any API, pick a category, or run an action like "Show saved APIs" or "Use the dark theme".
+- **An API of its own.** Other apps can use the whole catalog as free, read-only JSON at
+  `https://eziodevio.github.io/ApiWall/api/v1/` (no key, CORS open). See the **Developers** page.
 - **New this week.** APIs added by the weekly catalog sync carry a **NEW** badge for seven
   days, and the **What's new** page lists every sync's additions and removals.
 - **Links that keep your view.** The address bar always holds the current category, search,
@@ -133,6 +135,15 @@ for new listings and opens a pull request. Enable **Settings → Actions → Gen
 GitHub Actions to create and approve pull requests** once (and press that section's **Save**).
 Weeks where only the "last checked" timestamps changed don't open a pull request
 (`scripts/drop-timestamp-only-changes.mjs`).
+
+### Public API
+
+`npm run build:static` also writes ApiWall's own read-only JSON API to `out/api/v1/`
+(`index.json`, `apis.json`, `apis/{id}.json`, `categories.json`, `categories/{slug}.json`,
+`changes.json`), built by `lib/catalog/publicApi.ts` from the committed snapshot. The
+self-hosted server answers the same paths at `/api/v1/...` with `Access-Control-Allow-Origin: *`.
+The `/developers` page documents the fields. Fields in `v1` are only ever added, never renamed
+or removed.
 
 ## Commands
 
@@ -322,9 +333,9 @@ a generated monogram. Category icons are [Tabler Icons](https://tabler.io/icons)
 ## Project map
 
 ```
-app/                 pages (Explore, Submit, For Providers, What's new, About & Source, Review), API routes, social preview image
+app/                 pages (Explore, Submit, For Providers, What's new, Developers, About & Source, Review), /api/v1 route, API routes, social preview image
 components/          Mosaic (canvas), CategoryNav, ListView, DetailDialog, CompareDialog, CommandPalette, CodeSamples, LogoSuggest, review UI
-lib/catalog/         README parser, normalizer, placement, marks, AI Models supplement, community logos, snapshot builder, changelog
+lib/catalog/         README parser, normalizer, placement, marks, AI Models supplement, community logos, snapshot builder, changelog, public API
 lib/explore/         entries, the shared filter pipeline, map layouts, shareable URL state, starter code, compare, Ctrl+K palette
 lib/logos/           logo suggestions: validation, review rules, public projection
 lib/providers/       submission types, validation, review workflow, public projection

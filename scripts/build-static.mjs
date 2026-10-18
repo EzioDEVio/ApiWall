@@ -124,5 +124,10 @@ if (run("npx", ["tsx", "scripts/write-browser-catalog.ts", "out/catalog.json"]) 
   console.error("✗ Could not write out/catalog.json.");
   process.exit(1);
 }
+// The public JSON API (/api/v1/...), for other sites and apps.
+if (run("npx", ["tsx", "scripts/write-public-api.ts", "out"]) !== 0) {
+  console.error("✗ Could not write the public API under out/api/v1.");
+  process.exit(1);
+}
 writeFileSync(path.join(root, "out", ".nojekyll"), "");
 console.log(`✓ Static site written to out/ (base path: ${process.env.NEXT_PUBLIC_BASE_PATH || "/"}).`);

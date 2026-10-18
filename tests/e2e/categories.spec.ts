@@ -120,7 +120,7 @@ test("2. AI Models is pinned, selectable and shows documented model APIs on the 
   await view(page, "Map");
   expect(await mapIds(page)).toEqual(expected);
   expect(await listIds(page)).toEqual(expected);
-  await page.getByTestId("list-cards").locator(`li[data-id="${d.listings.find((l) => l.name === "Claude API")!.id}"] button`).click();
+  await page.getByTestId("list-cards").locator(`li[data-id="${d.listings.find((l) => l.name === "Claude API")!.id}"] button.card-hit`).click();
   const dialog = page.getByTestId("detail-dialog");
   await expect(dialog.getByTestId("ai-model")).toContainText("Anthropic");
   await expect(dialog.getByTestId("ai-model")).toContainText("Not verified");

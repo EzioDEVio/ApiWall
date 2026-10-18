@@ -35,5 +35,6 @@ jobs:
           body: |
             Automated import of the latest [public-apis](https://github.com/public-apis/public-apis) catalog and logos for new listings.
             Existing tiles keep their positions. Review the snapshot summary in the workflow log before merging.
+            New and removed listings are recorded in `data/changelog.json`, which feeds the What's new page and the NEW badges.
           labels: catalog
           delete-branch: true

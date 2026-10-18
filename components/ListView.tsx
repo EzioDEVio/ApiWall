@@ -15,11 +15,14 @@ interface Props {
   glyphs: Record<string, string[]>;
   onSelect: (id: string, opener: HTMLElement) => void;
   dark: boolean;
+  savedIds?: Set<string>;
+  newIds?: Set<string>;
+  onToggleSave?: (id: string) => void;
 }
 
 const authLabel = (e: Entry) => (e.auth === "none" ? "No auth" : e.raw.auth || "Unknown auth");
 
-export function ListView({ entries, categoryIndex, categoryGlyph, glyphs, onSelect, dark }: Props) {
+export function ListView({ entries, categoryIndex, categoryGlyph, glyphs, onSelect, dark, savedIds, newIds, onToggleSave }: Props) {
   const [limit, setLimit] = useState(PAGE);
   useEffect(() => setLimit(PAGE), [entries]);
   const shown = entries.slice(0, limit);
@@ -39,6 +42,7 @@ export function ListView({ entries, categoryIndex, categoryGlyph, glyphs, onSele
                   {e.kind === "mcp" && <span className="tag">MCP</span>}
                   {e.source === "provider" && <span className="tag tag-provider">◆ Provider</span>}
                   {e.sponsored && <span className="tag tag-sponsor">★ Sponsored</span>}
+                  {newIds?.has(e.id) && <span className="tag tag-new">New</span>}
                 </span>
                 <span className="card-desc">{e.description}</span>
                 <span className="chips">
@@ -55,6 +59,18 @@ export function ListView({ entries, categoryIndex, categoryGlyph, glyphs, onSele
                 </span>
               </span>
             </button>
+            {onToggleSave && (
+              <button
+                type="button"
+                className="card-save"
+                aria-pressed={!!savedIds?.has(e.id)}
+                aria-label={`Save ${e.name}`}
+                title={savedIds?.has(e.id) ? "Saved (click to remove)" : "Save to your list"}
+                onClick={() => onToggleSave(e.id)}
+              >
+                {savedIds?.has(e.id) ? "★" : "☆"}
+              </button>
+            )}
           </li>
         ))}
       </ul>

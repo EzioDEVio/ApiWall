@@ -19,6 +19,7 @@ import type { BrandIcon } from "../lib/catalog/marks";
 import type { FaviconManifest, FaviconRecord } from "../lib/catalog/favicons";
 import type { AiModelsFile } from "../lib/catalog/supplements";
 import type { CommunityLogosFile } from "../lib/catalog/community";
+import { carryAddedAt, type Changelog, diffListings, EMPTY_CHANGELOG, recordChange } from "../lib/catalog/history";
 import type { CatalogSnapshot } from "../lib/catalog/types";
 
 const REPO = "public-apis/public-apis";
@@ -176,6 +177,13 @@ async function main() {
   });
 
   if (snapshot.listings.length === 0) throw new Error("Parsed zero listings; refusing to overwrite the snapshot. Has the README format changed?");
+  // First-seen dates and the changelog behind "New this week" and the What's new page.
+  carryAddedAt(snapshot, previous, snapshot.source.importedAt);
+  const change = diffListings(previous, snapshot);
+  const changelogPath = path.join(dataDir, "changelog.json");
+  const log = existsSync(changelogPath) ? (JSON.parse(readFileSync(changelogPath, "utf8")) as Changelog) : EMPTY_CHANGELOG;
+  const updated = recordChange(log, { at: snapshot.source.importedAt, commit: snapshot.source.commit, ...change });
+  if (updated !== log || !existsSync(changelogPath)) writeAtomic(changelogPath, JSON.stringify(updated, null, 1) + "\n");
   writeAtomic(snapshotPath, JSON.stringify(snapshot) + "\n");
   writeGlyphs();
 
@@ -187,6 +195,7 @@ async function main() {
   console.log(`✓ ${api} APIs and ${mcp} MCP servers in ${snapshot.categories.length} categories (${fetchedFrom}${commit ? ", commit " + commit.slice(0, 7) : ""})`);
   console.log(`  ${logos} official logos, ${brand} icon-set brand marks, ${snapshot.listings.length - brand - logos} generated monograms; ${moved} existing tiles moved`);
   for (const s of snapshot.supplements ?? []) console.log(`  ${s.name}: ${s.providers} curated providers, ${s.crossTagged} upstream listings cross-tagged`);
+  if (change.added.length || change.removed.length) console.log(`  ${change.added.length} new and ${change.removed.length} removed since the last import (data/changelog.json)`);
   console.log(`  ${snapshot.warnings.length} warnings`);
   for (const w of snapshot.warnings.slice(0, 15)) console.log("  - " + w);
 }

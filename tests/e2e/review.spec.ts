@@ -68,7 +68,7 @@ test("a provider submission stays private until a reviewer approves it, then app
   await page.getByRole("button", { name: /^Show \d/ }).click();
   const card = page.getByTestId("list-cards").locator("li", { hasText: apiName });
   await expect(card.getByText("★ Sponsored")).toBeVisible();
-  await card.getByRole("button").click();
+  await card.locator("button.card-hit").click();
   const dialog = page.getByTestId("detail-dialog");
   await expect(dialog.getByText("Provider-stated facts, reviewed")).toBeVisible();
   await expect(dialog.getByText(/not part of the upstream public-apis catalog/)).toBeVisible();
@@ -97,7 +97,7 @@ test("visitors can suggest a logo for a listing without one; it shows only after
   const name2 = (await second.locator(".card-title").textContent())!;
   const id = (await first.getAttribute("data-id"))!;
 
-  await first.getByRole("button").click();
+  await first.locator("button.card-hit").click();
   const dialog = page.getByTestId("detail-dialog");
   await dialog.getByRole("button", { name: "Suggest a logo" }).click();
   const form = dialog.getByTestId("logo-suggest");

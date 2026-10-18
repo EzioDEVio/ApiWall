@@ -26,6 +26,8 @@ interface Props {
   onClose: () => void;
   /** Jumps to the open provider tiles; null while filters hide them. */
   onOpenTiles: (() => void) | null;
+  /** "Your lists": toggles for saved APIs and APIs added this week. */
+  lists?: { key: "saved" | "fresh"; label: string; count: number; on: boolean; toggle: () => void }[];
 }
 
 const plural = (n: number) => `${n.toLocaleString("en")} ${n === 1 ? "result" : "results"}`;
@@ -35,7 +37,7 @@ const plural = (n: number) => `${n.toLocaleString("en")} ${n === 1 ? "result" : 
  * rest scroll independently. Each row is a toggle button (aria-pressed) whose
  * accessible name includes its result count. Choosing one applies immediately.
  */
-export function CategoryNav({ rows, allCount, aiSlug, active, onChoose, categoryIndex, glyphs, dark, drawer, onClose, onOpenTiles }: Props) {
+export function CategoryNav({ rows, allCount, aiSlug, active, onChoose, categoryIndex, glyphs, dark, drawer, onClose, onOpenTiles, lists = [] }: Props) {
   const panel = useRef<HTMLElement>(null);
   const ai = rows.find((r) => r.slug === aiSlug);
   const rest = rows.filter((r) => r.slug !== aiSlug);
@@ -85,6 +87,30 @@ export function CategoryNav({ rows, allCount, aiSlug, active, onChoose, category
           </button>
         )}
       </div>
+      {lists.length > 0 && (
+        <ul className="cat-pinned cat-lists" aria-label="Your lists">
+          {lists.map((l) => (
+            <li key={l.key}>
+              <button
+                type="button"
+                className={"list-row cat-list-toggle" + (l.key === "fresh" ? " is-new" : "")}
+                aria-pressed={l.on}
+                aria-label={`${l.label}, ${plural(l.count)}`}
+                onClick={l.toggle}
+                data-list={l.key}
+              >
+                <span className="cat-list-icon" aria-hidden="true">
+                  {l.key === "saved" ? "★" : "✦"}
+                </span>
+                <span className="cat-name">{l.label}</span>
+                <span className="cat-count" aria-hidden="true">
+                  {l.count.toLocaleString("en")}
+                </span>
+              </button>
+            </li>
+          ))}
+        </ul>
+      )}
       <ul className="cat-pinned">
         <li>
           <button

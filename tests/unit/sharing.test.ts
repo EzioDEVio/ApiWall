@@ -19,6 +19,7 @@ describe("shareable URLs", () => {
       view: "list" as const,
       api: "api-openai-api-x1",
       lens: "cors" as const,
+      list: null,
     };
     const search = toUrlSearch(state);
     expect(search).toBe("?q=gpt&cat=ai-models&auth=apiKey&logo=missing&view=list&lens=cors&api=api-openai-api-x1");

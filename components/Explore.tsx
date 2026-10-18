@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import type { CatalogSnapshot } from "@/lib/catalog/types";
 import type { PublicProviderPayload } from "@/lib/providers/types";
 import { ACCESS_LABELS, ACCESS_STATUSES } from "@/lib/providers/types";
-import { buildEntries, categoryCounts, EMPTY_FILTERS, type Filters, filterEntries, isFiltered, PROVIDER_CATEGORY_SLUG } from "@/lib/explore/model";
+import { buildEntries, categoryCounts, EMPTY_FILTERS, type Filters, filterEntries, isFiltered, NEW_DAYS, PROVIDER_CATEGORY_SLUG } from "@/lib/explore/model";
 import { PROVIDER_REGION } from "@/lib/catalog/placement";
 import { Mosaic, type MosaicHandle, type MosaicRegion } from "./Mosaic";
 import { ListView } from "./ListView";
@@ -18,6 +18,8 @@ import { type BrowserCatalog, fromBrowserCatalog } from "@/lib/catalog/browser";
 import { parseUrlState, toUrlSearch } from "@/lib/explore/urlState";
 import { copyText } from "@/lib/clipboard";
 import { isDarkNow, onThemeChange } from "@/lib/theme";
+import { useSaved } from "@/lib/saved";
+import { isRecent } from "@/lib/catalog/history";
 import { LENS_IDS, LENSES, type LensId, lensCounts, lensSwatch } from "@/lib/explore/lenses";
 import { CategoryNav, type CategoryRow } from "./CategoryNav";
 
@@ -32,6 +34,7 @@ const WELCOME_KEY = "tessera.welcome.dismissed";
 const AI_SLUG = "ai-models";
 const NARROW = "(max-width: 899px)";
 const WIDE = "(min-width: 1100px)";
+const PHONE = "(max-width: 640px)";
 
 /** True while a modal dialog is open (the side panel is not modal, so shortcuts keep working). */
 function modalOpen(): boolean {
@@ -103,6 +106,9 @@ export function Explore({ glyphs, stats }: Props) {
   const [narrow, setNarrow] = useState(false);
   const [wide, setWide] = useState(false);
   const [lens, setLens] = useState<LensId>("category");
+  const [sharedList, setSharedList] = useState<string[] | null>(null);
+  const [phone, setPhone] = useState(false);
+  const saved = useSaved();
   const [sugOpen, setSugOpen] = useState(false);
   const [sugIdx, setSugIdx] = useState(-1);
   const [navOpen, setNavOpen] = useState(false);
@@ -156,9 +162,14 @@ export function Explore({ glyphs, stats }: Props) {
     if (fromUrl.view) setListOpen(fromUrl.view === "list");
     if (fromUrl.api) setSelectedId(fromUrl.api);
     if (fromUrl.lens) setLens(fromUrl.lens);
+    if (fromUrl.list) setSharedList(fromUrl.list);
     setUrlReady(true);
     // Below 900px the category list becomes a drawer opened from the top bar.
     // Wide windows show details in a side panel beside the map.
+    const pq = window.matchMedia(PHONE);
+    setPhone(pq.matches);
+    const onPhone = () => setPhone(pq.matches);
+    pq.addEventListener("change", onPhone);
     const wq = window.matchMedia(WIDE);
     setWide(wq.matches);
     const onWide = () => setWide(wq.matches);
@@ -170,6 +181,7 @@ export function Explore({ glyphs, stats }: Props) {
     return () => {
       offTheme();
       wq.removeEventListener("change", onWide);
+      pq.removeEventListener("change", onPhone);
       nq.removeEventListener("change", onNarrow);
     };
   }, [loadCatalog]);
@@ -177,9 +189,9 @@ export function Explore({ glyphs, stats }: Props) {
   // Keep the address bar in step with what is on screen, so any view can be shared as a link.
   useEffect(() => {
     if (!urlReady) return;
-    const search = toUrlSearch({ filters, view: listOpen ? "list" : null, api: selectedId, lens }, window.location.search);
+    const search = toUrlSearch({ filters, view: listOpen ? "list" : null, api: selectedId, lens, list: sharedList }, window.location.search);
     if (search !== window.location.search) window.history.replaceState(null, "", window.location.pathname + search + window.location.hash);
-  }, [urlReady, filters, listOpen, selectedId, lens]);
+  }, [urlReady, filters, listOpen, selectedId, lens, sharedList]);
 
   // Shortcuts: "/" focuses search, "R" opens a random API. Ignored while typing or in a dialog.
   useEffect(() => {
@@ -230,9 +242,26 @@ export function Explore({ glyphs, stats }: Props) {
   const entries = useMemo(() => (snapshot ? buildEntries(snapshot, providerData) : []), [snapshot, providerData]);
   const byId = useMemo(() => new Map(entries.map((e) => [e.id, e])), [entries]);
   const effective = useMemo(() => ({ ...filters, q: deferredQ }), [filters, deferredQ]);
+  // A shared list (?list=) or "Saved" narrows the pool first; everything else filters within it.
+  const scoped = useMemo(() => {
+    if (sharedList) {
+      const ids = new Set(sharedList);
+      return entries.filter((e) => ids.has(e.id));
+    }
+    if (filters.saved) return entries.filter((e) => saved.set.has(e.id));
+    return entries;
+  }, [entries, sharedList, filters.saved, saved.set]);
   // The single source of truth: map, list, counts and details all read `results`.
-  const results = useMemo(() => filterEntries(entries, effective), [entries, effective]);
-  const filtered = isFiltered(effective);
+  const results = useMemo(() => filterEntries(scoped, effective), [scoped, effective]);
+  const filtered = isFiltered(effective) || !!sharedList;
+  const newCount = useMemo(() => {
+    const now = Date.now();
+    return entries.filter((e) => isRecent(e.addedAt, now, NEW_DAYS)).length;
+  }, [entries]);
+  const newIds = useMemo(() => {
+    const now = Date.now();
+    return new Set(entries.filter((e) => isRecent(e.addedAt, now, NEW_DAYS)).map((e) => e.id));
+  }, [entries]);
   // Filters in the panel (category and search have their own controls).
   const panelFilters = (["kind", "auth", "https", "cors", "access", "logo"] as const).filter((k) => filters[k] !== "").length;
 
@@ -251,7 +280,7 @@ export function Explore({ glyphs, stats }: Props) {
       });
     return list;
   }, [snapshot, providerData]);
-  const counts = useMemo(() => categoryCounts(entries, effective), [entries, effective]);
+  const counts = useMemo(() => categoryCounts(scoped, effective), [scoped, effective]);
   const navRows: CategoryRow[] = useMemo(() => categories.map((c) => ({ ...c, count: counts.bySlug.get(c.slug) ?? 0 })), [categories, counts]);
   const focusCategory = useMemo(() => {
     const c = filters.category ? categories.find((x) => x.slug === filters.category) : null;
@@ -282,6 +311,12 @@ export function Explore({ glyphs, stats }: Props) {
     if (toastTimer.current) clearTimeout(toastTimer.current);
     toastTimer.current = setTimeout(() => setToast(null), 2400);
   };
+  // A link that opens exactly these APIs for anyone, as a "Shared list".
+  const shareSaved = async () => {
+    const url = new URL(window.location.href);
+    url.search = toUrlSearch({ filters: EMPTY_FILTERS, view: null, api: null, list: saved.ids.slice(0, 100) });
+    showToast((await copyText(url.toString())) ? `Link to your ${Math.min(saved.ids.length, 100)} saved APIs copied.` : "Copy failed.");
+  };
   const copyLink = async () =>
     showToast((await copyText(window.location.href)) ? "Link copied. It opens this exact view." : "Copy failed. Copy the address bar instead.");
 
@@ -310,6 +345,8 @@ export function Explore({ glyphs, stats }: Props) {
   if (filters.https) chips.push({ key: "https", label: `HTTPS: ${TRI_LABELS[filters.https]}` });
   if (filters.cors) chips.push({ key: "cors", label: `CORS: ${TRI_LABELS[filters.cors]}` });
   if (filters.logo) chips.push({ key: "logo", label: filters.logo === "missing" ? "No logo yet" : "Has a logo" });
+  if (filters.saved) chips.push({ key: "saved", label: "Saved APIs" });
+  if (filters.fresh) chips.push({ key: "fresh", label: "New this week" });
   if (filters.access)
     chips.push({
       key: "access",
@@ -356,7 +393,7 @@ export function Explore({ glyphs, stats }: Props) {
     lens === "category"
       ? new Map<string, number>()
       : lensCounts(
-          filterEntries(entries, { ...effective, ...Object.fromEntries(LENSES[lens].buckets.flatMap((b) => Object.keys(b.filter)).map((k) => [k, ""])) }),
+          filterEntries(scoped, { ...effective, ...Object.fromEntries(LENSES[lens].buckets.flatMap((b) => Object.keys(b.filter)).map((k) => [k, ""])) }),
           lens,
         );
 
@@ -407,7 +444,13 @@ export function Explore({ glyphs, stats }: Props) {
   const src = snapshot.source;
 
   return (
-    <section className="app-shell" aria-label="Explore APIs" data-nav={narrow ? "drawer" : "sidebar"} data-side={wide && selected ? "open" : undefined}>
+    <section
+      className="app-shell"
+      aria-label="Explore APIs"
+      data-nav={narrow ? "drawer" : "sidebar"}
+      data-side={wide && selected ? "open" : undefined}
+      data-phone={phone ? "" : undefined}
+    >
       {(!narrow || navOpen) && (
         <CategoryNav
           rows={navRows}
@@ -423,6 +466,20 @@ export function Explore({ glyphs, stats }: Props) {
             setNavOpen(false);
             navBtn.current?.focus();
           }}
+          lists={[
+            { key: "saved", label: "Saved", count: saved.ids.length, on: !!filters.saved, toggle: () => set("saved", filters.saved ? "" : "yes") },
+            ...(newCount
+              ? [
+                  {
+                    key: "fresh" as const,
+                    label: "New this week",
+                    count: newCount,
+                    on: !!filters.fresh,
+                    toggle: () => set("fresh", filters.fresh ? "" : "yes"),
+                  },
+                ]
+              : []),
+          ]}
           onOpenTiles={
             filtered
               ? null
@@ -442,6 +499,9 @@ export function Explore({ glyphs, stats }: Props) {
           filtered={filtered}
           focusCategory={focusCategory}
           lens={lens}
+          savedIds={saved.set}
+          newIds={newIds}
+          insetBottom={phone ? 60 : 0}
           categoryIndex={categoryIndex}
           categoryGlyph={categoryGlyph}
           glyphs={glyphs}
@@ -569,6 +629,36 @@ export function Explore({ glyphs, stats }: Props) {
               ?
             </button>
           </form>
+          {sharedList && (
+            <div className="list-banner glass" role="group" aria-label="Shared list" data-testid="shared-list">
+              <span>
+                <strong>Shared list</strong> · {scoped.length.toLocaleString("en")} {scoped.length === 1 ? "API" : "APIs"}
+              </span>
+              <button
+                type="button"
+                className="btn btn-small"
+                onClick={() => {
+                  saved.addMany(sharedList);
+                  showToast(`Saved ${sharedList.length} APIs to your list.`);
+                }}
+              >
+                ★ Save all
+              </button>
+              <button type="button" className="btn btn-small btn-quiet" onClick={() => setSharedList(null)}>
+                Close list
+              </button>
+            </div>
+          )}
+          {!sharedList && filters.saved && saved.ids.length > 0 && (
+            <div className="list-banner glass" role="group" aria-label="Your saved APIs" data-testid="saved-banner">
+              <span>
+                <strong>Your saved APIs</strong> · kept in this browser
+              </span>
+              <button type="button" className="btn btn-small" onClick={shareSaved} data-testid="share-saved">
+                Copy share link
+              </button>
+            </div>
+          )}
           {lens !== "category" && (
             <div className="lens-legend glass" role="group" aria-label={`${LENSES[lens].label} colours`} data-testid="lens-legend">
               <span className="lens-q">{LENSES[lens].question}</span>
@@ -646,7 +736,13 @@ export function Explore({ glyphs, stats }: Props) {
         )}
 
         {filtersOpen && (
-          <div className="float-panel filters-panel glass" id="filters-panel" role="group" aria-label="Filters" style={{ top: hudH - 4 }}>
+          <div
+            className="float-panel filters-panel glass"
+            id="filters-panel"
+            role="group"
+            aria-label="Filters"
+            style={{ top: hudH - 4, maxHeight: phone ? `calc(100% - ${hudH + 80}px)` : undefined, overflowY: phone ? "auto" : undefined }}
+          >
             <div className="filters-grid">
               <Select id="f-kind" label="Type" value={filters.kind} onChange={(v) => set("kind", v as Filters["kind"])}>
                 <option value="">All types</option>
@@ -750,12 +846,26 @@ export function Explore({ glyphs, stats }: Props) {
                 glyphs={glyphs}
                 onSelect={(id) => select(id)}
                 dark={dark}
+                savedIds={saved.set}
+                newIds={newIds}
+                onToggleSave={saved.toggle}
               />
             ) : null}
           </aside>
         )}
 
-        {results.length === 0 && (
+        {results.length === 0 && filters.saved && saved.ids.length === 0 && !sharedList && (
+          <div className="float-panel no-results glass" role="status" data-testid="no-saved">
+            <h3>No saved APIs yet</h3>
+            <p>Open any API and press ☆ Save. Saved APIs stay in this browser, and you can share them all as one link.</p>
+            <div className="row">
+              <button type="button" className="btn btn-primary" onClick={() => set("saved", "")}>
+                Back to all APIs
+              </button>
+            </div>
+          </div>
+        )}
+        {results.length === 0 && !(filters.saved && saved.ids.length === 0 && !sharedList) && (
           <div className="float-panel no-results glass" role="status" data-testid="no-results">
             <h3>No listings match</h3>
             <p>
@@ -815,6 +925,55 @@ export function Explore({ glyphs, stats }: Props) {
           </aside>
         )}
 
+        {phone && (
+          <nav className="tabbar glass" aria-label="Views" data-testid="tabbar">
+            <button
+              type="button"
+              aria-pressed={!listOpen}
+              onClick={() => {
+                setListOpen(false);
+                setNavOpen(false);
+              }}
+            >
+              <Glyph paths={["M3 7l6 -3l6 3l6 -3v13l-6 3l-6 -3l-6 3v-13", "M9 4v13", "M15 7v13"]} size={20} />
+              <span>Map</span>
+            </button>
+            <button
+              type="button"
+              aria-pressed={listOpen}
+              onClick={() => {
+                setListOpen(true);
+                setNavOpen(false);
+              }}
+            >
+              <Glyph paths={["M9 6l11 0", "M9 12l11 0", "M9 18l11 0", "M5 6l0 .01", "M5 12l0 .01", "M5 18l0 .01"]} size={20} />
+              <span>List</span>
+            </button>
+            <button type="button" aria-expanded={navOpen} aria-controls="category-nav" onClick={() => setNavOpen((v) => !v)}>
+              <Glyph paths={["M4 4h6v6h-6z", "M14 4h6v6h-6z", "M4 14h6v6h-6z", "M14 14h6v6h-6z"]} size={20} />
+              <span>Categories</span>
+            </button>
+            <button
+              type="button"
+              aria-pressed={!!filters.saved}
+              onClick={() => {
+                set("saved", filters.saved ? "" : "yes");
+                setNavOpen(false);
+              }}
+            >
+              <span className="tab-star" aria-hidden="true">
+                {filters.saved ? "★" : "☆"}
+              </span>
+              <span>Saved</span>
+              {saved.ids.length > 0 && (
+                <span className="tab-badge" aria-hidden="true">
+                  {saved.ids.length}
+                </span>
+              )}
+            </button>
+          </nav>
+        )}
+
         {toast && (
           <div className="toast glass" role="status" data-testid="toast">
             {toast}
@@ -823,7 +982,7 @@ export function Explore({ glyphs, stats }: Props) {
 
         <footer className="status-bar glass">
           <span className="count" data-testid="result-count">
-            <strong>{results.length.toLocaleString("en")}</strong> of {total.toLocaleString("en")} {results.length === 1 ? "listing" : "listings"}
+            <strong>{results.length.toLocaleString("en")}</strong> of {total.toLocaleString("en")} {total === 1 ? "listing" : "listings"}
             {focusCategory ? <span className="count-cat"> in {focusCategory.name}</span> : null}
           </span>
           {isFiltered(filters) && (
@@ -852,8 +1011,11 @@ export function Explore({ glyphs, stats }: Props) {
           categoryIndex={selected ? (categoryIndex.get(selected.categorySlug) ?? 0) : 0}
           glyph={selected ? glyphs[categoryGlyph.get(selected.categorySlug) ?? ""] : undefined}
           dark={dark}
-          mode={wide ? "side" : "modal"}
+          mode={wide ? "side" : phone ? "sheet" : "modal"}
           nav={detailNav}
+          saved={selected ? saved.set.has(selected.id) : false}
+          onToggleSave={selected ? () => saved.toggle(selected.id) : undefined}
+          isNew={selected ? newIds.has(selected.id) : false}
         />
       </div>
     </section>

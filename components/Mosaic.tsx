@@ -37,6 +37,11 @@ interface Props {
   focusCategory?: { slug: string; name: string } | null;
   /** Recolour tiles by a fact (auth, HTTPS, CORS, logo) instead of by category. */
   lens?: LensId;
+  /** Saved APIs get a gold star; new ones a NEW badge. */
+  savedIds?: Set<string>;
+  newIds?: Set<string>;
+  /** Extra space taken by floating UI at the bottom (the phone tab bar). */
+  insetBottom?: number;
   categoryIndex: Map<string, number>;
   categoryGlyph: Map<string, string>;
   glyphs: Record<string, string[]>;
@@ -64,7 +69,6 @@ const DEFAULT_TILE_PX = (width: number) => (width < 640 ? 52 : 58);
 
 type Hover = { kind: "entry"; id: string; x: number; y: number } | { kind: "open"; x: number; y: number } | null;
 
-
 function roundRect(ctx: CanvasRenderingContext2D, x: number, y: number, w: number, h: number, r: number) {
   ctx.beginPath();
   ctx.roundRect(x, y, w, h, r);
@@ -76,6 +80,9 @@ export const Mosaic = forwardRef<MosaicHandle, Props>(function Mosaic(
     filtered,
     focusCategory = null,
     lens = "category",
+    savedIds,
+    newIds,
+    insetBottom = 0,
     categoryIndex,
     categoryGlyph,
     glyphs,
@@ -95,7 +102,9 @@ export const Mosaic = forwardRef<MosaicHandle, Props>(function Mosaic(
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const miniRef = useRef<HTMLCanvasElement>(null);
   const scale = useRef(1); // screen px per logical cell
-  const insets = useRef({ top: insetTop, right: insetRight });
+  const insets = useRef({ top: insetTop, right: insetRight, bottom: insetBottom });
+  /** Floating UI along the bottom: the status bar, plus the tab bar on phones. */
+  const bottomUi = () => BOTTOM_UI + insets.current.bottom;
   const zoomAnim = useRef(0);
   const introStart = useRef(0);
   const introDone = useRef(false);
@@ -143,12 +152,12 @@ export const Mosaic = forwardRef<MosaicHandle, Props>(function Mosaic(
     const { w, h } = vp.current;
     const { top, right } = insets.current;
     const aw = w - right;
-    const ah = h - top - BOTTOM_UI;
+    const ah = h - top - bottomUi();
     const ox = spanW + 2 * PAD <= aw ? (aw - spanW) / 2 : PAD;
     const oy = spanH + 2 * PAD <= ah ? top + (ah - spanH) / 2 : PAD + top;
     return {
       cw: Math.max(w, spanW + 2 * PAD + right),
-      ch: Math.max(h, spanH + 2 * PAD + top + BOTTOM_UI),
+      ch: Math.max(h, spanH + 2 * PAD + top + bottomUi()),
       ox,
       oy,
     };
@@ -156,7 +165,7 @@ export const Mosaic = forwardRef<MosaicHandle, Props>(function Mosaic(
   const fitScale = () => {
     const { w, h } = vp.current;
     const { top, right } = insets.current;
-    return Math.max(0.05, Math.min((w - right - 2 * PAD) / L.current.width, (h - top - BOTTOM_UI - 2 * PAD) / L.current.height));
+    return Math.max(0.05, Math.min((w - right - 2 * PAD) / L.current.width, (h - top - bottomUi() - 2 * PAD) / L.current.height));
   };
   const clampScale = (s: number) => Math.min(Math.max(s, fitScale()), MAX_TILE_PX / TILE_SIZE);
   /** Screen offset of logical cell (0,0) inside the viewport. */
@@ -175,7 +184,7 @@ export const Mosaic = forwardRef<MosaicHandle, Props>(function Mosaic(
     setMapLarger(
       L.current.mode === "full" &&
         (L.current.width * s + 2 * PAD > vp.current.w - insets.current.right + 1 ||
-          L.current.height * s + 2 * PAD > vp.current.h - insets.current.top - BOTTOM_UI + 1),
+          L.current.height * s + 2 * PAD > vp.current.h - insets.current.top - bottomUi() + 1),
     );
   };
 
@@ -220,19 +229,19 @@ export const Mosaic = forwardRef<MosaicHandle, Props>(function Mosaic(
     [setScale], // eslint-disable-line react-hooks/exhaustive-deps
   );
 
-  const resetView = useCallback(() => zoomTo(fitScale()), [zoomTo]);
+  const resetView = useCallback(() => zoomTo(fitScale()), [zoomTo]); // eslint-disable-line react-hooks/exhaustive-deps -- reads refs only
 
   // Insets change when floating panels open or resize: keep the same content centred.
   useEffect(() => {
     const prev = insets.current;
-    insets.current = { top: insetTop, right: insetRight };
+    insets.current = { top: insetTop, right: insetRight, bottom: insetBottom };
     if (vp.current.w)
       setArea({
         w: vp.current.w - insetRight,
-        h: vp.current.h - insetTop - BOTTOM_UI,
+        h: vp.current.h - insetTop - BOTTOM_UI - insetBottom,
       });
     const sc = scrollRef.current;
-    if (!sc || vp.current.w === 0 || (prev.top === insetTop && prev.right === insetRight)) return;
+    if (!sc || vp.current.w === 0 || (prev.top === insetTop && prev.right === insetRight && prev.bottom === insetBottom)) return;
     const s = scale.current;
     const before = { ...layoutWith(prev, s) };
     // If the whole map (or all results) was fitted to the screen, keep it fitted to the new space.
@@ -249,8 +258,8 @@ export const Mosaic = forwardRef<MosaicHandle, Props>(function Mosaic(
     setTilePx(Math.round(TILE_SIZE * ns));
     schedule();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [insetTop, insetRight, schedule]);
-  function layoutWith(i: { top: number; right: number }, s: number) {
+  }, [insetTop, insetRight, insetBottom, schedule]);
+  function layoutWith(i: { top: number; right: number; bottom: number }, s: number) {
     const saved = insets.current;
     insets.current = i;
     const r = layout(s);
@@ -275,8 +284,7 @@ export const Mosaic = forwardRef<MosaicHandle, Props>(function Mosaic(
       if (y < sc.scrollTop || y + tp > sc.scrollTop + h) sc.scrollTop = y + tp / 2 - h / 2;
       schedule();
     },
-
-    [setScale, schedule],
+    [setScale, schedule], // eslint-disable-line react-hooks/exhaustive-deps -- layout() reads refs only
   );
 
   // When the result set changes: filtered views fit their results; clearing every filter
@@ -291,7 +299,7 @@ export const Mosaic = forwardRef<MosaicHandle, Props>(function Mosaic(
     const { w, h } = vp.current;
     const { top, right } = insets.current;
     const fitW = (w - right - 2 * PAD) / lay.width;
-    const fitBoth = Math.min(fitW, (h - top - BOTTOM_UI - 2 * PAD) / lay.height);
+    const fitBoth = Math.min(fitW, (h - top - bottomUi() - 2 * PAD) / lay.height);
     const cap = FIT_MAX_TILE_PX / TILE_SIZE;
     // Whole result set on screen when tiles stay readable; otherwise fill the width and scroll down.
     scale.current = Math.min(MAX_TILE_PX / TILE_SIZE, Math.max(0.05, TILE_SIZE * fitBoth >= MIN_FIT_TILE_PX ? Math.min(fitBoth, cap) : Math.min(fitW, cap)));
@@ -447,6 +455,23 @@ export const Mosaic = forwardRef<MosaicHandle, Props>(function Mosaic(
       }
       if ((e.sponsored || e.source === "provider") && tp >= MONO_PX) {
         drawBadge(ctx, x + tw * 0.7, y + tw * 0.02, tw * 0.28, e.sponsored ? "star" : "diamond", e.sponsored ? sponsor : ink);
+      }
+      if (savedIds?.has(e.id) && tp >= 10) drawBadge(ctx, x + tw * 0.66, y + tw * 0.04, tw * (tp >= MONO_PX ? 0.3 : 0.5), "star", "#f2b134");
+      if (newIds?.has(e.id) && tp >= MONO_PX) {
+        const fs = Math.max(8, tw * 0.13);
+        ctx.font = `800 ${fs}px ui-sans-serif, system-ui, sans-serif`;
+        const label = "NEW";
+        const lw = ctx.measureText(label).width + fs * 0.9;
+        const lh = fs * 1.5;
+        const lx = x + tw * 0.04;
+        const ly = y + tw * (tp >= DETAIL_PX ? 0.58 : 0.04);
+        ctx.fillStyle = "#16a37f";
+        roundRect(ctx, lx, ly, lw, lh, lh / 2);
+        ctx.fill();
+        ctx.fillStyle = "#fff";
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.fillText(label, lx + lw / 2, ly + lh / 2 + 0.5);
       }
       if (tp >= DETAIL_PX) {
         const glyph = glyphs[categoryGlyph.get(e.categorySlug) ?? ""];
@@ -690,7 +715,7 @@ export const Mosaic = forwardRef<MosaicHandle, Props>(function Mosaic(
       c.textBaseline = "middle";
       c.fillText(text, x + tw / 2, y + tw * (tp >= DETAIL_PX ? 0.42 : 0.53));
     }
-  }, [mapLayout, dists, lens, categoryIndex, categoryGlyph, glyphs, selectedId, focusId, schedule]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [mapLayout, dists, lens, savedIds, newIds, categoryIndex, categoryGlyph, glyphs, selectedId, focusId, schedule]); // eslint-disable-line react-hooks/exhaustive-deps
 
   /** Mini-map: every tile as a dot, with the visible area outlined. */
   function drawMini(tx: number, ty: number, s: number, w: number, h: number, dark: boolean) {
@@ -771,7 +796,7 @@ export const Mosaic = forwardRef<MosaicHandle, Props>(function Mosaic(
       canvas.style.height = sc.clientHeight + "px";
       setArea({
         w: sc.clientWidth - insets.current.right,
-        h: sc.clientHeight - insets.current.top - BOTTOM_UI,
+        h: sc.clientHeight - insets.current.top - bottomUi(),
       });
       if (first) {
         // Open zoomed in, with marks and names visible, at the top-left of the map.

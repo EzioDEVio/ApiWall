@@ -1333,7 +1333,7 @@ body:has(.app-shell) .site-footer {
   padding-bottom: 12px;
   scrollbar-width: thin;
 }
-.cat-row {
+:is(.cat-row, .list-row) {
   display: grid;
   grid-template-columns: 10px 16px minmax(0, 1fr) auto;
   align-items: center;
@@ -1349,10 +1349,10 @@ body:has(.app-shell) .site-footer {
   text-align: left;
   cursor: pointer;
 }
-.cat-row:hover {
+:is(.cat-row, .list-row):hover {
   background: color-mix(in srgb, var(--ink) 6%, transparent);
 }
-.cat-row:focus-visible,
+:is(.cat-row, .list-row):focus-visible,
 .cat-open:focus-visible,
 .cat-close:focus-visible,
 .filter-chip button:focus-visible,
@@ -1360,13 +1360,13 @@ body:has(.app-shell) .site-footer {
   outline: 3px solid var(--focus);
   outline-offset: -1px;
 }
-.cat-row[aria-pressed="true"] {
+:is(.cat-row, .list-row)[aria-pressed="true"] {
   background: color-mix(in srgb, var(--accent) 13%, transparent);
   color: var(--accent);
   font-weight: 700;
   box-shadow: inset 3px 0 0 var(--accent);
 }
-.cat-row i {
+:is(.cat-row, .list-row) i {
   width: 10px;
   height: 10px;
   border-radius: 3px;
@@ -1394,7 +1394,7 @@ body:has(.app-shell) .site-footer {
   font-size: 0.8rem;
   color: var(--muted);
 }
-.cat-row[aria-pressed="true"] .cat-count {
+:is(.cat-row, .list-row)[aria-pressed="true"] .cat-count {
   color: var(--accent);
 }
 .cat-count.is-zero {
@@ -1446,7 +1446,7 @@ body:has(.app-shell) .site-footer {
   background: var(--panel);
   animation: nav-in 0.22s cubic-bezier(0.2, 0.9, 0.3, 1);
 }
-.cat-nav.is-drawer .cat-row {
+.cat-nav.is-drawer :is(.cat-row, .list-row) {
   min-height: 44px;
 }
 .nav-scrim {
@@ -1623,7 +1623,9 @@ body:has(.app-shell) .site-footer {
   align-items: center;
   gap: 6px;
   white-space: nowrap;
-  transition: border-color 0.15s, background 0.15s;
+  transition:
+    border-color 0.15s,
+    background 0.15s;
 }
 .hud-btn:hover,
 .hud-btn[aria-expanded="true"] {
@@ -2172,7 +2174,9 @@ kbd {
   padding: 0 14px 0 0;
   cursor: pointer;
   background-image: linear-gradient(45deg, transparent 50%, currentColor 50%), linear-gradient(135deg, currentColor 50%, transparent 50%);
-  background-position: calc(100% - 6px) 55%, calc(100% - 2px) 55%;
+  background-position:
+    calc(100% - 6px) 55%,
+    calc(100% - 2px) 55%;
   background-size: 4px 4px;
   background-repeat: no-repeat;
 }
@@ -2307,4 +2311,247 @@ kbd {
 }
 .app-shell[data-side="open"] .toast {
   left: calc(50% - 242px);
+}
+
+/* "Your lists" in the sidebar: Saved and New this week */
+.cat-lists {
+  padding-top: 6px;
+}
+.cat-list-toggle {
+  grid-template-columns: 26px minmax(0, 1fr) auto;
+}
+.cat-list-icon {
+  display: grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  color: #b7791f;
+  background: color-mix(in srgb, #f2b134 22%, transparent);
+}
+.cat-list-toggle.is-new .cat-list-icon {
+  color: #0f8a63;
+  background: color-mix(in srgb, #16a37f 20%, transparent);
+}
+
+/* Saved APIs and New badges */
+.card {
+  position: relative;
+}
+.card-save {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 36px;
+  height: 36px;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--muted);
+  font-size: 1.2rem;
+  line-height: 1;
+  cursor: pointer;
+}
+.card-save:hover {
+  background: color-mix(in srgb, var(--ink) 7%, transparent);
+}
+.card-save[aria-pressed="true"] {
+  color: #e3a008;
+}
+.card-save:focus-visible,
+.tabbar button:focus-visible,
+.save-btn:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 1px;
+}
+.card .card-hit {
+  padding-right: 40px;
+}
+.tag-new {
+  border-color: #16a37f;
+  color: #0f8a63;
+  background: color-mix(in srgb, #16a37f 12%, transparent);
+}
+.save-btn.is-saved {
+  border-color: #e3a008;
+  color: #a46b00;
+}
+.list-banner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 10px;
+  width: fit-content;
+  max-width: min(900px, 100%);
+  padding: 6px 8px 6px 14px;
+  border-radius: 12px;
+  font-size: 0.88rem;
+}
+
+/* Phones: bottom tab bar replaces the Map/List switch and the Categories button. */
+.tabbar {
+  position: absolute;
+  z-index: 9;
+  left: 8px;
+  right: 8px;
+  bottom: max(8px, env(safe-area-inset-bottom));
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border-radius: 16px;
+  padding: 4px;
+}
+.tabbar button {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  gap: 1px;
+  min-height: 48px;
+  padding: 4px 0;
+  border: 0;
+  border-radius: 12px;
+  background: transparent;
+  color: var(--muted);
+  font: 600 0.72rem var(--font);
+  cursor: pointer;
+}
+.tabbar button[aria-pressed="true"],
+.tabbar button[aria-expanded="true"] {
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+}
+.tab-star {
+  font-size: 1.1rem;
+  line-height: 20px;
+}
+.tab-badge {
+  position: absolute;
+  top: 2px;
+  left: calc(50% + 8px);
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  border-radius: 9px;
+  background: #e3a008;
+  color: #fff;
+  font-size: 0.68rem;
+  line-height: 18px;
+}
+@media (max-width: 640px) {
+  .hud-bar .segmented,
+  .hud-bar [aria-controls="category-nav"] {
+    display: none;
+  }
+  .app-shell[data-phone] .status-bar {
+    bottom: 76px;
+  }
+  .app-shell[data-phone] .mosaic-controls {
+    bottom: 120px;
+  }
+  .app-shell[data-phone] .list-drawer {
+    bottom: 120px;
+  }
+  .app-shell[data-phone] .toast {
+    bottom: 124px;
+  }
+  .app-shell[data-phone] .welcome {
+    bottom: 124px;
+  }
+}
+
+/* Phones: details slide up as a sheet; swipe the handle down to close. */
+dialog.detail.is-sheet {
+  margin: auto 0 0;
+  width: 100%;
+  max-width: 100%;
+  max-height: 90dvh;
+  border-radius: 20px 20px 0 0;
+  border-bottom: 0;
+  padding-bottom: env(safe-area-inset-bottom);
+  transition: transform 0.18s ease;
+  animation: sheet-in 0.26s cubic-bezier(0.2, 0.9, 0.3, 1);
+}
+dialog.detail.is-sheet .detail-body {
+  padding: 8px 16px 20px;
+}
+.sheet-handle {
+  display: grid;
+  place-items: center;
+  height: 26px;
+  margin: 0 -16px;
+  touch-action: none;
+  cursor: grab;
+}
+.sheet-handle span {
+  width: 44px;
+  height: 5px;
+  border-radius: 3px;
+  background: color-mix(in srgb, var(--ink) 25%, transparent);
+}
+dialog.detail.is-sheet .detail-tools {
+  top: 26px;
+}
+@keyframes sheet-in {
+  from {
+    transform: translateY(40%);
+    opacity: 0.4;
+  }
+}
+
+/* What's new */
+.change {
+  border-top: 1px solid var(--line);
+  padding-top: 8px;
+  margin-top: 18px;
+}
+.change h2 {
+  margin-bottom: 0.3em;
+}
+.change-list {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  gap: 6px;
+}
+
+/* Phones: brand and actions share one row; the nav scrolls sideways with a fade hint. */
+@media (max-width: 640px) {
+  .header-inner {
+    row-gap: 4px;
+  }
+  .header-actions {
+    gap: 6px;
+  }
+  .header-actions .btn {
+    padding: 7px 10px;
+    font-size: 0.86rem;
+  }
+  .main-nav {
+    gap: 18px;
+    padding-bottom: 2px;
+    mask-image: linear-gradient(90deg, #000 85%, transparent);
+    -webkit-mask-image: linear-gradient(90deg, #000 85%, transparent);
+    scrollbar-width: none;
+  }
+  .main-nav::-webkit-scrollbar {
+    display: none;
+  }
+  .app-shell[data-phone] .status-bar {
+    gap: 10px;
+    padding: 6px 12px;
+  }
+  .app-shell[data-phone] .status-bar {
+    flex-wrap: wrap;
+    justify-content: center;
+    border-radius: 16px;
+    row-gap: 2px;
+  }
+  .app-shell[data-phone] .status-bar .notice-mini {
+    display: none;
+  }
+}
+@media (max-width: 440px) {
+  .app-shell[data-phone] .status-bar .count-cat {
+    display: none;
+  }
 }

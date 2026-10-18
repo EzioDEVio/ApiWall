@@ -36,13 +36,19 @@ auth, and open the docs in a click.
 - **Light or dark.** Follows your system, or pick one with the toggle in the header.
 - **Starter code.** Each API shows copy-ready `curl`, JavaScript and Python with the right auth
   header. Keys stay in environment variables, and endpoints are never made up.
+- **Save your favourites.** Star any API (on its card, or ☆ Save in its details) and find it
+  under **Saved**. Saved APIs stay in your browser — no account, nothing sent anywhere — and
+  **Copy share link** turns them into one link that opens as a shared list anyone can save.
+- **New this week.** APIs added by the weekly catalog sync carry a **NEW** badge for seven
+  days, and the **What's new** page lists every sync's additions and removals.
 - **Links that keep your view.** The address bar always holds the current category, search,
   filters and open API. Copy it, share it, and it opens exactly the same view.
 - **Honest data.** Facts come straight from the [public-apis](https://github.com/public-apis/public-apis)
   catalog, every curated AI Models entry is checked against official docs with a date, and
   pricing is shown only when verified.
-- **Works everywhere.** Keyboard and screen-reader friendly, with a category drawer on phones and
-  no sideways scrolling.
+- **Works everywhere.** Keyboard and screen-reader friendly, no sideways scrolling, and on
+  phones a bottom tab bar (Map, List, Categories, Saved) with details that slide up as a sheet
+  you swipe down to close.
 
 <table>
 <tr>
@@ -153,6 +159,11 @@ Listing IDs come from name + URL, and **placements are carried over from the pre
 snapshot**, so existing tiles never move; new listings take free slots in their category
 band. If GitHub is unreachable it rebuilds from `data/upstream/README.md`; with no cache
 it fails instead of inventing data. Commit the updated `data/` files after a refresh.
+
+Each import also dates listings it has not seen before (`addedAt` in the snapshot) and adds
+an entry to `data/changelog.json` with what was added and removed. That file feeds the
+**What's new** page and the NEW badges. Listings from the very first import have no date,
+because there is no way to know when they joined public-apis.
 
 The JSON service mentioned in the upstream README (`api.publicapis.org`, from
 davemachado/public-api) did not respond when checked and is not used.
@@ -304,17 +315,18 @@ a generated monogram. Category icons are [Tabler Icons](https://tabler.io/icons)
 ## Project map
 
 ```
-app/                 pages (Explore, Submit, For Providers, About & Source, Review), API routes, social preview image
+app/                 pages (Explore, Submit, For Providers, What's new, About & Source, Review), API routes, social preview image
 components/          Mosaic (canvas), CategoryNav, ListView, DetailDialog, CodeSamples, LogoSuggest, review UI
-lib/catalog/         README parser, normalizer, placement, marks, AI Models supplement, community logos, snapshot builder
+lib/catalog/         README parser, normalizer, placement, marks, AI Models supplement, community logos, snapshot builder, changelog
 lib/explore/         entries, the shared filter pipeline, map layouts, shareable URL state, starter code
 lib/logos/           logo suggestions: validation, review rules, public projection
 lib/providers/       submission types, validation, review workflow, public projection
 lib/server/          file store, rate limiting, reviewer sessions, config
 lib/security/        secret detection and redaction
+lib/saved.ts         saved APIs, kept in the browser's localStorage
 lib/site.ts          site name, repository links, static-mode and base-path settings
 scripts/             importer, logo tools, static build, demo recorder, secret scanner
-data/                committed snapshot, glyphs, ai-models.json, community-logos.json, upstream README + LICENSE
+data/                committed snapshot, changelog.json, glyphs, ai-models.json, community-logos.json, upstream README + LICENSE
 .github/             CI, Pages deploy, weekly catalog sync, issue forms
 docs/media/          README GIF and screenshots
 tests/unit, tests/e2e

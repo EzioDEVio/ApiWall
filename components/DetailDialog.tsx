@@ -18,8 +18,11 @@ interface Props {
   categoryIndex: number;
   glyph: string[] | undefined;
   dark: boolean;
-  /** "side": a non-modal panel beside the map (wide screens). "modal": a centred dialog (default). */
-  mode?: "modal" | "side";
+  /** "side": a non-modal panel beside the map (wide screens). "sheet": a bottom sheet (phones). "modal": centred (default). */
+  mode?: "modal" | "side" | "sheet";
+  saved?: boolean;
+  onToggleSave?: () => void;
+  isNew?: boolean;
   /** Step through the current results. */
   nav?: { index: number; total: number; prev: () => void; next: () => void } | null;
 }
@@ -32,10 +35,25 @@ const fmtDate = (iso: string) =>
     timeZone: "UTC",
   });
 
-export function DetailDialog({ entry, onClose, source, categoryIndex, glyph, dark, mode = "modal", nav = null }: Props) {
+export function DetailDialog({
+  entry,
+  onClose,
+  source,
+  categoryIndex,
+  glyph,
+  dark,
+  mode = "modal",
+  nav = null,
+  saved = false,
+  onToggleSave,
+  isNew = false,
+}: Props) {
   const ref = useRef<HTMLDialogElement>(null);
   const opener = useRef<HTMLElement | null>(null);
-  const shownAs = useRef<"modal" | "side" | null>(null);
+  const shownAs = useRef<"modal" | "side" | "sheet" | null>(null);
+  // Swipe down on the sheet's handle or header to close it.
+  const drag = useRef<{ y: number; id: number } | null>(null);
+  const [dragY, setDragY] = useState(0);
   const reopening = useRef(false);
 
   useEffect(() => {
@@ -102,7 +120,8 @@ export function DetailDialog({ entry, onClose, source, categoryIndex, glyph, dar
   return (
     <dialog
       ref={ref}
-      className={"detail" + (mode === "side" ? " is-side" : "")}
+      className={"detail" + (mode === "side" ? " is-side" : mode === "sheet" ? " is-sheet" : "")}
+      style={dragY ? { transform: `translateY(${dragY}px)`, transition: "none" } : undefined}
       aria-labelledby="detail-title"
       onClose={() => {
         if (reopening.current) return;
@@ -114,12 +133,38 @@ export function DetailDialog({ entry, onClose, source, categoryIndex, glyph, dar
         onClose();
       }}
       onClick={(e) => {
-        if (e.target === ref.current && mode === "modal") ref.current?.close(); // click on backdrop
+        if (e.target === ref.current && mode !== "side") ref.current?.close(); // click on backdrop
       }}
       data-testid="detail-dialog"
     >
       {entry && (
         <div className="detail-body">
+          {mode === "sheet" && (
+            <div
+              className="sheet-handle"
+              aria-hidden="true"
+              onPointerDown={(e) => {
+                drag.current = { y: e.clientY, id: e.pointerId };
+                e.currentTarget.setPointerCapture(e.pointerId);
+              }}
+              onPointerMove={(e) => {
+                if (drag.current?.id === e.pointerId) setDragY(Math.max(0, e.clientY - drag.current.y));
+              }}
+              onPointerUp={(e) => {
+                if (drag.current?.id !== e.pointerId) return;
+                const far = e.clientY - drag.current.y > 90;
+                drag.current = null;
+                setDragY(0);
+                if (far) ref.current?.close();
+              }}
+              onPointerCancel={() => {
+                drag.current = null;
+                setDragY(0);
+              }}
+            >
+              <span />
+            </div>
+          )}
           <div className="detail-tools">
             {nav && nav.total > 1 && (
               <div className="detail-nav" role="group" aria-label="Browse results">
@@ -149,6 +194,7 @@ export function DetailDialog({ entry, onClose, source, categoryIndex, glyph, dar
                 {entry.source === "provider" && <span className="tag tag-provider">◆ Provider-submitted, reviewed</span>}
                 {entry.sponsored && <span className="tag tag-sponsor">★ Sponsored</span>}
                 {entry.tags.includes("ai-models") && entry.categorySlug !== "ai-models" && <span className="tag tag-ai">Also in AI Models</span>}
+                {isNew && <span className="tag tag-new">New this week</span>}
               </p>
               <h2 id="detail-title">{entry.name}</h2>
               {entry.providerName && <p className="muted small">by {entry.providerName}</p>}
@@ -301,6 +347,17 @@ export function DetailDialog({ entry, onClose, source, categoryIndex, glyph, dar
                 </a>
               ) : (
                 <p className="muted">The catalog link for this entry could not be read, so no link is shown.</p>
+              )}
+              {onToggleSave && (
+                <button
+                  type="button"
+                  className={"btn save-btn" + (saved ? " is-saved" : "")}
+                  aria-pressed={saved}
+                  onClick={onToggleSave}
+                  data-testid="save-api"
+                >
+                  {saved ? "★ Saved" : "☆ Save"}
+                </button>
               )}
               <CopyEntryLink />
             </div>

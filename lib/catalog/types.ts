@@ -37,6 +37,8 @@ export interface CatalogListing {
   /** Extra category slugs this listing also belongs to (e.g. "ai-models"), set by curated cross-tags. */
   tags?: string[];
   aiModel?: AiModelInfo;
+  /** When this listing first appeared on the wall (absent for the original import). */
+  addedAt?: string;
 }
 
 /** Facts checked by ApiWall against a provider's official documentation. */

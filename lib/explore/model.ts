@@ -3,6 +3,7 @@ import { normalizeAuth } from "@/lib/catalog/normalize";
 import { slotToPlacement } from "@/lib/catalog/placement";
 import { monogramText } from "@/lib/catalog/marks";
 import { COMMUNITY_BASIS } from "@/lib/catalog/community";
+import { isRecent } from "@/lib/catalog/history";
 import { fnv1a } from "@/lib/catalog/normalize";
 import { type AccessStatus, isDisplayableClaim, type PublicProviderPayload, type VerifiedAccessClaim } from "@/lib/providers/types";
 import type { PublicLogoOverride } from "@/lib/logos/types";
@@ -59,6 +60,8 @@ export interface Entry {
   /** Extra category slugs (e.g. "ai-models") from curated cross-tags. Matching is exact. */
   tags: string[];
   aiModel?: AiModelInfo;
+  /** When the listing first appeared on the wall (absent for the original import). */
+  addedAt?: string;
   placement: Placement | null;
   mark: EntryMark;
   /** Provider-side, reviewed. Never derived from auth/HTTPS/CORS. */
@@ -74,8 +77,16 @@ export interface Entry {
 function markFor(id: string, name: string, mark: IdentityMark | undefined, o: PublicLogoOverride | undefined): EntryMark {
   const base: EntryMark = mark ? toEntryMark(mark) : { type: "monogram", text: monogramText(name), seed: fnv1a(id) };
   if (!o) return base;
-  const fallback = base.type === "monogram" ? { text: base.text, seed: base.seed } : base.type === "logo" ? base.fallback : { text: monogramText(name), seed: fnv1a(id) };
-  return { type: "logo", src: o.src, title: name, fallback, source: { page: o.sourceUrl, basis: "Approved by a ApiWall reviewer", fetchedAt: o.approvedAt }, reviewed: true };
+  const fallback =
+    base.type === "monogram" ? { text: base.text, seed: base.seed } : base.type === "logo" ? base.fallback : { text: monogramText(name), seed: fnv1a(id) };
+  return {
+    type: "logo",
+    src: o.src,
+    title: name,
+    fallback,
+    source: { page: o.sourceUrl, basis: "Approved by a ApiWall reviewer", fetchedAt: o.approvedAt },
+    reviewed: true,
+  };
 }
 
 /** True when the tile shows a real logo or brand mark rather than a generated monogram. */
@@ -108,6 +119,7 @@ export function buildEntries(snapshot: CatalogSnapshot, providers: PublicProvide
       origin: l.origin ?? "upstream",
       tags: l.tags ?? [],
       aiModel: l.aiModel,
+      addedAt: l.addedAt,
       placement: snapshot.placements[l.id] ?? null,
       mark: markFor(l.id, l.name, snapshot.marks[l.id], overrides.get(l.id)),
       sponsored: false, // catalog listings are never sponsored; sponsorship applies to reviewed provider tiles only
@@ -157,9 +169,14 @@ export interface Filters {
   access: "" | AccessStatus;
   kind: "" | "api" | "mcp" | "provider";
   logo: "" | "has" | "missing";
+  /** "yes": only listings that appeared in the last 7 days. */
+  fresh: "" | "yes";
+  /** "yes": only the visitor's saved APIs (applied by the page, which knows the saved set). */
+  saved: "" | "yes";
 }
 
-export const EMPTY_FILTERS: Filters = { q: "", category: "", auth: "", https: "", cors: "", access: "", kind: "", logo: "" };
+export const EMPTY_FILTERS: Filters = { q: "", category: "", auth: "", https: "", cors: "", access: "", kind: "", logo: "", fresh: "", saved: "" };
+export const NEW_DAYS = 7;
 
 export const isFiltered = (f: Filters) => Object.values(f).some((v) => v !== "");
 
@@ -181,6 +198,7 @@ export function matches(e: Entry, f: Filters, terms: string[] = searchTerms(f.q)
   if (f.cors && e.cors !== f.cors) return false;
   if (f.access && e.access !== f.access) return false;
   if (f.logo && hasLogo(e) !== (f.logo === "has")) return false;
+  if (f.fresh && !isRecent(e.addedAt, Date.now(), NEW_DAYS)) return false;
   for (const t of terms) if (!e.search.includes(t)) return false;
   return true;
 }

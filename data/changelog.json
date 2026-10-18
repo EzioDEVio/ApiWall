@@ -1,0 +1,43 @@
+{
+ "version": 1,
+ "entries": [
+  {
+   "at": "2026-10-17T12:00:00.000Z",
+   "commit": "a8f43609edba00b1dcdf7e55a5f3f855bc4ec37f",
+   "note": "New curated AI Models category. Each provider was checked against its official docs.",
+   "added": [
+    {
+     "id": "api-cerebras-inference-08fun2w04s",
+     "name": "Cerebras Inference",
+     "category": "AI Models"
+    },
+    {
+     "id": "api-claude-api-07vgi4i0c9",
+     "name": "Claude API",
+     "category": "AI Models"
+    },
+    {
+     "id": "api-deepseek-api-1iff4ry0xv",
+     "name": "DeepSeek API",
+     "category": "AI Models"
+    },
+    {
+     "id": "api-openai-api-1rmb4o81bp",
+     "name": "OpenAI API",
+     "category": "AI Models"
+    },
+    {
+     "id": "api-perplexity-api-1ebzuhd1mk",
+     "name": "Perplexity API",
+     "category": "AI Models"
+    },
+    {
+     "id": "api-xai-api-0lzndbi0ng",
+     "name": "xAI API",
+     "category": "AI Models"
+    }
+   ],
+   "removed": []
+  }
+ ]
+}

@@ -13,6 +13,8 @@ export interface UrlState {
   api: string | null;
   /** Colouring of the wall; "category" (the default) is left out of URLs. */
   lens?: LensId;
+  /** A shared list of API IDs (?list=a,b,c), shown as its own view. */
+  list?: string[] | null;
 }
 
 const ENUMS: Partial<Record<keyof Filters, readonly string[]>> = {
@@ -22,6 +24,8 @@ const ENUMS: Partial<Record<keyof Filters, readonly string[]>> = {
   cors: ["yes", "no", "unknown"],
   access: ACCESS_STATUSES,
   logo: ["has", "missing"],
+  fresh: ["yes"],
+  saved: ["yes"],
 };
 // Query parameter → filter key. Short, readable names.
 const PARAMS: [string, keyof Filters][] = [
@@ -33,7 +37,23 @@ const PARAMS: [string, keyof Filters][] = [
   ["cors", "cors"],
   ["access", "access"],
   ["logo", "logo"],
+  ["new", "fresh"],
+  ["saved", "saved"],
 ];
+
+/** Up to 100 well-formed IDs from ?list=, in order, without duplicates. */
+export function parseList(v: string | null): string[] | null {
+  if (!v) return null;
+  const ids = [
+    ...new Set(
+      v
+        .split(",")
+        .map((x) => x.trim())
+        .filter((x) => /^[a-z0-9-]{1,120}$/.test(x)),
+    ),
+  ].slice(0, 100);
+  return ids.length ? ids : null;
+}
 
 export function parseUrlState(search: string): UrlState {
   const p = new URLSearchParams(search);
@@ -54,6 +74,7 @@ export function parseUrlState(search: string): UrlState {
     view: view === "list" || view === "map" ? view : null,
     api: api && /^[a-z0-9-]{1,120}$/.test(api) ? api : null,
     lens: (LENS_IDS as readonly string[]).includes(lens ?? "") ? (lens as LensId) : "category",
+    list: parseList(p.get("list")),
   };
 }
 
@@ -67,6 +88,8 @@ export function toUrlSearch(state: UrlState, existing = ""): string {
   }
   if (state.view === "list") p.set("view", "list");
   else p.delete("view");
+  if (state.list?.length) p.set("list", state.list.join(","));
+  else p.delete("list");
   if (state.lens && state.lens !== "category") p.set("lens", state.lens);
   else p.delete("lens");
   if (state.api) p.set("api", state.api);

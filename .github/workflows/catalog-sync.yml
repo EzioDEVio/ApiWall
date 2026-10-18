@@ -27,6 +27,8 @@ jobs:
       - name: Fetch logos for new listings
         run: npm run catalog:logos
       - run: npm test
+      - name: Skip the pull request when only timestamps changed
+        run: node scripts/drop-timestamp-only-changes.mjs
       - uses: peter-evans/create-pull-request@v7
         with:
           branch: chore/catalog-sync

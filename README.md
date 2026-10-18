@@ -130,7 +130,9 @@ To try the Pages build locally (Windows, macOS or Linux), stop `npm run dev` fir
 
 `.github/workflows/catalog-sync.yml` imports the latest catalog every Monday, fetches logos
 for new listings and opens a pull request. Enable **Settings → Actions → General → Allow
-GitHub Actions to create and approve pull requests** once.
+GitHub Actions to create and approve pull requests** once (and press that section's **Save**).
+Weeks where only the "last checked" timestamps changed don't open a pull request
+(`scripts/drop-timestamp-only-changes.mjs`).
 
 ## Commands
 

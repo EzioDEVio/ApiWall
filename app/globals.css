@@ -2555,3 +2555,326 @@ dialog.detail.is-sheet .detail-tools {
     display: none;
   }
 }
+
+/* Ctrl+K palette */
+.palette-btn kbd {
+  font-size: 0.72rem;
+  padding: 2px 6px;
+}
+dialog.palette {
+  width: min(620px, calc(100vw - 24px));
+  max-height: min(70dvh, 560px);
+  margin: 12vh auto auto;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  color: var(--ink);
+  background: var(--panel);
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.35);
+  overflow: hidden;
+  flex-direction: column;
+}
+dialog.palette[open] {
+  display: flex;
+}
+dialog.palette::backdrop {
+  background: rgba(8, 10, 16, 0.45);
+}
+.palette-input {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--line);
+  color: var(--muted);
+}
+.palette-input input {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  outline: none;
+  background: transparent;
+  color: var(--ink);
+  font: 500 1.05rem var(--font);
+}
+.palette-list {
+  overflow-y: auto;
+  padding: 6px;
+  min-height: 0;
+}
+.palette-group-name {
+  padding: 8px 10px 4px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.palette-item {
+  display: grid;
+  grid-template-columns: 26px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  padding: 6px 10px;
+  border-radius: 9px;
+  cursor: pointer;
+}
+.palette-item[aria-selected="true"] {
+  background: color-mix(in srgb, var(--accent) 14%, transparent);
+  box-shadow: inset 3px 0 0 var(--accent);
+}
+.palette-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-weight: 600;
+}
+.palette-sub {
+  color: var(--muted);
+  font-size: 0.82rem;
+  white-space: nowrap;
+}
+.palette-icon {
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 7px;
+  background: color-mix(in srgb, var(--ink) 8%, transparent);
+  color: var(--muted);
+}
+.palette-empty {
+  padding: 18px 12px;
+  color: var(--muted);
+}
+.palette-foot {
+  margin: 0;
+  padding: 8px 14px;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 0.78rem;
+}
+@media (max-width: 640px) {
+  .palette-btn,
+  .palette-foot {
+    display: none;
+  }
+  dialog.palette {
+    margin-top: 8px;
+  }
+}
+@media (max-width: 1180px) {
+  .palette-btn {
+    display: none;
+  }
+}
+
+/* Compare tray and table */
+.compare-tray {
+  position: absolute;
+  z-index: 6;
+  left: 50%;
+  bottom: 56px;
+  transform: translateX(-50%);
+  max-width: calc(100% - 24px);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px 8px 14px;
+  border-radius: 14px;
+  animation: panel-in 0.18s ease-out;
+}
+.compare-tray ul {
+  display: flex;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  min-width: 0;
+  overflow-x: auto;
+}
+.tray-label {
+  font-weight: 700;
+  font-size: 0.86rem;
+}
+.tray-chip {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  max-width: 180px;
+  padding: 3px 4px 3px 4px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--panel);
+  font-size: 0.84rem;
+}
+.tray-chip span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.tray-chip button {
+  width: 26px;
+  height: 26px;
+  flex: none;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--muted);
+  font-size: 1rem;
+  cursor: pointer;
+}
+.tray-chip button:hover {
+  background: color-mix(in srgb, var(--ink) 10%, transparent);
+}
+.tray-slot {
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  border: 1px dashed var(--line);
+  border-radius: 999px;
+  color: var(--muted);
+  font-size: 0.8rem;
+  white-space: nowrap;
+}
+.app-shell[data-compare] .toast {
+  bottom: 116px;
+}
+.compare-btn.is-on {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+dialog.compare {
+  width: min(980px, calc(100vw - 24px));
+}
+.compare-head {
+  padding-right: 48px;
+}
+.compare-head h2 {
+  margin: 2px 0 10px;
+}
+.compare-tools {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 18px;
+  margin-bottom: 14px;
+}
+.compare-scroll {
+  overflow-x: auto;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+}
+.compare-scroll:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+.compare-table {
+  width: 100%;
+  min-width: 560px;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+.compare-table th,
+.compare-table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--line);
+  text-align: left;
+  vertical-align: top;
+}
+.compare-table tbody tr:last-child > * {
+  border-bottom: 0;
+}
+.compare-table tbody th {
+  width: 170px;
+  position: sticky;
+  left: 0;
+  background: var(--panel);
+  font-weight: 600;
+  color: var(--muted);
+}
+.compare-table thead th {
+  font-weight: 700;
+}
+.compare-api {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.compare-api-actions {
+  display: flex;
+  gap: 14px;
+  margin-top: 6px;
+}
+.compare-table tr.is-diff td {
+  background: color-mix(in srgb, #f2b134 10%, transparent);
+}
+.diff-tag {
+  display: inline-block;
+  margin-left: 6px;
+  padding: 0 6px;
+  border-radius: 6px;
+  background: color-mix(in srgb, #f2b134 28%, transparent);
+  color: var(--ink);
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.compare-desc {
+  color: var(--muted);
+  min-width: 180px;
+}
+.compare-note {
+  margin-top: 12px;
+}
+@media (max-width: 640px) {
+  .app-shell[data-phone] .compare-tray {
+    left: 8px;
+    right: 8px;
+    transform: none;
+    bottom: 146px;
+    max-width: none;
+  }
+  .app-shell[data-phone] .compare-tray ul {
+    display: none;
+  }
+  .app-shell[data-phone] .compare-tray .tray-label {
+    margin-right: auto;
+  }
+  .app-shell[data-phone][data-compare] .mosaic-controls {
+    bottom: 214px;
+  }
+  .app-shell[data-phone][data-compare] .toast {
+    bottom: 220px;
+  }
+  .compare-table tbody th {
+    width: 110px;
+  }
+  .compare-table td {
+    min-width: 150px;
+  }
+}
+.compare-tray .btn {
+  white-space: nowrap;
+}
+.app-shell[data-compare]:not([data-phone]) .mosaic-controls {
+  bottom: 122px;
+}
+.app-shell[data-side="open"] .compare-tray {
+  left: calc(50% - 242px);
+  max-width: calc(100% - 508px);
+}
+.app-shell[data-listview="open"]:not([data-phone]) .compare-tray {
+  left: calc(50% - 220px);
+  max-width: calc(100% - 464px);
+}
+.tray-n {
+  display: none;
+}
+@media (max-width: 640px) {
+  .app-shell[data-phone] .tray-n {
+    display: inline;
+  }
+}

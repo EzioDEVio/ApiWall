@@ -91,6 +91,7 @@ describe("saved and shared lists in URLs", () => {
       api: null,
       lens: "category" as const,
       list: ["api-a", "api-b"],
+      compare: null,
     };
     const search = toUrlSearch(state);
     expect(search).toBe("?new=yes&saved=yes&list=api-a%2Capi-b");

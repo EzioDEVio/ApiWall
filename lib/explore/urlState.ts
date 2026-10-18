@@ -15,6 +15,8 @@ export interface UrlState {
   lens?: LensId;
   /** A shared list of API IDs (?list=a,b,c), shown as its own view. */
   list?: string[] | null;
+  /** APIs picked for a side-by-side comparison (?compare=a,b), at most three. */
+  compare?: string[] | null;
 }
 
 const ENUMS: Partial<Record<keyof Filters, readonly string[]>> = {
@@ -75,6 +77,7 @@ export function parseUrlState(search: string): UrlState {
     api: api && /^[a-z0-9-]{1,120}$/.test(api) ? api : null,
     lens: (LENS_IDS as readonly string[]).includes(lens ?? "") ? (lens as LensId) : "category",
     list: parseList(p.get("list")),
+    compare: parseList(p.get("compare"))?.slice(0, 3) ?? null,
   };
 }
 
@@ -90,6 +93,8 @@ export function toUrlSearch(state: UrlState, existing = ""): string {
   else p.delete("view");
   if (state.list?.length) p.set("list", state.list.join(","));
   else p.delete("list");
+  if (state.compare?.length) p.set("compare", state.compare.slice(0, 3).join(","));
+  else p.delete("compare");
   if (state.lens && state.lens !== "category") p.set("lens", state.lens);
   else p.delete("lens");
   if (state.api) p.set("api", state.api);

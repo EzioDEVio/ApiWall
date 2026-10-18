@@ -23,6 +23,10 @@ interface Props {
   saved?: boolean;
   onToggleSave?: () => void;
   isNew?: boolean;
+  /** In the side-by-side comparison; `compareFull` when it already holds the maximum. */
+  compared?: boolean;
+  compareFull?: boolean;
+  onToggleCompare?: () => void;
   /** Step through the current results. */
   nav?: { index: number; total: number; prev: () => void; next: () => void } | null;
 }
@@ -47,6 +51,9 @@ export function DetailDialog({
   saved = false,
   onToggleSave,
   isNew = false,
+  compared = false,
+  compareFull = false,
+  onToggleCompare,
 }: Props) {
   const ref = useRef<HTMLDialogElement>(null);
   const opener = useRef<HTMLElement | null>(null);
@@ -357,6 +364,18 @@ export function DetailDialog({
                   data-testid="save-api"
                 >
                   {saved ? "★ Saved" : "☆ Save"}
+                </button>
+              )}
+              {onToggleCompare && (
+                <button
+                  type="button"
+                  className={"btn compare-btn" + (compared ? " is-on" : "")}
+                  aria-pressed={compared}
+                  onClick={onToggleCompare}
+                  title={!compared && compareFull ? "The comparison already holds 3 APIs" : undefined}
+                  data-testid="compare-api"
+                >
+                  ⇄ Compare
                 </button>
               )}
               <CopyEntryLink />

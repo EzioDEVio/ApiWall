@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { applyTheme, readTheme, type ThemeChoice } from "@/lib/theme";
+import { applyTheme, onThemeChange, readTheme, type ThemeChoice } from "@/lib/theme";
 
 const NEXT: Record<ThemeChoice, ThemeChoice> = { system: "light", light: "dark", dark: "system" };
 const LABEL: Record<ThemeChoice, string> = { system: "System", light: "Light", dark: "Dark" };
@@ -14,7 +14,10 @@ const ICON: Record<ThemeChoice, string[]> = {
 /** Cycles System → Light → Dark. The choice is remembered in this browser. */
 export function ThemeToggle() {
   const [theme, setTheme] = useState<ThemeChoice>("system");
-  useEffect(() => setTheme(readTheme()), []);
+  useEffect(() => {
+    setTheme(readTheme());
+    return onThemeChange(() => setTheme(readTheme())); // e.g. changed from the Ctrl+K palette
+  }, []);
   const next = NEXT[theme];
   return (
     <button

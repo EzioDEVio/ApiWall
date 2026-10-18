@@ -39,6 +39,11 @@ auth, and open the docs in a click.
 - **Save your favourites.** Star any API (on its card, or ☆ Save in its details) and find it
   under **Saved**. Saved APIs stay in your browser — no account, nothing sent anywhere — and
   **Copy share link** turns them into one link that opens as a shared list anyone can save.
+- **Compare side by side.** Press **⇄ Compare** in any API's details to add it (up to three),
+  then **Compare** shows auth, HTTPS, CORS, models, verified access and docs in one table, with
+  the differences marked. The comparison has its own link, so you can share it.
+- **Jump to anything.** Press <kbd>Ctrl</kbd>+<kbd>K</kbd> (<kbd>⌘</kbd>+<kbd>K</kbd> on a Mac) and
+  type: open any API, pick a category, or run an action like "Show saved APIs" or "Use the dark theme".
 - **New this week.** APIs added by the weekly catalog sync carry a **NEW** badge for seven
   days, and the **What's new** page lists every sync's additions and removals.
 - **Links that keep your view.** The address bar always holds the current category, search,
@@ -316,9 +321,9 @@ a generated monogram. Category icons are [Tabler Icons](https://tabler.io/icons)
 
 ```
 app/                 pages (Explore, Submit, For Providers, What's new, About & Source, Review), API routes, social preview image
-components/          Mosaic (canvas), CategoryNav, ListView, DetailDialog, CodeSamples, LogoSuggest, review UI
+components/          Mosaic (canvas), CategoryNav, ListView, DetailDialog, CompareDialog, CommandPalette, CodeSamples, LogoSuggest, review UI
 lib/catalog/         README parser, normalizer, placement, marks, AI Models supplement, community logos, snapshot builder, changelog
-lib/explore/         entries, the shared filter pipeline, map layouts, shareable URL state, starter code
+lib/explore/         entries, the shared filter pipeline, map layouts, shareable URL state, starter code, compare, Ctrl+K palette
 lib/logos/           logo suggestions: validation, review rules, public projection
 lib/providers/       submission types, validation, review workflow, public projection
 lib/server/          file store, rate limiting, reviewer sessions, config

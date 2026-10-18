@@ -22,6 +22,11 @@ import { useSaved } from "@/lib/saved";
 import { isRecent } from "@/lib/catalog/history";
 import { LENS_IDS, LENSES, type LensId, lensCounts, lensSwatch } from "@/lib/explore/lenses";
 import { CategoryNav, type CategoryRow } from "./CategoryNav";
+import { CompareDialog } from "./CompareDialog";
+import { CommandPalette } from "./CommandPalette";
+import { MAX_COMPARE, toggleCompare } from "@/lib/explore/compare";
+import type { PaletteAction, PaletteItem } from "@/lib/explore/palette";
+import { applyTheme } from "@/lib/theme";
 
 type Load<T> = { state: "loading" } | { state: "error"; message: string } | { state: "ready"; data: T };
 
@@ -108,6 +113,9 @@ export function Explore({ glyphs, stats }: Props) {
   const [lens, setLens] = useState<LensId>("category");
   const [sharedList, setSharedList] = useState<string[] | null>(null);
   const [phone, setPhone] = useState(false);
+  const [compareIds, setCompareIds] = useState<string[]>([]);
+  const [compareOpen, setCompareOpen] = useState(false);
+  const [paletteOpen, setPaletteOpen] = useState(false);
   const saved = useSaved();
   const [sugOpen, setSugOpen] = useState(false);
   const [sugIdx, setSugIdx] = useState(-1);
@@ -163,6 +171,10 @@ export function Explore({ glyphs, stats }: Props) {
     if (fromUrl.api) setSelectedId(fromUrl.api);
     if (fromUrl.lens) setLens(fromUrl.lens);
     if (fromUrl.list) setSharedList(fromUrl.list);
+    if (fromUrl.compare) {
+      setCompareIds(fromUrl.compare);
+      if (fromUrl.compare.length >= 2) setCompareOpen(true); // a shared comparison opens ready to read
+    }
     setUrlReady(true);
     // Below 900px the category list becomes a drawer opened from the top bar.
     // Wide windows show details in a side panel beside the map.
@@ -189,9 +201,24 @@ export function Explore({ glyphs, stats }: Props) {
   // Keep the address bar in step with what is on screen, so any view can be shared as a link.
   useEffect(() => {
     if (!urlReady) return;
-    const search = toUrlSearch({ filters, view: listOpen ? "list" : null, api: selectedId, lens, list: sharedList }, window.location.search);
+    const search = toUrlSearch(
+      { filters, view: listOpen ? "list" : null, api: selectedId, lens, list: sharedList, compare: compareIds },
+      window.location.search,
+    );
     if (search !== window.location.search) window.history.replaceState(null, "", window.location.pathname + search + window.location.hash);
-  }, [urlReady, filters, listOpen, selectedId, lens, sharedList]);
+  }, [urlReady, filters, listOpen, selectedId, lens, sharedList, compareIds]);
+
+  // Ctrl+K / ⌘K opens the command palette from anywhere, even while typing.
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if ((e.ctrlKey || e.metaKey) && !e.altKey && !e.shiftKey && e.key.toLowerCase() === "k") {
+        e.preventDefault();
+        setPaletteOpen(true);
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, []);
 
   // Shortcuts: "/" focuses search, "R" opens a random API. Ignored while typing or in a dialog.
   useEffect(() => {
@@ -316,6 +343,11 @@ export function Explore({ glyphs, stats }: Props) {
     const url = new URL(window.location.href);
     url.search = toUrlSearch({ filters: EMPTY_FILTERS, view: null, api: null, list: saved.ids.slice(0, 100) });
     showToast((await copyText(url.toString())) ? `Link to your ${Math.min(saved.ids.length, 100)} saved APIs copied.` : "Copy failed.");
+  };
+  const toggleCmp = (id: string) => {
+    const r = toggleCompare(compareIds, id);
+    if (r.refused) showToast(`The comparison holds ${MAX_COMPARE} APIs. Remove one first.`);
+    else setCompareIds(r.ids);
   };
   const copyLink = async () =>
     showToast((await copyText(window.location.href)) ? "Link copied. It opens this exact view." : "Copy failed. Copy the address bar instead.");
@@ -443,6 +475,69 @@ export function Explore({ glyphs, stats }: Props) {
   };
   const src = snapshot.source;
 
+  // Compared APIs in the order they were added (unknown IDs from old links are skipped).
+  const compareEntries = compareIds.map((id) => byId.get(id)).filter((e): e is NonNullable<typeof e> => !!e);
+
+  // Ctrl+K palette: everything you can do from the top bar, by name.
+  const paletteActions: PaletteAction[] = [
+    listOpen ? { id: "map", label: "Show the map", keywords: "wall view" } : { id: "list", label: "Show the list", keywords: "cards view" },
+    { id: "saved", label: filters.saved ? "Show all APIs" : "Show saved APIs", keywords: "saved favourites favorites starred my list", hint: `${saved.ids.length} saved` },
+    ...(newCount ? [{ id: "new", label: "Show New this week", keywords: "recent fresh added latest", hint: `${newCount} new` }] : []),
+    ...(compareEntries.length >= 2 ? [{ id: "compare", label: "Open the comparison", keywords: "compare side by side", hint: `${compareEntries.length} APIs` }] : []),
+    { id: "surprise", label: "Surprise me", keywords: "random dice", hint: "R" },
+    ...(isFiltered(filters) || sharedList ? [{ id: "reset", label: "Reset filters", keywords: "clear all everything" }] : []),
+    { id: "copy", label: "Copy link to this view", keywords: "share url" },
+    { id: "theme-light", label: "Use the light theme", keywords: "theme appearance colour color mode" },
+    { id: "theme-dark", label: "Use the dark theme", keywords: "theme appearance colour color mode night" },
+    { id: "theme-system", label: "Follow the system theme", keywords: "theme appearance colour color mode auto" },
+    { id: "changes", label: "Open What's new", keywords: "changelog changes sync" },
+    { id: "submit", label: "Submit an API", keywords: "add place provider" },
+    { id: "about", label: "Open About & Source", keywords: "about source license" },
+  ];
+  const onPalettePick = (it: PaletteItem) => {
+    if (it.type === "api") {
+      if (!listOpen && results.some((e) => e.id === it.entry.id)) mosaicRef.current?.focusEntry(it.entry.id);
+      select(it.entry.id);
+      return;
+    }
+    if (it.type === "category") {
+      set("category", it.slug);
+      setNavOpen(false);
+      return;
+    }
+    switch (it.action.id) {
+      case "map":
+        return setListOpen(false);
+      case "list":
+        return setListOpen(true);
+      case "saved":
+        return set("saved", filters.saved ? "" : "yes");
+      case "new":
+        return set("fresh", "yes");
+      case "compare":
+        return setCompareOpen(true);
+      case "surprise":
+        return surprise();
+      case "reset":
+        setSharedList(null);
+        return resetAll();
+      case "copy":
+        return void copyLink();
+      case "theme-light":
+        return applyTheme("light");
+      case "theme-dark":
+        return applyTheme("dark");
+      case "theme-system":
+        return applyTheme("system");
+      case "changes":
+        return router.push("/changes");
+      case "submit":
+        return router.push("/submit");
+      case "about":
+        return router.push("/about");
+    }
+  };
+
   return (
     <section
       className="app-shell"
@@ -450,6 +545,8 @@ export function Explore({ glyphs, stats }: Props) {
       data-nav={narrow ? "drawer" : "sidebar"}
       data-side={wide && selected ? "open" : undefined}
       data-phone={phone ? "" : undefined}
+      data-compare={compareIds.length ? "" : undefined}
+      data-listview={listOpen ? "open" : undefined}
     >
       {(!narrow || navOpen) && (
         <CategoryNav
@@ -627,6 +724,17 @@ export function Explore({ glyphs, stats }: Props) {
             </label>
             <button type="button" className="hud-btn hud-icon" aria-label="How to explore" aria-expanded={helpOpen} onClick={() => setHelpOpen((v) => !v)}>
               ?
+            </button>
+            <button
+              type="button"
+              className="hud-btn palette-btn"
+              aria-label="Jump to anything (Ctrl+K)"
+              aria-keyshortcuts="Control+K Meta+K"
+              title="Jump to an API, a category or an action (Ctrl+K)"
+              onClick={() => setPaletteOpen(true)}
+              data-testid="palette-open"
+            >
+              <kbd aria-hidden="true">Ctrl K</kbd>
             </button>
           </form>
           {sharedList && (
@@ -818,8 +926,12 @@ export function Explore({ glyphs, stats }: Props) {
                 <strong>Color:</strong> recolour the wall by auth, HTTPS, CORS or logo. Click a colour in the legend to show only those APIs.
               </li>
               <li>
-                <strong>Shortcuts:</strong> <kbd>/</kbd> search, <kbd>R</kbd> surprise me, <kbd>Esc</kbd> close. <strong>Copy link</strong> in the bottom bar
+                <strong>Shortcuts:</strong> <kbd>Ctrl</kbd>+<kbd>K</kbd> (<kbd>⌘</kbd>+<kbd>K</kbd> on a Mac) jump to anything, <kbd>/</kbd> search,{" "}
+                <kbd>R</kbd> surprise me, <kbd>Esc</kbd> close. <strong>Copy link</strong> in the bottom bar
                 shares exactly what you see.
+              </li>
+              <li>
+                <strong>Compare:</strong> open an API and press <strong>⇄ Compare</strong>; add up to {MAX_COMPARE} and compare them side by side.
               </li>
               <li>
                 <strong>Legend:</strong> ★ with a dashed frame is sponsored; ◆ is provider-submitted; dashed + tiles at the bottom are open for providers.
@@ -974,6 +1086,42 @@ export function Explore({ glyphs, stats }: Props) {
           </nav>
         )}
 
+        {compareIds.length > 0 && (
+          <div className="compare-tray glass" role="group" aria-label="APIs to compare" data-testid="compare-tray">
+            <span className="tray-label">
+              To compare<span className="tray-n">: {compareEntries.length} of {MAX_COMPARE}</span>
+            </span>
+            <ul>
+              {compareEntries.map((e) => (
+                <li key={e.id} className="tray-chip">
+                  <IdentityMark mark={e.mark} name={e.name} categoryIndex={categoryIndex.get(e.categorySlug) ?? 0} size={22} dark={dark} />
+                  <span>{e.name}</span>
+                  <button type="button" aria-label={`Remove ${e.name} from comparison`} onClick={() => setCompareIds((ids) => ids.filter((x) => x !== e.id))}>
+                    ×
+                  </button>
+                </li>
+              ))}
+              {Array.from({ length: Math.max(0, 2 - compareEntries.length) }, (_, i) => (
+                <li key={`slot-${i}`} className="tray-slot" aria-hidden="true">
+                  + add one
+                </li>
+              ))}
+            </ul>
+            <button
+              type="button"
+              className="btn btn-primary btn-small"
+              disabled={compareEntries.length < 2}
+              onClick={() => setCompareOpen(true)}
+              data-testid="compare-open"
+            >
+              Compare {compareEntries.length}
+            </button>
+            <button type="button" className="btn btn-small btn-quiet" onClick={() => setCompareIds([])}>
+              Clear
+            </button>
+          </div>
+        )}
+
         {toast && (
           <div className="toast glass" role="status" data-testid="toast">
             {toast}
@@ -1016,6 +1164,34 @@ export function Explore({ glyphs, stats }: Props) {
           saved={selected ? saved.set.has(selected.id) : false}
           onToggleSave={selected ? () => saved.toggle(selected.id) : undefined}
           isNew={selected ? newIds.has(selected.id) : false}
+          compared={selected ? compareIds.includes(selected.id) : false}
+          compareFull={compareIds.length >= MAX_COMPARE}
+          onToggleCompare={selected ? () => toggleCmp(selected.id) : undefined}
+        />
+
+        <CompareDialog
+          open={compareOpen}
+          entries={compareEntries}
+          categoryIndex={categoryIndex}
+          dark={dark}
+          onClose={() => setCompareOpen(false)}
+          onRemove={(id) => setCompareIds((ids) => ids.filter((x) => x !== id))}
+          onOpenDetails={(id) => {
+            setCompareOpen(false);
+            select(id);
+          }}
+          onCopyLink={copyLink}
+        />
+
+        <CommandPalette
+          open={paletteOpen}
+          entries={entries}
+          categories={navRows}
+          actions={paletteActions}
+          categoryIndex={categoryIndex}
+          dark={dark}
+          onClose={() => setPaletteOpen(false)}
+          onPick={onPalettePick}
         />
       </div>
     </section>

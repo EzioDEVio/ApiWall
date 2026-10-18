@@ -91,6 +91,14 @@ if (status !== 0) {
   process.exit(status);
 }
 
+// Never publish an empty site: the export must contain the home page.
+if (!existsSync(path.join(root, "out", "index.html"))) {
+  console.error("✗ The static export has no out/index.html, so it would publish a 404. Nothing was written for deployment.");
+  process.exit(1);
+}
+// `npm start` needs a server build; mark this one so the start check can say so.
+writeFileSync(path.join(root, ".next", "STATIC_EXPORT"), "This .next folder came from `npm run build:static`. Run `npm run build` before `npm start`.\n");
+
 // GitHub Pages serves extension-less files as downloads, so give the social preview a .png
 // name and point the meta tags at it.
 const out = path.join(root, "out");

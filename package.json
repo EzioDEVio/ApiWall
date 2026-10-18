@@ -16,7 +16,7 @@
     "check:secrets": "tsx scripts/scan-secrets.ts",
     "prebuild": "tsx scripts/check-data.ts",
     "predev": "tsx scripts/check-data.ts",
-    "prestart": "tsx scripts/check-data.ts",
+    "prestart": "tsx scripts/check-data.ts && tsx scripts/check-start.ts",
     "reviewer:setup": "tsx scripts/setup-reviewer.ts",
     "build:static": "node scripts/build-static.mjs",
     "logos:add": "tsx scripts/community-logos.ts add",

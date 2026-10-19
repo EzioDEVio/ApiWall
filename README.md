@@ -27,11 +27,11 @@ auth, and open the docs in a click.
 
 <!-- Refreshed by the weekly catalog sync (npm run sync:report). Edit outside the markers. -->
 <!-- this-week:start -->
-**2,150 APIs** and **20 MCP servers** across **53 categories**.
+**2,157 APIs** and **21 MCP servers** across **53 categories**.
 
-**Latest catalog update (2026-10-17):** 6 new. [Cerebras Inference](https://eziodevio.github.io/ApiWall/apis/cerebras-inference/) · [Claude API](https://eziodevio.github.io/ApiWall/apis/claude-api/) · [DeepSeek API](https://eziodevio.github.io/ApiWall/apis/deepseek-api/) · [OpenAI API](https://eziodevio.github.io/ApiWall/apis/openai-api/) · [Perplexity API](https://eziodevio.github.io/ApiWall/apis/perplexity-api/) · [xAI API](https://eziodevio.github.io/ApiWall/apis/xai-api/).
+**Latest catalog update (2026-10-19):** 12 new, 4 removed. [Africa Compliance Data](https://eziodevio.github.io/ApiWall/apis/africa-compliance-data/) · [CountdownsHQ](https://eziodevio.github.io/ApiWall/apis/countdownshq/) · [Nitrosend](https://eziodevio.github.io/ApiWall/apis/nitrosend/) · [FiberUp Fiber Database](https://eziodevio.github.io/ApiWall/apis/fiberup-fiber-database/) · [UK Public Tenders by Trade](https://eziodevio.github.io/ApiWall/apis/uk-public-tenders-by-trade/) · [Present of AI](https://eziodevio.github.io/ApiWall/apis/present-of-ai/) · [Refnusa](https://eziodevio.github.io/ApiWall/apis/refnusa/) · [StackRates](https://eziodevio.github.io/ApiWall/apis/stackrates/) and 4 more.
 
-**Docs links:** 1,971 of 2,172 reachable (201 not reachable since 2026-10-18).
+**Docs links:** 1,975 of 2,180 reachable (205 not reachable since 2026-10-19; 12 newly unreachable, 8 working again).
 
 [What's new](https://eziodevio.github.io/ApiWall/changes/) · [Stats](https://eziodevio.github.io/ApiWall/stats/) · [Starter packs](https://eziodevio.github.io/ApiWall/packs/)
 <!-- this-week:end -->

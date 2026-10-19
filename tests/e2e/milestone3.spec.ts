@@ -1,4 +1,5 @@
 import { expect, type Page, test } from "@playwright/test";
+import { readFileSync } from "node:fs";
 
 test.beforeEach(async ({ page }) => {
   await page.addInitScript(() => localStorage.setItem("tessera.welcome.dismissed", "1"));
@@ -120,10 +121,15 @@ test("New this week shows APIs first seen in the last seven days, with badges", 
 test("the What's new page lists each import's additions with links to the wall", async ({ page }) => {
   await page.goto("/changes");
   await expect(page.getByRole("heading", { level: 1 })).toHaveText("Changes to the wall");
-  const added = page.locator(".change").first().getByRole("link", { name: "Claude API" });
+  // The newest import comes first; use whatever it added (the weekly sync changes this every week).
+  const log = JSON.parse(readFileSync("data/changelog.json", "utf8")) as { entries: { added: { id: string; name: string }[] }[] };
+  const present = new Set((JSON.parse(readFileSync("data/catalog.snapshot.json", "utf8")) as { listings: { id: string }[] }).listings.map((l) => l.id));
+  const n = log.entries.findIndex((e) => e.added.some((a) => present.has(a.id)));
+  const item = log.entries[n]!.added.find((a) => present.has(a.id))!;
+  const added = page.locator(".change").nth(n).getByRole("link", { name: item.name, exact: true }).first();
   await expect(added).toBeVisible();
   await added.click();
-  await expect(page).toHaveURL(/[?&]api=api-claude-api-/);
+  await expect(page).toHaveURL(new RegExp(`[?&]api=${item.id}(&|$)`));
   await expect(page.getByTestId("detail-dialog")).toBeVisible();
 });
 

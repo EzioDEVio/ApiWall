@@ -2,6 +2,94 @@
  "version": 1,
  "entries": [
   {
+   "at": "2026-10-19T19:53:58.666Z",
+   "commit": "93086df88fbce354dd612373ab755f941f53a473",
+   "added": [
+    {
+     "id": "api-africa-compliance-data-019fblm0u0",
+     "name": "Africa Compliance Data",
+     "category": "Calendar"
+    },
+    {
+     "id": "api-countdownshq-0q95kh00h2",
+     "name": "CountdownsHQ",
+     "category": "Calendar"
+    },
+    {
+     "id": "api-nitrosend-0x039d01xw",
+     "name": "Nitrosend",
+     "category": "Email"
+    },
+    {
+     "id": "api-fiberup-fiber-database-1ur7gks13x",
+     "name": "FiberUp Fiber Database",
+     "category": "Food & Drink"
+    },
+    {
+     "id": "api-uk-public-tenders-by-trade-1jvzyzd0vl",
+     "name": "UK Public Tenders by Trade",
+     "category": "Government"
+    },
+    {
+     "id": "api-present-of-ai-1r676zg1ua",
+     "name": "Present of AI",
+     "category": "Jobs"
+    },
+    {
+     "id": "mcp-refnusa-1htwaja018",
+     "name": "Refnusa",
+     "category": "MCP Servers"
+    },
+    {
+     "id": "api-stackrates-0w10byn0mg",
+     "name": "StackRates",
+     "category": "Open Data"
+    },
+    {
+     "id": "api-insightsocial-045og1u1lw",
+     "name": "InsightSocial",
+     "category": "Social"
+    },
+    {
+     "id": "api-revolt-00uzw2s1o9",
+     "name": "Revolt",
+     "category": "Social"
+    },
+    {
+     "id": "api-twittrapi-1itt0jq19j",
+     "name": "TwittrAPI",
+     "category": "Social"
+    },
+    {
+     "id": "api-pirate-weather-06hw8et0u1",
+     "name": "Pirate Weather",
+     "category": "Weather"
+    }
+   ],
+   "removed": [
+    {
+     "id": "api-aztro-1dth4s91by",
+     "name": "aztro",
+     "category": "Social"
+    },
+    {
+     "id": "api-revolt-1v4h7j50f7",
+     "name": "Revolt",
+     "category": "Social"
+    },
+    {
+     "id": "api-sport-data-06ypf1e1a9",
+     "name": "Sport Data",
+     "category": "Sports & Fitness"
+    },
+    {
+     "id": "api-pirate-weather-0evvj2a1bx",
+     "name": "Pirate Weather",
+     "category": "Weather"
+    }
+   ]
+  },
+  {
    "at": "2026-10-17T12:00:00.000Z",
    "commit": "a8f43609edba00b1dcdf7e55a5f3f855bc4ec37f",
    "note": "New curated AI Models category. Each provider was checked against its official docs.",

@@ -1,6 +1,6 @@
 {
  "version": 1,
- "updatedAt": "2026-10-18T18:27:24.825Z",
+ "updatedAt": "2026-10-19T19:54:01.295Z",
  "entries": {
   "api-openai-api-1rmb4o81bp": {
    "file": "api-openai-api-1rmb4o81bp.png",
@@ -15151,6 +15151,96 @@
    "pageUrl": "https://yandex.com/",
    "method": "declared",
    "fetchedAt": "2026-10-18T01:47:48.491Z"
+  },
+  "api-africa-compliance-data-019fblm0u0": {
+   "file": "api-africa-compliance-data-019fblm0u0.png",
+   "width": 180,
+   "height": 180,
+   "sha256": "79d08854e82b3d2dc14c19586636c1091fd472dc91ed422c3b33f7605ea08ad9",
+   "iconUrl": "https://africacompliancedata.com/apple-touch-icon.png",
+   "pageUrl": "https://africacompliancedata.com/",
+   "method": "declared",
+   "fetchedAt": "2026-10-19T19:53:59.494Z"
+  },
+  "api-fiberup-fiber-database-1ur7gks13x": {
+   "file": "api-fiberup-fiber-database-1ur7gks13x.png",
+   "width": 192,
+   "height": 192,
+   "sha256": "a5b0375cb9d1a4e5c5cb583020853c9265b81d68ada6f7c8c2839c3ab4eec208",
+   "iconUrl": "https://fiberup.app/favicon-192.png",
+   "pageUrl": "https://fiberup.app/",
+   "method": "declared",
+   "fetchedAt": "2026-10-19T19:53:59.578Z"
+  },
+  "api-uk-public-tenders-by-trade-1jvzyzd0vl": {
+   "file": "api-uk-public-tenders-by-trade-1jvzyzd0vl.png",
+   "width": 180,
+   "height": 180,
+   "sha256": "5712ac75b56a4931022270abde314c54ccbdb54a731e2e5611dd6af597ac7683",
+   "iconUrl": "https://tools.gptshopltd.com/apple-touch-icon.png",
+   "pageUrl": "https://tools.gptshopltd.com/",
+   "method": "declared",
+   "fetchedAt": "2026-10-19T19:53:59.770Z"
+  },
+  "api-stackrates-0w10byn0mg": {
+   "file": "api-stackrates-0w10byn0mg.png",
+   "width": 180,
+   "height": 180,
+   "sha256": "150afc0a7369f612aebb871377dacbd8dac4f4b44055ab8810c87a25c98e8bc9",
+   "iconUrl": "https://stackrates.ai/apple-touch-icon.png",
+   "pageUrl": "https://stackrates.ai/",
+   "method": "declared",
+   "fetchedAt": "2026-10-19T19:53:59.796Z"
+  },
+  "api-twittrapi-1itt0jq19j": {
+   "file": "api-twittrapi-1itt0jq19j.png",
+   "width": 180,
+   "height": 180,
+   "sha256": "60cd677e7e17160dc73224c854cd812ba5950724f97f2a2dd65517c8371d4260",
+   "iconUrl": "https://www.twittrapi.com/_static/favicons/apple-touch-icon.png",
+   "pageUrl": "https://www.twittrapi.com/",
+   "method": "declared",
+   "fetchedAt": "2026-10-19T19:53:59.833Z"
+  },
+  "api-pirate-weather-06hw8et0u1": {
+   "file": "api-pirate-weather-06hw8et0u1.png",
+   "width": 400,
+   "height": 400,
+   "sha256": "547ad3ca8f27a715fe6b36a6612570c51b0cdae6b8cad104d0a86d1282e0b4a5",
+   "iconUrl": "http://docs.pirateweather.net/en/latest/images/pw_favicon.png",
+   "pageUrl": "http://docs.pirateweather.net/en/latest/",
+   "method": "declared",
+   "fetchedAt": "2026-10-19T19:54:00.043Z"
+  },
+  "api-insightsocial-045og1u1lw": {
+   "file": "api-insightsocial-045og1u1lw.ico",
+   "width": 48,
+   "height": 48,
+   "sha256": "4de31ce7d398a4ad894c1d0e5b03a832462801603aa723182000b28db552ad9e",
+   "iconUrl": "https://www.insightsocial.app/favicon.ico",
+   "pageUrl": "https://www.insightsocial.app/",
+   "method": "default-path",
+   "fetchedAt": "2026-10-19T19:54:00.490Z"
+  },
+  "mcp-refnusa-1htwaja018": {
+   "file": "mcp-refnusa-1htwaja018.png",
+   "width": 180,
+   "height": 180,
+   "sha256": "a06d2f2f82b4211d882d8a713d27c3d419cb7907f037737968dca61a5ba70a5b",
+   "iconUrl": "https://refnusa.dev/apple-touch-icon-180.png",
+   "pageUrl": "https://refnusa.dev/",
+   "method": "declared",
+   "fetchedAt": "2026-10-19T19:54:00.938Z"
+  },
+  "api-present-of-ai-1r676zg1ua": {
+   "file": "api-present-of-ai-1r676zg1ua.png",
+   "width": 512,
+   "height": 512,
+   "sha256": "8f736d103cf36996f9b8586b73ed4f85c9dc53fcb284a45ef0dfbe56d410dd27",
+   "iconUrl": "https://presentofai.com/icon.png?410af134e1e3d19c",
+   "pageUrl": "https://presentofai.com/",
+   "method": "declared",
+   "fetchedAt": "2026-10-19T19:54:01.282Z"
   }
  },
  "misses": {
@@ -15814,6 +15904,9 @@
   "api-imgur-18ce4sh1dm": "platform default icon, not the provider's own",
   "api-satnogs-1wg2kbc1ia": "platform default icon, not the provider's own",
   "api-profitvana-0lx2pao1mg": "platform default icon, not the provider's own",
-  "api-sparepilot-0x95m9w022": "platform default icon, not the provider's own"
+  "api-sparepilot-0x95m9w022": "platform default icon, not the provider's own",
+  "api-nitrosend-0x039d01xw": "HTTP 404",
+  "api-countdownshq-0q95kh00h2": "HTTP 404",
+  "api-revolt-00uzw2s1o9": "HTTP 404"
  }
 }

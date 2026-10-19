@@ -12,7 +12,7 @@ const csp = [
   // GoatCounter counts are image requests; allowed only when NEXT_PUBLIC_GOATCOUNTER is set (see lib/analytics.ts).
   `img-src 'self' data: blob:${goat ? ` https://${goat}.goatcounter.com` : ""}`,
   "font-src 'self'",
-  "connect-src 'self'",
+  "connect-src 'self' https://api.github.com", // the admin page talks to GitHub with the reviewer's own token
   "frame-ancestors 'none'",
   "form-action 'self'",
   "base-uri 'self'",

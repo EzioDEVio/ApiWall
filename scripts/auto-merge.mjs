@@ -5,7 +5,9 @@
 //   - the weekly catalog sync (github-actions[bot], branch chore/catalog-sync) when it only
 //     touches catalog data, logos and the README;
 //   - Dependabot updates that stay within the same major version (same minor for 0.x), when
-//     they only touch package.json, package-lock.json or workflow files.
+//     they only touch package.json, package-lock.json or workflow files;
+//   - approved requests (github-actions[bot], branch request/<issue>), opened by the Requests
+//     workflow after it checked the approver's role, when they only touch request data and logos.
 // Everything else waits for a person (or the weekly upkeep agent): major updates, human pull
 // requests, and anything with a failing, pending or missing check.
 //
@@ -15,6 +17,10 @@
 export const REQUIRED_CHECKS = ["Lint, types, unit tests, builds", "Browser tests", "lighthouse"];
 
 const SYNC_FILES = [/^data\//, /^public\/marks\//, /^README\.md$/];
+const REQUEST_FILES = [
+  /^data\/(community-apis|listing-overrides|community-logos|catalog\.snapshot|changelog|glyphs)\.json$/,
+  /^public\/marks\/(community|tiles)\/[^/]+$/,
+];
 const DEPENDABOT_FILES = [/^package\.json$/, /^package-lock\.json$/, /^\.github\/workflows\/[^/]+\.ya?ml$/];
 
 /** Every "from X to Y" version change named in a Dependabot pull request body. */
@@ -49,6 +55,7 @@ export function decide(pr, files, checks, behindBy = 0) {
   const head = pr.head?.ref ?? "";
   let allowed;
   if (author === "github-actions[bot]" && head === "chore/catalog-sync") allowed = SYNC_FILES;
+  else if (author === "github-actions[bot]" && /^request\/\d{1,7}$/.test(head)) allowed = REQUEST_FILES;
   else if (author === "dependabot[bot]" && head.startsWith("dependabot/")) {
     const bumps = dependabotBumps(pr.body);
     if (!bumps.length) return { merge: false, reason: "could not read the versions from the Dependabot description" };
@@ -128,6 +135,18 @@ async function main() {
     // Merges made with the workflow token do not start other workflows, so start the deploy here.
     await api(`/actions/workflows/pages.yml/dispatches`, { method: "POST", body: JSON.stringify({ ref: "main" }) });
     console.log("Started Deploy to GitHub Pages.");
+    // Other bot pull requests are now behind main: rebuild them on top of it so they can merge too.
+    for (const other of await api(`/pulls?state=open&per_page=100`)) {
+      if (other.number === pr.number || other.user?.login !== "github-actions[bot]") continue;
+      const m = /^request\/(\d{1,7})$/.exec(other.head.ref);
+      if (m) {
+        await api(`/actions/workflows/requests.yml/dispatches`, { method: "POST", body: JSON.stringify({ ref: "main", inputs: { issue: m[1] } }) });
+        console.log(`Re-applying request #${m[1]} on the new main.`);
+      } else if (other.head.ref === "chore/catalog-sync") {
+        await api(`/actions/workflows/catalog-sync.yml/dispatches`, { method: "POST", body: JSON.stringify({ ref: "main" }) });
+        console.log("Re-running the weekly sync on the new main.");
+      }
+    }
   }
 }
 

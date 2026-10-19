@@ -8,6 +8,7 @@ import { OG_IMAGE, SITE_NAME, SITE_URL } from "@/lib/site";
 import { PUBLIC_API_VERSION } from "@/lib/catalog/publicApi";
 import { IdentityMark, Glyph } from "@/components/IdentityMark";
 import { EmbedSnippet } from "@/components/EmbedSnippet";
+import { RequestNote } from "@/components/RequestNote";
 import { LinkStatus } from "@/components/LinkStatus";
 import { LinkHistoryBar } from "@/components/LinkHistoryBar";
 import { linkSpans } from "@/lib/catalog/linkHistory";
@@ -95,6 +96,7 @@ export default async function ApiPage({ params }: Params) {
             <Glyph paths={glyphs[cat?.glyph ?? ""]} size={14} />
             {e.kind === "mcp" ? "MCP server" : `${e.category} API`}
             {e.origin === "supplement" && <span className="tag tag-ai">Curated by ApiWall</span>}
+            {e.origin === "community" && <span className="tag">{e.community?.providerSubmitted ? "Provider-submitted" : "Community-added"}</span>}
           </p>
           <h1>{e.name}</h1>
         </div>
@@ -256,13 +258,15 @@ export default async function ApiPage({ params }: Params) {
       <p className="muted small source-note">
         {e.origin === "supplement" ? (
           <>Curated by ApiWall from the provider&apos;s documentation.</>
+        ) : e.origin === "community" ? (
+          <RequestNote community={e.community} />
         ) : (
           <>
             From the{" "}
             <a href={`https://github.com/${snap.source.repo}`} target="_blank" rel="noopener noreferrer">
               public-apis
             </a>{" "}
-            community catalog (MIT){e.sourceLine ? `, README line ${e.sourceLine}` : ""}.
+            community catalog (MIT){e.sourceLine ? `, README line ${e.sourceLine}` : ""}. <RequestNote correction={e.correction} />
           </>
         )}{" "}
         {e.addedAt ? `On ApiWall since ${fmtDay(e.addedAt)}. ` : ""}ApiWall is independent and not affiliated with this provider.

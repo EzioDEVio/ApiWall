@@ -19,6 +19,7 @@ import type { BrandIcon } from "../lib/catalog/marks";
 import type { FaviconManifest, FaviconRecord } from "../lib/catalog/favicons";
 import type { AiModelsFile } from "../lib/catalog/supplements";
 import type { CommunityLogosFile } from "../lib/catalog/community";
+import type { CommunityApisFile, ListingOverridesFile } from "../lib/catalog/requests";
 import { assignSlugs } from "../lib/catalog/slugs";
 import { carryAddedAt, type Changelog, diffListings, EMPTY_CHANGELOG, recordChange } from "../lib/catalog/history";
 import type { CatalogSnapshot } from "../lib/catalog/types";
@@ -54,6 +55,10 @@ function resolveCommit(): string | null {
   } catch {
     return null;
   }
+}
+
+function readJson<T>(file: string): T | null {
+  return existsSync(file) ? (JSON.parse(readFileSync(file, "utf8")) as T) : null;
 }
 
 function writeAtomic(file: string, content: string) {
@@ -159,6 +164,9 @@ async function main() {
       const name = rel.replace(/\//g, "__").replace(/\.[a-z]+$/i, ".webp");
       return existsSync(path.join(root, "public", "marks", "tiles", name)) ? `/marks/tiles/${name}` : null;
     },
+    // Approved requests from the admin page (see lib/catalog/requests.ts).
+    communityApis: readJson<CommunityApisFile>(path.join(dataDir, "community-apis.json")),
+    overrides: readJson<ListingOverridesFile>(path.join(dataDir, "listing-overrides.json")),
     // Curated, source-tracked AI Models supplement (see data/ai-models.json).
     aiModels: existsSync(path.join(dataDir, "ai-models.json")) ? (JSON.parse(readFileSync(path.join(dataDir, "ai-models.json"), "utf8")) as AiModelsFile) : null,
     iconBasis: "Simple Icons (CC0-1.0 icon data; marks remain trademarks of their owners)",

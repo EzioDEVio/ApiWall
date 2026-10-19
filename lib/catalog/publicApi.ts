@@ -1,4 +1,4 @@
-import type { CatalogListing, CatalogSnapshot, IdentityMark } from "./types";
+import { type CatalogListing, type CatalogSnapshot, type IdentityMark, isUpstream } from "./types";
 import type { Changelog } from "./history";
 import { type LinkHealth, linkState } from "./links";
 import { EMPTY_LINK_HISTORY, type LinkHistory } from "./linkHistory";
@@ -96,7 +96,7 @@ export function toPublicItem(
     logo: logoFor(mark, site),
     ...(mark?.type === "brand" ? { brandIcon: { hex: mark.hex, svgPath: mark.path } } : {}),
     addedAt: l.addedAt ?? null,
-    origin: l.origin === "supplement" ? "apiwall" : "public-apis",
+    origin: isUpstream(l) ? "public-apis" : "apiwall",
   };
   if (l.aiModel)
     item.aiModel = {

@@ -31,7 +31,8 @@ const STATIC_CSP = [
   // The analytics count is an image request to GoatCounter, allowed only when it is configured.
   `img-src 'self' data: blob:${ANALYTICS_ORIGIN ? ` ${ANALYTICS_ORIGIN}` : ""}`,
   "font-src 'self'",
-  "connect-src 'self'",
+  // The admin page talks to GitHub's API with the signed-in reviewer's own token.
+  "connect-src 'self' https://api.github.com",
   "form-action 'self'",
   "base-uri 'self'",
   "object-src 'none'",
@@ -124,7 +125,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             </p>
             <p className="muted">
               Browse: <Link href="/apis/">All APIs, A to Z</Link> · <Link href="/categories/">Categories</Link> · <Link href="/packs/">Starter packs</Link> ·{" "}
-              <Link href="/stats/">Stats</Link> · <Link href="/developers/">Public API</Link> · <Link href="/about/#privacy">Privacy</Link>
+              <Link href="/stats/">Stats</Link> · <Link href="/developers/">Public API</Link> · <Link href="/about/#privacy">Privacy</Link> · <Link href="/admin/">Maintainers</Link>
             </p>
           </div>
         </footer>

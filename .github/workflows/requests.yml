@@ -1,0 +1,111 @@
+name: Requests
+
+# Applies requests approved on the admin page (or by adding the "approved" label in GitHub).
+# 1. Checks that the person who added the label has the Write role or above (Admin, Maintain,
+#    Write); otherwise the label is removed and nothing changes.
+# 2. Applies the approved change (scripts/apply-request.ts), runs the unit tests and opens a pull
+#    request "Closes #<issue>", which the Auto-merge workflow merges once CI and Lighthouse pass.
+# A "rejected" label from someone without the Write role is removed the same way.
+# Auto-merge re-runs this (workflow_dispatch) for requests left behind when another one merged,
+# so the change is re-applied on top of the latest main. The approver is always read from the
+# issue's own history: whoever last added the "approved" label.
+on:
+  issues:
+    types: [labeled]
+  workflow_dispatch:
+    inputs:
+      issue:
+        description: Request issue number to (re-)apply
+        required: true
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+  actions: write
+
+concurrency:
+  group: requests-${{ github.event.issue.number || inputs.issue }}
+  cancel-in-progress: true
+
+jobs:
+  decide:
+    if: github.event_name == 'workflow_dispatch' || github.event.label.name == 'approved' || github.event.label.name == 'rejected'
+    runs-on: ubuntu-24.04
+    env:
+      GH_TOKEN: ${{ github.token }}
+      ISSUE: ${{ github.event.issue.number || inputs.issue }}
+      LABEL: ${{ github.event.label.name || 'approved' }}
+    steps:
+      - name: Find who approved or rejected it
+        run: |
+          if ! printf '%s' "$ISSUE" | grep -Eq '^[0-9]{1,7}$'; then echo "::error::not an issue number"; exit 1; fi
+          labels="$(gh api "repos/$GITHUB_REPOSITORY/issues/$ISSUE" --jq '[.labels[].name] | join(",")')"
+          case ",$labels," in *",$LABEL,"*) ;; *) echo "The $LABEL label is no longer on #$ISSUE; nothing to do."; echo "SKIP=1" >> "$GITHUB_ENV"; exit 0 ;; esac
+          sender="$(gh api --paginate "repos/$GITHUB_REPOSITORY/issues/$ISSUE/events" | jq -rs --arg l "$LABEL" '[add[] | select(.event == "labeled" and .label.name == $l)] | last | .actor.login // ""')"
+          if ! printf '%s' "$sender" | grep -Eq '^[A-Za-z0-9-]{1,39}$'; then echo "::error::could not tell who added the $LABEL label"; exit 1; fi
+          echo "SENDER=$sender" >> "$GITHUB_ENV"
+      - name: Check the reviewer's role
+        id: role
+        if: env.SKIP != '1'
+        run: |
+          role="$(gh api "repos/$GITHUB_REPOSITORY/collaborators/$SENDER/permission" --jq .role_name 2>/dev/null || echo none)"
+          echo "role=$role"
+          case "$role" in
+            admin|maintain|write) echo "allowed=true" >> "$GITHUB_OUTPUT" ;;
+            *)
+              echo "allowed=false" >> "$GITHUB_OUTPUT"
+              gh issue edit "$ISSUE" --repo "$GITHUB_REPOSITORY" --remove-label "$LABEL"
+              gh issue comment "$ISSUE" --repo "$GITHUB_REPOSITORY" --body "@$SENDER only reviewers (the Write role or above) can approve or reject requests, so the \`$LABEL\` label was removed. Ask an admin for the Reviewer role, or add \`needs-info\` instead."
+              ;;
+          esac
+
+      - name: Close a rejected request
+        if: steps.role.outputs.allowed == 'true' && env.LABEL == 'rejected'
+        run: gh issue close "$ISSUE" --repo "$GITHUB_REPOSITORY" --reason "not planned"
+
+      - uses: actions/checkout@v7
+        if: steps.role.outputs.allowed == 'true' && env.LABEL == 'approved'
+        with:
+          ref: main
+      - uses: actions/setup-node@v7
+        if: steps.role.outputs.allowed == 'true' && env.LABEL == 'approved'
+        with:
+          node-version: 22
+          cache: npm
+      - name: Apply the approved change
+        id: apply
+        if: steps.role.outputs.allowed == 'true' && env.LABEL == 'approved'
+        run: |
+          npm ci
+          gh api "repos/$GITHUB_REPOSITORY/issues/$ISSUE" > "$RUNNER_TEMP/issue.json"
+          gh api --paginate "repos/$GITHUB_REPOSITORY/issues/$ISSUE/comments" | jq -s 'add // []' > "$RUNNER_TEMP/comments.json"
+          ISSUE_JSON="$RUNNER_TEMP/issue.json" COMMENTS_JSON="$RUNNER_TEMP/comments.json" APPROVER="$SENDER" OUT_DIR="$RUNNER_TEMP/request" npx tsx scripts/apply-request.ts
+          npm test
+          echo "title=$(head -n 1 "$RUNNER_TEMP/request/title.txt")" >> "$GITHUB_OUTPUT"
+      - name: Explain why it could not be applied
+        if: failure() && steps.apply.outcome == 'failure'
+        run: |
+          reason="$(cat "$RUNNER_TEMP/request/error.txt" 2>/dev/null || echo "The checks failed after applying it; see the workflow run.")"
+          printf '%s\n\n%s\n\n%s\n' "Approved by @$SENDER, but the change could not be applied:" "> $reason" "Fix it on the admin page and approve again. Run: $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID" > "$RUNNER_TEMP/why.md"
+          gh issue comment "$ISSUE" --repo "$GITHUB_REPOSITORY" --body-file "$RUNNER_TEMP/why.md"
+          gh issue edit "$ISSUE" --repo "$GITHUB_REPOSITORY" --remove-label approved
+
+      - name: Open the pull request
+        id: cpr
+        if: steps.apply.outcome == 'success'
+        uses: peter-evans/create-pull-request@v8
+        with:
+          branch: request/${{ env.ISSUE }}
+          title: ${{ steps.apply.outputs.title }}
+          body-path: ${{ runner.temp }}/request/body.md
+          commit-message: ${{ steps.apply.outputs.title }}
+          labels: request
+          delete-branch: true
+      # Pull requests opened with the workflow token do not start other workflows on their own.
+      - name: Start the checks
+        if: steps.cpr.outputs.pull-request-number != ''
+        run: |
+          gh workflow run ci.yml --repo "$GITHUB_REPOSITORY" --ref "request/$ISSUE"
+          gh workflow run lighthouse.yml --repo "$GITHUB_REPOSITORY" --ref "request/$ISSUE"
+          gh issue comment "$ISSUE" --repo "$GITHUB_REPOSITORY" --body "Approved by @$SENDER. The change is in #${{ steps.cpr.outputs.pull-request-number }}; it merges automatically once every check passes, and the site redeploys."

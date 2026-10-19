@@ -31,6 +31,15 @@ describe("auto-merge rules", () => {
     expect(decide({ ...sync, mergeable: false }, syncFiles, green).merge).toBe(false);
     expect(decide({ ...sync, base: { ref: "other" } }, syncFiles, green).merge).toBe(false);
   });
+  it("merges approved requests that only touch request data and logos", () => {
+    const req = { ...sync, head: { ref: "request/42" } };
+    const files = ["data/community-apis.json", "data/catalog.snapshot.json", "data/changelog.json", "public/marks/community/api-x.png", "public/marks/tiles/community__api-x.webp"];
+    expect(decide(req, files, green)).toEqual({ merge: true });
+    expect(decide(req, [...files, "README.md"], green).merge).toBe(false);
+    expect(decide(req, [...files, "data/ai-models.json"], green).merge).toBe(false);
+    expect(decide({ ...req, head: { ref: "request/42-x" } }, files, green).merge).toBe(false);
+    expect(decide({ ...req, user: { login: "someone" } }, files, green).merge).toBe(false);
+  });
   it("reads Dependabot's version changes, single and grouped", () => {
     expect(dependabotBumps("Bumps [@vitejs/plugin-react](https://x) from 4.7.0 to 6.1.2.")).toEqual([{ name: "@vitejs/plugin-react", from: "4.7.0", to: "6.1.2" }]);
     expect(dependabotBumps("Updates `@playwright/test` from 1.58.2 to 1.64.1\nUpdates `react` from 19.1.10 to 19.3.1\n")).toEqual([

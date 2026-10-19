@@ -14,6 +14,7 @@ permissions:
   contents: write
   pull-requests: write
   issues: write
+  actions: write
 
 jobs:
   sync:
@@ -43,6 +44,7 @@ jobs:
       - name: Skip the pull request when only timestamps changed
         run: node scripts/drop-timestamp-only-changes.mjs
       - uses: peter-evans/create-pull-request@v8
+        id: cpr
         with:
           branch: chore/catalog-sync
           commit-message: "chore: sync public-apis catalog"
@@ -50,6 +52,14 @@ jobs:
           body-path: ${{ runner.temp }}/report/pr-body.md
           labels: catalog
           delete-branch: true
+      # Pull requests opened with the workflow token do not start CI on their own (scheduled runs).
+      - name: Start the checks on the pull request
+        if: steps.cpr.outputs.pull-request-number != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh workflow run ci.yml --ref chore/catalog-sync
+          gh workflow run lighthouse.yml --ref chore/catalog-sync
       - name: Update the Docs-link health issue
         # Reporting only: a hiccup here never fails the sync.
         continue-on-error: true

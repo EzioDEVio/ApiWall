@@ -1,4 +1,14 @@
-import type { AiModelInfo, AuthKind, CatalogSnapshot, IdentityMark, InstallLink, Placement, TriState } from "@/lib/catalog/types";
+import type {
+  AiModelInfo,
+  AuthKind,
+  CatalogSnapshot,
+  CommunityInfo,
+  CorrectionInfo,
+  IdentityMark,
+  InstallLink,
+  Placement,
+  TriState,
+} from "@/lib/catalog/types";
 import { normalizeAuth } from "@/lib/catalog/normalize";
 import { slotToPlacement } from "@/lib/catalog/placement";
 import { monogramText } from "@/lib/catalog/marks";
@@ -56,8 +66,15 @@ export interface Entry {
   install?: InstallLink[];
   alsoListedIn?: string[];
   sourceLine?: number;
-  /** "supplement" = from ApiWall's curated, source-tracked dataset rather than the upstream catalog. */
-  origin: "upstream" | "supplement" | "provider";
+  /**
+   * "supplement" = from ApiWall's curated, source-tracked dataset; "community" = added through an
+   * approved request; "provider" = a reviewed provider tile (self-hosted). Only "upstream" is from public-apis.
+   */
+  origin: "upstream" | "supplement" | "community" | "provider";
+  /** For "community" listings: the approved request it came from. */
+  community?: CommunityInfo;
+  /** Set when an approved request corrected this listing's facts. */
+  correction?: CorrectionInfo;
   /** Extra category slugs (e.g. "ai-models") from curated cross-tags. Matching is exact. */
   tags: string[];
   aiModel?: AiModelInfo;
@@ -122,6 +139,8 @@ export function buildEntries(snapshot: CatalogSnapshot, providers: PublicProvide
       alsoListedIn: l.alsoListedIn,
       sourceLine: l.sourceLine,
       origin: l.origin ?? "upstream",
+      community: l.community,
+      correction: l.correction,
       tags: l.tags ?? [],
       aiModel: l.aiModel,
       addedAt: l.addedAt,

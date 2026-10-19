@@ -1,5 +1,6 @@
 "use client";
 
+import { RequestNote } from "./RequestNote";
 import { useEffect, useRef, useState } from "react";
 import type { Entry } from "@/lib/explore/model";
 import type { SnapshotSource } from "@/lib/catalog/types";
@@ -250,9 +251,11 @@ export function DetailDialog({
             <h3 id="facts-h" className="section-h">
               {entry.origin === "supplement"
                 ? "Facts from the provider's docs, as checked"
-                : entry.source === "catalog"
-                  ? "Catalog facts, as imported"
-                  : "Provider-stated facts, reviewed"}
+                : entry.origin === "community"
+                  ? "Facts from the request, reviewed"
+                  : entry.source === "catalog"
+                    ? "Catalog facts, as imported"
+                    : "Provider-stated facts, reviewed"}
             </h3>
             <dl className="facts">
               <div>
@@ -424,8 +427,15 @@ export function DetailDialog({
                 {entry.aiModel ? ` on ${fmtDate(entry.aiModel.verifiedAt + "T00:00:00Z")}` : ""}. This entry is not part of the upstream public-apis catalog.
                 {markSource}
               </span>
+            ) : entry.origin === "community" ? (
+              <span>
+                <RequestNote community={entry.community} />
+                Confirm details with the provider.
+                {markSource}
+              </span>
             ) : entry.source === "catalog" ? (
               <>
+                <RequestNote correction={entry.correction} />
                 From{" "}
                 <a href={`https://github.com/${source.repo}`} target="_blank" rel="noopener noreferrer">
                   {source.repo}

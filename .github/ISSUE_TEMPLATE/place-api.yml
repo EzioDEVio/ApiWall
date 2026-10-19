@@ -1,0 +1,82 @@
+name: Place your API (providers)
+description: You work on an API and want it on the wall. A reviewer checks it against your docs.
+title: "Provider: "
+labels: [provider]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **Never paste API keys, tokens, passwords or private email addresses here. Issues are public.**
+        A reviewer checks each detail against your official documentation. Approved listings are marked
+        "Provider-submitted" and link back to this issue. Listing is free; it is not a sponsorship.
+  - type: input
+    id: name
+    attributes:
+      label: API name
+      placeholder: Acme Weather
+    validations:
+      required: true
+  - type: input
+    id: docs
+    attributes:
+      label: Official documentation URL (https)
+      placeholder: https://docs.example.com/api
+    validations:
+      required: true
+  - type: input
+    id: category
+    attributes:
+      label: Category
+      description: An existing category on the wall, e.g. Weather, Finance, AI Models.
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: Short description
+      description: One or two sentences, no marketing.
+    validations:
+      required: true
+  - type: dropdown
+    id: auth
+    attributes:
+      label: Authentication
+      options: ["No auth", "API key", "OAuth", "Other / not sure"]
+    validations:
+      required: true
+  - type: dropdown
+    id: https
+    attributes:
+      label: HTTPS
+      options: ["Yes", "No", "Not sure"]
+    validations:
+      required: true
+  - type: dropdown
+    id: cors
+    attributes:
+      label: CORS (can browsers call it directly?)
+      options: ["Yes", "No", "Not sure"]
+    validations:
+      required: true
+  - type: input
+    id: providerName
+    attributes:
+      label: Company or project
+    validations:
+      required: true
+  - type: input
+    id: role
+    attributes:
+      label: Your role there
+      placeholder: e.g. developer relations, maintainer
+    validations:
+      required: true
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before you submit
+      options:
+        - label: I work on or represent this API.
+          required: true
+        - label: This issue contains no API keys, tokens, passwords or private contact details.
+          required: true

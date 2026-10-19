@@ -1,3 +1,4 @@
+import { isUpstream } from "@/lib/catalog/types";
 import { ImageResponse } from "next/og";
 import { loadSnapshot } from "@/lib/catalog/server";
 import { categoryColor } from "@/lib/explore/colors";
@@ -24,7 +25,7 @@ export default function OpengraphImage() {
     const p = snap.placements[l.id];
     if (p) bySlot.set(p.slot, { name: l.name, slug: l.categorySlug });
   }
-  const upstream = snap.listings.filter((l) => l.origin !== "supplement");
+  const upstream = snap.listings.filter(isUpstream);
   const apis = upstream.filter((l) => l.kind === "api").length;
   const mcp = upstream.length - apis;
 

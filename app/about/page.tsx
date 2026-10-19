@@ -1,3 +1,4 @@
+import { isUpstream } from "@/lib/catalog/types";
 import type { Metadata } from "next";
 import { loadSnapshot } from "@/lib/catalog/server";
 import { ANALYTICS_ORIGIN, GOATCOUNTER_CODE } from "@/lib/analytics";
@@ -8,7 +9,7 @@ const fmt = (iso: string) => new Date(iso).toLocaleString("en", { dateStyle: "lo
 
 export default function AboutPage() {
   const s = loadSnapshot();
-  const upstream = s.listings.filter((l) => l.origin !== "supplement");
+  const upstream = s.listings.filter(isUpstream);
   const api = upstream.filter((l) => l.kind === "api").length;
   const mcp = upstream.length - api;
   const supplementCategories = new Set((s.supplements ?? []).map((x) => x.slug));

@@ -21,7 +21,7 @@ concurrency:
 
 jobs:
   merge:
-    if: github.event.workflow_run.event == 'pull_request' && github.event.workflow_run.conclusion == 'success'
+    if: (github.event.workflow_run.event == 'pull_request' || github.event.workflow_run.event == 'workflow_dispatch') && github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-24.04
     steps:
       # Checks out main (this repository's own script), never the pull request's code.

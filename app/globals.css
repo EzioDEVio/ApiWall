@@ -3720,3 +3720,228 @@ dialog.shortcuts::backdrop {
     transform: none;
   }
 }
+
+/* Admin: request review */
+.admin {
+  display: grid;
+  gap: 16px;
+  margin-top: 18px;
+}
+.admin-signin {
+  display: grid;
+  gap: 12px;
+  max-width: 640px;
+  padding: 18px 20px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--panel);
+}
+.admin-signin h2 {
+  margin: 0;
+  font-size: 1.1rem;
+}
+.admin .field {
+  display: grid;
+  gap: 4px;
+  font-size: 0.88rem;
+}
+.admin .field > span:first-child,
+.admin .field > label {
+  font-weight: 600;
+}
+.admin .field input,
+.admin .field select,
+.admin .field textarea {
+  min-height: 40px;
+  padding: 8px 10px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--paper);
+  color: var(--ink);
+  font: inherit;
+}
+.admin-bar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px 16px;
+  padding: 10px 14px;
+  border-radius: 12px;
+}
+.admin-error,
+.admin-problem {
+  color: var(--danger);
+}
+.admin-error,
+.admin-notice {
+  margin: 0;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--accent) 8%, transparent);
+}
+.admin-error {
+  background: color-mix(in srgb, var(--danger) 10%, transparent);
+}
+.admin-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.admin-filters .chip-btn {
+  min-height: 36px;
+  padding: 4px 12px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--panel);
+  color: var(--ink);
+  font: 600 0.85rem var(--font);
+  cursor: pointer;
+}
+.admin-filters .chip-btn[aria-pressed="true"] {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 12%, var(--panel));
+}
+.admin-queue {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+}
+.admin-card {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--panel);
+  overflow: hidden;
+}
+.admin-card-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 10px;
+  width: 100%;
+  padding: 12px 14px;
+  border: 0;
+  background: none;
+  color: var(--ink);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.admin-card-head:hover {
+  background: var(--grout);
+}
+.admin-card-title {
+  font-weight: 700;
+  flex: 1 1 240px;
+  overflow-wrap: anywhere;
+}
+.admin-review {
+  display: grid;
+  gap: 18px;
+  padding: 4px 14px 16px;
+  border-top: 1px solid var(--line);
+}
+.admin-review h3 {
+  margin: 12px 0 8px;
+  font-size: 0.95rem;
+}
+.admin-submitted {
+  display: grid;
+  gap: 6px;
+  margin: 0 0 8px;
+}
+.admin-submitted > div {
+  display: grid;
+  grid-template-columns: minmax(120px, 220px) 1fr;
+  gap: 10px;
+}
+.admin-submitted dt {
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+.admin-submitted dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+.admin-submitted .pre {
+  white-space: pre-wrap;
+}
+.admin-fields {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+  gap: 10px 14px;
+}
+.admin-fields .field:has(textarea),
+.admin-fields > p,
+.admin-fields > .admin-radios {
+  grid-column: 1 / -1;
+}
+.admin-radios {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 18px;
+  margin: 0;
+  padding: 8px 10px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+.admin-hits {
+  list-style: none;
+  margin: 4px 0 0;
+  padding: 4px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--paper);
+}
+.admin-hits li button {
+  min-height: 32px;
+  text-align: left;
+}
+.admin-problems {
+  margin: 10px 0 0;
+  padding-left: 20px;
+  color: var(--danger);
+}
+.admin-ok {
+  margin: 10px 0 0;
+  color: color-mix(in srgb, var(--ok) 78%, var(--ink));
+  font-weight: 600;
+}
+.admin-decision .row {
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+.admin-roles {
+  margin-top: 12px;
+}
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 10px 0;
+  font-size: 0.88rem;
+}
+.admin-table caption {
+  text-align: left;
+  font-weight: 700;
+  padding: 6px 0;
+}
+.admin-table th,
+.admin-table td {
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--line);
+  text-align: left;
+  vertical-align: top;
+}
+.admin-table tr[aria-current="true"] td {
+  background: color-mix(in srgb, var(--accent) 8%, transparent);
+  font-weight: 600;
+}
+@media (max-width: 640px) {
+  .admin-submitted > div {
+    grid-template-columns: 1fr;
+    gap: 2px;
+  }
+}

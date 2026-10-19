@@ -77,6 +77,13 @@ Maintainers publish a release by pushing a version tag (`git tag v1.5.0 && git p
 or by running the **Release** workflow from the Actions tab. GitHub writes the notes from the
 merged pull requests since the previous tag.
 
+## For maintainers: reviewing requests
+
+Use the admin page (`/admin/`, see "Requests and roles" in the README): approving there applies
+the request through a pull request that merges itself once checks pass. Adding the `approved`
+label in GitHub works too for new APIs, provider listings and logos (the request is applied as
+submitted); corrections need the admin page, where you choose what changes.
+
 ## For maintainers: adding a logo from an issue
 
 1. Download the image from the issue and check it is the provider's own logo.

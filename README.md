@@ -268,18 +268,54 @@ To publish a release, push a version tag (`git tag v1.5.0 && git push origin v1.
 **Release** workflow from the Actions tab. GitHub writes the notes from merged pull requests,
 grouped by label (`.github/release.yml`).
 
+### Requests and roles (admin page)
+
+Everything people send through the Submit forms (new APIs, provider listings, logos, and
+corrections or removals) arrives as a GitHub issue. Maintainers review them on the
+**[admin page](https://eziodevio.github.io/ApiWall/admin/)**:
+
+1. Sign in with a [fine-grained GitHub token](https://github.com/settings/personal-access-tokens/new)
+   (resource owner **EzioDEVio**, repository **ApiWall**, permission **Issues: Read and write**).
+   It stays in the page's memory only; reloading signs you out.
+2. Open a request, check the parsed fields and the automatic checks (duplicates, categories,
+   https links, unsafe text), adjust anything, then **Approve and publish**, **Reject** or **Ask for
+   more info**.
+3. Approving posts the exact change on the issue and adds the `approved` label. The **Requests**
+   workflow confirms the approver's role, applies the change to `data/community-apis.json`,
+   `data/listing-overrides.json` or the community logos, rebuilds the catalog and opens a pull
+   request that **Auto-merge** publishes once every check passes.
+
+Roles come from GitHub, so GitHub enforces them:
+
+| ApiWall role | GitHub repository role | Can |
+| --- | --- | --- |
+| Admin | Admin or Maintain | Approve and reject; manage people under Settings → Collaborators and teams |
+| Reviewer | Write | Approve and reject |
+| Triage | Triage | Ask for more information and label; cannot approve or reject |
+| Viewer | Read | See the queue |
+
+To give someone a role, add them (or a team such as `apiwall-reviewers`) under the repository's
+**Settings → Collaborators and teams**. Community-added and provider-submitted APIs are marked as
+such on their pages, link back to their request, and are never presented as part of public-apis.
+Corrections are applied on top of the catalog at build time and each corrected page says what
+changed and in which request.
+
 ### Hands-off maintenance
 
 Routine pull requests merge themselves. When CI and Lighthouse both pass on a pull request,
 the **Auto-merge** workflow (`scripts/auto-merge.mjs`) merges it and starts the Pages deploy,
 but only if all of these hold:
 
-- it is the weekly catalog sync (touching only `data/`, `public/marks/` and `README.md`), or a
+- it is the weekly catalog sync (touching only `data/`, `public/marks/` and `README.md`), an
+  approved request from the Requests workflow (touching only request data and logos), or a
   Dependabot update that stays within the same major version (same minor for `0.x`) and touches
   only `package.json`, `package-lock.json` or workflow files;
 - every check on its latest commit passed, and it is up to date with `main` (a stale Dependabot
   pull request is asked to rebase, which re-runs its checks);
 - it has no merge conflicts.
+
+After each merge it starts the Pages deploy and rebuilds any other open sync or request pull
+request on top of the new `main`, so several approvals in a row all go through.
 
 Major updates, pull requests from people, and anything with a red check stay open. A weekly
 upkeep agent (a scheduled Claude task) reviews those, fixes failures in a pull request of its own,

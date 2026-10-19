@@ -24,7 +24,7 @@ export function asset(path: string): string {
   return path.startsWith("/") && !path.startsWith("//") && !path.startsWith(BASE_PATH + "/") ? BASE_PATH + path : path;
 }
 
-export type IssueTemplate = "add-api.yml" | "suggest-logo.yml" | "report-listing.yml";
+export type IssueTemplate = "add-api.yml" | "suggest-logo.yml" | "report-listing.yml" | "place-api.yml";
 
 /** A pre-filled GitHub issue form. Field keys must match the `id`s in .github/ISSUE_TEMPLATE. */
 export function issueUrl(template: IssueTemplate, title: string, fields: Record<string, string> = {}): string {

@@ -16,6 +16,12 @@ or a decision within 30 days; please wait for that before disclosing publicly.
   refuse anything that looks like a credential, uploads are checked by their bytes (no
   SVG), reviewer sessions are HMAC-signed HttpOnly cookies, and state-changing requests
   must come from the same origin.
+- The admin page (`/admin/`) holds a reviewer's GitHub token in page memory only (never in
+  storage, cookies or URLs) and sends it only to `api.github.com`. GitHub enforces each
+  person's repository role; the Requests workflow checks the approver's role again (Write or
+  above) and re-validates the approval (strict schema, https links only, no `<` `>`, GitHub
+  attachment URLs only for logos) before changing anything. Visitor text is rendered as text,
+  never as HTML, and the workflow never interpolates issue text into shell commands.
 - `npm run check:secrets` scans source and the built client bundle for credentials.
 - The public JSON API (`/api/v1/`) and `embed.js` are read-only. The embed card renders in a
   shadow root using text nodes only, follows only http(s) links and loads logos from ApiWall.

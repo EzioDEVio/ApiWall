@@ -7,5 +7,8 @@ export const dynamic = "force-static";
 // (eziodevio.github.io/ApiWall) submit the sitemap in Google Search Console instead;
 // with a custom domain this file is picked up directly.
 export default function robots(): MetadataRoute.Robots {
-  return { rules: [{ userAgent: "*", allow: "/", disallow: ["/review/", "/api/review/", "/api/submissions/"] }], sitemap: `${SITE_URL}/sitemap.xml` };
+  return {
+    rules: [{ userAgent: "*", allow: "/", disallow: ["/admin/", "/review/", "/api/review/", "/api/submissions/"] }],
+    sitemap: `${SITE_URL}/sitemap.xml`,
+  };
 }

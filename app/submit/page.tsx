@@ -26,6 +26,9 @@ export default function SubmitPage() {
             <a className="btn btn-primary" href={issueUrl("add-api.yml", "Add API: ")} target="_blank" rel="noopener noreferrer">
               Open the “Add an API” form on GitHub <span aria-hidden="true">↗</span>
             </a>
+            <a className="btn" href={issueUrl("place-api.yml", "Provider: ")} target="_blank" rel="noopener noreferrer">
+              I&apos;m the provider: place my API <span aria-hidden="true">↗</span>
+            </a>
             <a className="btn" href={issueUrl("suggest-logo.yml", "Logo: ")} target="_blank" rel="noopener noreferrer">
               Suggest a logo <span aria-hidden="true">↗</span>
             </a>

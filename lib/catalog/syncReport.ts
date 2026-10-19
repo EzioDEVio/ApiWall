@@ -1,6 +1,6 @@
 import type { Changelog, ChangeEntry } from "./history";
 import type { LinkHistory } from "./linkHistory";
-import type { CatalogSnapshot } from "./types";
+import { type CatalogSnapshot, isUpstream } from "./types";
 
 /**
  * The weekly sync's report: the README's "This week on ApiWall" section, the pull request
@@ -27,7 +27,7 @@ export interface SyncSummary {
 }
 
 export function summarize(snap: CatalogSnapshot, changelog: Changelog, history: LinkHistory): SyncSummary {
-  const upstream = snap.listings.filter((l) => l.origin !== "supplement");
+  const upstream = snap.listings.filter(isUpstream);
   const apis = upstream.filter((l) => l.kind === "api").length;
   const periods = history.periods;
   const last = periods[periods.length - 1];

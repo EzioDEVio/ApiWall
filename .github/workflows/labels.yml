@@ -1,0 +1,29 @@
+name: Labels
+
+# Creates (or updates) the labels the issue forms and the Requests workflow use. Issue forms
+# silently drop a label that does not exist yet, so this runs whenever this file changes.
+on:
+  push:
+    branches: [main]
+    paths: [.github/workflows/labels.yml]
+  workflow_dispatch:
+
+permissions:
+  issues: write
+
+jobs:
+  labels:
+    runs-on: ubuntu-24.04
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+    steps:
+      - run: |
+          gh label create add-api    --force --color 1f6feb --description "Request: add a new API"
+          gh label create provider   --force --color 8250df --description "Request: a provider placing its own API"
+          gh label create logo       --force --color f2702b --description "Request: an official logo"
+          gh label create listing    --force --color bf8700 --description "Request: correct or remove a listing"
+          gh label create approved   --force --color 1a7f37 --description "Approved on the admin page; the Requests workflow applies it"
+          gh label create rejected   --force --color cf222e --description "Reviewed and not added"
+          gh label create needs-info --force --color d4c5f9 --description "Waiting for more information from the requester"
+          gh label create request    --force --color 0e8a16 --description "Pull request that applies an approved request"

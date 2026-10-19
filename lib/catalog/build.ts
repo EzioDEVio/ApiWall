@@ -5,6 +5,7 @@ import { buildMarks, type BrandIcon } from "./marks";
 import type { FaviconRecord } from "./favicons";
 import { applyAiModels, type AiModelsFile } from "./supplements";
 import { applyCommunityLogos, type CommunityLogosFile } from "./community";
+import { applyCommunityApis, applyOverrides, type CommunityApisFile, type ListingOverridesFile } from "./requests";
 import type { CatalogSnapshot, CategoryInfo, SnapshotSource } from "./types";
 
 // Category → glyph (a Tabler icon name). Glyphs give every category a shape
@@ -36,6 +37,10 @@ export interface BuildInput {
   previous?: CatalogSnapshot | null;
   favicons?: Record<string, FaviconRecord>;
   aiModels?: AiModelsFile | null;
+  /** Approved requests: new APIs and provider listings (data/community-apis.json). */
+  communityApis?: CommunityApisFile | null;
+  /** Approved requests: corrections and removals (data/listing-overrides.json). */
+  overrides?: ListingOverridesFile | null;
   communityLogos?: CommunityLogosFile | null;
   /** Whether a community logo file exists (the importer checks the disk). */
   communityFileExists?: (name: string) => boolean;
@@ -43,7 +48,21 @@ export interface BuildInput {
   tileFor?: (src: string) => string | null;
 }
 
-export function buildSnapshot({ readme, source, importedAt, icons, iconBasis, previous, favicons, aiModels, communityLogos, communityFileExists, tileFor }: BuildInput): CatalogSnapshot {
+export function buildSnapshot({
+  readme,
+  source,
+  importedAt,
+  icons,
+  iconBasis,
+  previous,
+  favicons,
+  aiModels,
+  communityApis,
+  overrides,
+  communityLogos,
+  communityFileExists,
+  tileFor,
+}: BuildInput): CatalogSnapshot {
   const parsed = parseReadme(readme);
   const normalized = normalize(parsed);
   const warnings = normalized.warnings;
@@ -56,6 +75,15 @@ export function buildSnapshot({ readme, source, importedAt, icons, iconBasis, pr
     );
     warnings.push(...r.warnings);
     supplements.push(r.summary);
+  }
+  // Approved requests: corrections first (they apply to catalog listings), then new listings.
+  if (overrides || communityApis) {
+    const o = applyOverrides(listings, overrides ?? null);
+    const c = applyCommunityApis(o.listings, communityApis ?? null);
+    warnings.push(...o.warnings, ...c.warnings);
+    listings = c.listings.sort(
+      (a, b) => a.categorySlug.localeCompare(b.categorySlug) || a.name.localeCompare(b.name, "en") || a.id.localeCompare(b.id),
+    );
   }
   if (parsed.ignoredPromoRows) warnings.push(`${parsed.ignoredPromoRows} promotional table rows outside the catalog were ignored`);
 

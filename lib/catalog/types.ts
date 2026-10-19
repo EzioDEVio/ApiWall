@@ -32,8 +32,15 @@ export interface CatalogListing {
   install?: InstallLink[]; // MCP only
   alsoListedIn?: string[]; // other categories that list the same name + URL
   sourceLine: number; // 1-based line in the upstream README (0 for supplemental entries)
-  /** "supplement" = added by ApiWall from a curated, source-tracked dataset; not in public-apis. */
-  origin?: "upstream" | "supplement";
+  /**
+   * "supplement" = added by ApiWall from a curated, source-tracked dataset; "community" = added
+   * through an approved request (data/community-apis.json). Neither is in public-apis.
+   */
+  origin?: "upstream" | "supplement" | "community";
+  /** For community listings: the approved request it came from. */
+  community?: CommunityInfo;
+  /** Set when an approved correction changed or confirmed this listing's facts (data/listing-overrides.json). */
+  correction?: CorrectionInfo;
   /** Extra category slugs this listing also belongs to (e.g. "ai-models"), set by curated cross-tags. */
   tags?: string[];
   aiModel?: AiModelInfo;
@@ -41,6 +48,20 @@ export interface CatalogListing {
   addedAt?: string;
   /** Permanent page address: /apis/<slug>/ (see lib/catalog/slugs.ts). */
   slug?: string;
+}
+
+export interface CommunityInfo {
+  issue: number;
+  approvedAt: string; // YYYY-MM-DD
+  /** Submitted by someone at the provider (shown as "Submitted by the provider"). */
+  providerSubmitted: boolean;
+  providerName?: string;
+}
+
+export interface CorrectionInfo {
+  issue: number;
+  approvedAt: string; // YYYY-MM-DD
+  fields: string[]; // which facts were changed, e.g. ["url", "auth"]
 }
 
 /** Facts checked by ApiWall against a provider's official documentation. */
@@ -52,6 +73,9 @@ export interface AiModelInfo {
   docsUrl: string;
   verifiedAt: string; // YYYY-MM-DD
 }
+
+/** True for listings that come from the public-apis catalog itself. */
+export const isUpstream = (l: { origin?: CatalogListing["origin"] }) => !l.origin || l.origin === "upstream";
 
 export interface SupplementSummary {
   slug: string;

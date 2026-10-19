@@ -268,6 +268,24 @@ To publish a release, push a version tag (`git tag v1.5.0 && git push origin v1.
 **Release** workflow from the Actions tab. GitHub writes the notes from merged pull requests,
 grouped by label (`.github/release.yml`).
 
+### Hands-off maintenance
+
+Routine pull requests merge themselves. When CI and Lighthouse both pass on a pull request,
+the **Auto-merge** workflow (`scripts/auto-merge.mjs`) merges it and starts the Pages deploy,
+but only if all of these hold:
+
+- it is the weekly catalog sync (touching only `data/`, `public/marks/` and `README.md`), or a
+  Dependabot update that stays within the same major version (same minor for `0.x`) and touches
+  only `package.json`, `package-lock.json` or workflow files;
+- every check on its latest commit passed, and it is up to date with `main` (a stale Dependabot
+  pull request is asked to rebase, which re-runs its checks);
+- it has no merge conflicts.
+
+Major updates, pull requests from people, and anything with a red check stay open. A weekly
+upkeep agent (a scheduled Claude task) reviews those, fixes failures in a pull request of its own,
+and merges that once it is green. It never weakens tests, never pushes straight to `main`, and
+leaves major upgrades and repository settings to a person.
+
 ### Install as an app (PWA)
 
 `app/manifest.ts` and the icons in `public/icons/` make the site installable, and `public/sw.js`

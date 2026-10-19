@@ -1,0 +1,39 @@
+name: Auto-merge
+
+# Merges routine bot pull requests (the weekly catalog sync, and Dependabot updates within the
+# same major version) as soon as CI and Lighthouse are both green on their latest commit, then
+# starts the Pages deploy. The rules are in scripts/auto-merge.mjs. Everything else, including
+# major updates and anything with a failing check, waits for a person or the weekly upkeep agent.
+on:
+  workflow_run:
+    workflows: [CI, Lighthouse]
+    types: [completed]
+
+permissions:
+  contents: write
+  pull-requests: write
+  actions: write
+  checks: read
+
+concurrency:
+  group: auto-merge-${{ github.event.workflow_run.head_sha }}
+  cancel-in-progress: false
+
+jobs:
+  merge:
+    if: github.event.workflow_run.event == 'pull_request' && github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-24.04
+    steps:
+      # Checks out main (this repository's own script), never the pull request's code.
+      - uses: actions/checkout@v7
+        with:
+          ref: main
+          persist-credentials: false
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+      - name: Merge if every rule passes
+        env:
+          GH_TOKEN: ${{ github.token }}
+          HEAD_SHA: ${{ github.event.workflow_run.head_sha }}
+        run: node scripts/auto-merge.mjs

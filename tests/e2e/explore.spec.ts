@@ -259,8 +259,13 @@ test("phones get readable cards and no sideways scrolling", async ({ page, isMob
   await page.getByTestId("list-cards").getByRole("button").first().tap();
   await expect(page.getByTestId("detail-dialog")).toBeVisible();
   const btn = page.getByRole("button", { name: "Close details" });
-  const b = (await btn.boundingBox())!;
-  expect(Math.min(b.width, b.height)).toBeGreaterThanOrEqual(44);
+  // Measure once the sheet has finished sliding up (mid-animation the transform shrinks it by a hair),
+  // using the button's layout size, which is what a finger actually gets.
+  const size = await btn.evaluate(async (el) => {
+    await Promise.all((el.closest("dialog") ?? el).getAnimations({ subtree: true }).map((a) => a.finished.catch(() => undefined)));
+    return Math.min((el as HTMLElement).offsetWidth, (el as HTMLElement).offsetHeight);
+  });
+  expect(size).toBeGreaterThanOrEqual(44);
 });
 
 test("the wall fills the window: the page never scrolls, the map does", async ({ page, isMobile }) => {

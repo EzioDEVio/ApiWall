@@ -109,7 +109,9 @@ describe("catalog stats", () => {
     expect(stats.apis + stats.mcp).toBe(stats.total);
     expect(Object.values(stats.auth).reduce((a, b) => a + b, 0)).toBe(stats.apis);
     expect(Object.values(stats.https).reduce((a, b) => a + b, 0)).toBe(stats.apis);
-    expect(stats.links.unreachable).toBe(Object.keys(snap.linkHealth!.unreachable).length);
+    // Only listings still in the catalog count (a removed API can stay in link-health.json until the next check).
+    const present = new Set(snap.listings.map((l) => l.id));
+    expect(stats.links.unreachable).toBe(Object.keys(snap.linkHealth!.unreachable).filter((id) => present.has(id)).length);
     expect(stats.topCategories.length).toBeLessThanOrEqual(15);
     expect(stats.topCategories.map((c) => c.count)).toEqual([...stats.topCategories.map((c) => c.count)].sort((a, b) => b - a));
   });

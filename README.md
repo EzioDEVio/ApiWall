@@ -17,7 +17,7 @@ auth, and open the docs in a click.
 [![Docs links](https://img.shields.io/endpoint?url=https%3A%2F%2Feziodevio.github.io%2FApiWall%2Fapi%2Fv1%2Fbadges%2Fdead-links.json)](https://eziodevio.github.io/ApiWall/stats/)
 [![Starter packs](https://img.shields.io/endpoint?url=https%3A%2F%2Feziodevio.github.io%2FApiWall%2Fapi%2Fv1%2Fbadges%2Fpacks.json)](https://eziodevio.github.io/ApiWall/packs/)
 [![Public API](https://img.shields.io/badge/public_API-v1-8f8fff.svg)](https://eziodevio.github.io/ApiWall/developers/)
-![Next.js](https://img.shields.io/badge/Next.js-15-14161f.svg)
+![Next.js](https://img.shields.io/badge/Next.js-16-14161f.svg)
 
    <img src="docs/media/apiwall-demo.gif" alt="Flying over the ApiWall mosaic, colouring it by auth, picking AI Models, comparing three APIs side by side, jumping to Weather with Ctrl+K, opening an API's own page, and switching to dark mode" width="880">
 
@@ -178,6 +178,33 @@ flowchart LR
 
 To try the Pages build locally (Windows, macOS or Linux), stop `npm run dev` first, then run
 `npm run preview:static` and open http://localhost:4173/ApiWall/.
+
+### Site address
+
+The address lives in one setting. By default the Pages workflow publishes at
+`https://<owner>.github.io/<repo>/`. To move to your own domain later, add a repository variable
+**SITE_URL** (Settings → Secrets and variables → Actions → Variables), for example
+`https://apiwall.example`, and enter the same domain under **Settings → Pages → Custom domain**.
+The workflow then builds with that address and no base path; links, the sitemap, share previews,
+embed snippets and the weekly report all follow. Remove the variable to go back.
+
+### Visit counts (cookie-free)
+
+ApiWall can count visits with [GoatCounter](https://www.goatcounter.com/), which is free for
+non-commercial sites and needs no cookies or consent banner. It is **off** until you turn it on:
+
+1. Create a free account at goatcounter.com and pick a site code, e.g. `apiwall`
+   (your dashboard is then `https://apiwall.goatcounter.com`).
+2. In the repository add the variable **GOATCOUNTER_CODE** with that code.
+3. Re-run **Deploy to GitHub Pages** (or push).
+
+What is sent: one image request per page view with the path (never the query string, so search
+text stays private), the page title, the referring site's origin and the screen size; plus named
+events: `open-api/<slug>`, `category/<slug>`, `pack-wall/<slug>`, `pack-json/<slug>`, `docs/<slug>`,
+`lens/<name>`, `compare`, `surprise`, `export/<format>`, `embed-copy/<kind>` and `install`.
+Nothing is sent with Do Not Track or Global Privacy Control, from automated browsers, or on
+localhost. The site's security policy allows the request only when the code is set, and the About
+page tells visitors exactly this. The code is in `lib/analytics.ts` and `components/Analytics.tsx`.
 
 ### Weekly catalog sync
 

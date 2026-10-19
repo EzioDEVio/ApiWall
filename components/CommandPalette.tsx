@@ -66,7 +66,8 @@ export function CommandPalette({ open, entries, categories, actions, categoryInd
     if (active >= 0) ref.current?.querySelector(`#pal-${active}`)?.scrollIntoView({ block: "nearest" });
   }, [active]);
 
-  let n = -1;
+  // Each option's position in the flat list, for ids and keyboard highlighting.
+  const offsets = groups.map((_, gi) => groups.slice(0, gi).reduce((a, g) => a + g.items.length, 0));
   return (
     <dialog
       ref={ref}
@@ -107,14 +108,13 @@ export function CommandPalette({ open, entries, categories, actions, categoryInd
         <kbd>Esc</kbd>
       </div>
       <div id="palette-list" role="listbox" aria-label="Results" className="palette-list">
-        {groups.map((g) => (
+        {groups.map((g, gi) => (
           <div key={g.name} role="group" aria-label={g.name} className="palette-group">
             <div className="palette-group-name" aria-hidden="true">
               {g.name}
             </div>
-            {g.items.map((it) => {
-              n += 1;
-              const i = n;
+            {g.items.map((it, j) => {
+              const i = offsets[gi]! + j;
               return (
                 <div
                   key={it.key}

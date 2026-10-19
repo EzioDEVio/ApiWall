@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { applyTheme, onThemeChange, readTheme, type ThemeChoice } from "@/lib/theme";
+import { applyTheme, type ThemeChoice } from "@/lib/theme";
+import { useThemeChoice } from "@/lib/useTheme";
 
 const NEXT: Record<ThemeChoice, ThemeChoice> = { system: "light", light: "dark", dark: "system" };
 const LABEL: Record<ThemeChoice, string> = { system: "System", light: "Light", dark: "Dark" };
@@ -13,11 +13,7 @@ const ICON: Record<ThemeChoice, string[]> = {
 
 /** Cycles System → Light → Dark. The choice is remembered in this browser. */
 export function ThemeToggle() {
-  const [theme, setTheme] = useState<ThemeChoice>("system");
-  useEffect(() => {
-    setTheme(readTheme());
-    return onThemeChange(() => setTheme(readTheme())); // e.g. changed from the Ctrl+K palette
-  }, []);
+  const theme = useThemeChoice(); // follows changes made elsewhere, e.g. from the Ctrl+K palette
   const next = NEXT[theme];
   return (
     <button
@@ -25,7 +21,6 @@ export function ThemeToggle() {
       className="btn theme-btn"
       onClick={() => {
         applyTheme(next);
-        setTheme(next);
       }}
       aria-label={`Theme: ${LABEL[theme]}. Switch to ${LABEL[next]}`}
       title={`Theme: ${LABEL[theme]} (click for ${LABEL[next]})`}

@@ -17,6 +17,7 @@ export function EmbedSnippet({ kind, value, limit }: { kind: "api" | "category" 
       <button
         type="button"
         className="btn btn-small"
+        data-track={`embed-copy/${kind}`}
         onClick={async () => {
           setCopied((await copyText(code)) ? "ok" : "fail");
           setTimeout(() => setCopied(""), 2000);

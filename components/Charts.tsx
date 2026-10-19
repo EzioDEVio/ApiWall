@@ -111,13 +111,15 @@ export function SplitBar({ parts, caption, unit = "APIs" }: { parts: { label: st
     parts.reduce((a, p) => a + p.value, 0),
   );
   const W = 640;
-  let x = 0;
+  // Where each segment starts: the running total of the ones before it.
+  const starts = parts.map((_, i) => parts.slice(0, i).reduce((a, p) => a + (p.value / total) * W, 0));
   return (
     <>
       <svg className="viz-svg" viewBox={`0 0 ${W} 34`} role="img" aria-label={caption}>
         {parts.map((p, i) => {
           const w = (p.value / total) * W;
-          const seg = (
+          const x = starts[i]!;
+          return (
             <g key={p.label}>
               <title>{`${p.label}: ${p.value.toLocaleString("en")} ${unit} (${Math.round((p.value / total) * 100)}%)`}</title>
               <rect x={x + (i ? 1 : 0)} y={0} width={Math.max(0, w - (i ? 2 : 1))} height={34} rx={4} className={`viz-s${i + 1}`} />
@@ -128,8 +130,6 @@ export function SplitBar({ parts, caption, unit = "APIs" }: { parts: { label: st
               )}
             </g>
           );
-          x += w;
-          return seg;
         })}
       </svg>
       <ul className="viz-legend">

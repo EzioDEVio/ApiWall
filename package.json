@@ -29,7 +29,7 @@
     "sync:report": "tsx scripts/sync-report.ts"
   },
   "dependencies": {
-    "next": "15.5.27",
+    "next": "16.3.8",
     "react": "19.1.10",
     "react-dom": "19.1.10",
     "server-only": "0.0.1",
@@ -37,7 +37,6 @@
   },
   "devDependencies": {
     "@axe-core/playwright": "4.13.0",
-    "@eslint/eslintrc": "3.3.7",
     "@iconify-json/tabler": "1.2.41",
     "@playwright/test": "1.58.2",
     "@testing-library/dom": "10.4.2",
@@ -48,7 +47,7 @@
     "@types/react-dom": "19.1.11",
     "@vitejs/plugin-react": "4.7.0",
     "eslint": "9.39.5",
-    "eslint-config-next": "15.5.27",
+    "eslint-config-next": "16.3.8",
     "gifenc": "^1.0.3",
     "jsdom": "26.1.0",
     "pngjs": "^7.0.0",

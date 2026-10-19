@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { loadSnapshot } from "@/lib/catalog/server";
+import { ANALYTICS_ORIGIN, GOATCOUNTER_CODE } from "@/lib/analytics";
 
 export const metadata: Metadata = { title: "About & Source" };
 
@@ -130,6 +131,24 @@ export default function AboutPage() {
         snapshot, so refreshing the catalog keeps existing tiles where they are and new listings take free space in their band. The bottom of the map is reserved for
         reviewed provider listings.
       </p>
+
+      <h2 id="privacy">Privacy</h2>
+      {GOATCOUNTER_CODE ? (
+        <p data-testid="privacy-analytics">
+          ApiWall counts visits with{" "}
+          <a href="https://www.goatcounter.com/" target="_blank" rel="noopener noreferrer">
+            GoatCounter
+          </a>
+          , without cookies or any other storage on your device. Each count is one request to <code>{new URL(ANALYTICS_ORIGIN).host}</code> with the page
+          address (never what you search for), the page title, the site you came from and your screen size. Opening an API, choosing a category or starter
+          pack and exporting a list are counted the same way, by name. Nothing is counted when your browser sends Do Not Track or Global Privacy Control.
+          Saved APIs, your theme and your lists stay in your browser and are never sent anywhere.
+        </p>
+      ) : (
+        <p data-testid="privacy-analytics">
+          This copy of ApiWall does not count visits. Saved APIs, your theme and your lists stay in your browser and are never sent anywhere.
+        </p>
+      )}
 
       <h2>License</h2>
       <p>

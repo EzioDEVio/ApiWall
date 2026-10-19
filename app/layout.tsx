@@ -6,6 +6,8 @@ import { THEME_BOOT } from "@/lib/theme";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { ServiceWorker } from "@/components/ServiceWorker";
 import { InstallHint } from "@/components/InstallHint";
+import { Analytics } from "@/components/Analytics";
+import { ANALYTICS_ORIGIN } from "@/lib/analytics";
 
 const description = "Every public API on one zoomable wall: search, filter by category or auth, and open docs in a click. Built from the community public-apis catalog.";
 
@@ -26,7 +28,8 @@ const STATIC_CSP = [
   "default-src 'self'",
   "script-src 'self' 'unsafe-inline'",
   "style-src 'self' 'unsafe-inline'",
-  "img-src 'self' data: blob:",
+  // The analytics count is an image request to GoatCounter, allowed only when it is configured.
+  `img-src 'self' data: blob:${ANALYTICS_ORIGIN ? ` ${ANALYTICS_ORIGIN}` : ""}`,
   "font-src 'self'",
   "connect-src 'self'",
   "form-action 'self'",
@@ -121,12 +124,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             </p>
             <p className="muted">
               Browse: <Link href="/apis/">All APIs, A to Z</Link> · <Link href="/categories/">Categories</Link> · <Link href="/packs/">Starter packs</Link> ·{" "}
-              <Link href="/stats/">Stats</Link> · <Link href="/developers/">Public API</Link>
+              <Link href="/stats/">Stats</Link> · <Link href="/developers/">Public API</Link> · <Link href="/about/#privacy">Privacy</Link>
             </p>
           </div>
         </footer>
         <ServiceWorker />
         <InstallHint />
+        <Analytics />
       </body>
     </html>
   );

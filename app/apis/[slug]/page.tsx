@@ -103,7 +103,7 @@ export default async function ApiPage({ params }: Params) {
 
       <div className="row api-actions">
         {e.url ? (
-          <a className="btn btn-primary" href={e.url} target="_blank" rel="noopener noreferrer nofollow" data-testid="docs-link">
+          <a className="btn btn-primary" href={e.url} target="_blank" rel="noopener noreferrer nofollow" data-testid="docs-link" data-track={`docs/${e.slug}`}>
             Official docs on {host(e.url)} <span aria-hidden="true">↗</span>
           </a>
         ) : (

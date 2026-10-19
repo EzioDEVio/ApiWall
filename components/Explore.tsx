@@ -17,7 +17,6 @@ import { asset, STATIC_MODE } from "@/lib/site";
 import { type BrowserCatalog, fromBrowserCatalog } from "@/lib/catalog/browser";
 import { parseUrlState, toUrlSearch } from "@/lib/explore/urlState";
 import { copyText } from "@/lib/clipboard";
-import { isDarkNow, onThemeChange } from "@/lib/theme";
 import { useSaved } from "@/lib/saved";
 import { isRecent } from "@/lib/catalog/history";
 import { LENS_IDS, LENSES, type LensId, lensCounts, lensSwatch } from "@/lib/explore/lenses";
@@ -28,7 +27,9 @@ import { ShortcutsDialog } from "./ShortcutsDialog";
 import { MAX_COMPARE, toggleCompare } from "@/lib/explore/compare";
 import type { PaletteAction, PaletteItem } from "@/lib/explore/palette";
 import { applyTheme } from "@/lib/theme";
+import { useIsDark } from "@/lib/useTheme";
 import { promptInstall, useCanInstall } from "@/lib/install";
+import { trackEvent } from "@/lib/analytics";
 import { downloadText, toCsv, toJson, toMarkdown } from "@/lib/exportList";
 
 type Load<T> = { state: "loading" } | { state: "error"; message: string } | { state: "ready"; data: T };
@@ -109,7 +110,7 @@ export function Explore({ glyphs, stats }: Props) {
   const [helpOpen, setHelpOpen] = useState(false);
   const [welcome, setWelcome] = useState(false);
   const [selectedId, setSelectedId] = useState<string | null>(null);
-  const [dark, setDark] = useState(false);
+  const dark = useIsDark();
   const [hudH, setHudH] = useState(120);
   const [narrow, setNarrow] = useState(false);
   const [wide, setWide] = useState(false);
@@ -135,6 +136,7 @@ export function Explore({ glyphs, stats }: Props) {
   const filtersBtn = useRef<HTMLButtonElement>(null);
   const router = useRouter();
   const deferredQ = useDeferredValue(filters.q);
+  const [now] = useState(() => Date.now()); // "New this week" is judged against the time the page opened
 
   const loadCatalog = useCallback(() => {
     setCatalog({ state: "loading" });
@@ -149,7 +151,9 @@ export function Explore({ glyphs, stats }: Props) {
       );
   }, []);
 
+  // Runs once after hydration: everything here reads browser-only state (URL, storage, screen size).
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- the first load must start after hydration
     loadCatalog();
     // The static site has no server: approved logos are part of the catalog, and there are no provider listings.
     (STATIC_MODE
@@ -166,9 +170,6 @@ export function Explore({ glyphs, stats }: Props) {
     // Phones open on readable cards; the map is one tap away.
     if (window.matchMedia("(max-width: 640px)").matches) setListOpen(true);
     if (!readFlag(WELCOME_KEY)) setWelcome(true);
-    // Dark when the saved theme says so, or when following a dark system setting.
-    setDark(isDarkNow());
-    const offTheme = onThemeChange(() => setDark(isDarkNow()));
     // Shareable links: restore category, search, filters, view and the open API from the URL.
     const fromUrl = parseUrlState(window.location.search);
     setFilters(fromUrl.filters);
@@ -196,7 +197,6 @@ export function Explore({ glyphs, stats }: Props) {
     const onNarrow = () => setNarrow(nq.matches);
     nq.addEventListener("change", onNarrow);
     return () => {
-      offTheme();
       wq.removeEventListener("change", onWide);
       pq.removeEventListener("change", onPhone);
       nq.removeEventListener("change", onNarrow);
@@ -290,13 +290,11 @@ export function Explore({ glyphs, stats }: Props) {
   const results = useMemo(() => filterEntries(scoped, effective), [scoped, effective]);
   const filtered = isFiltered(effective) || !!sharedList;
   const newCount = useMemo(() => {
-    const now = Date.now();
     return entries.filter((e) => isRecent(e.addedAt, now, NEW_DAYS)).length;
-  }, [entries]);
+  }, [entries, now]);
   const newIds = useMemo(() => {
-    const now = Date.now();
     return new Set(entries.filter((e) => isRecent(e.addedAt, now, NEW_DAYS)).map((e) => e.id));
-  }, [entries]);
+  }, [entries, now]);
   const brokenCount = useMemo(() => entries.filter((e) => e.link.state === "unreachable").length, [entries]);
   // Filters in the panel (category and search have their own controls).
   const panelFilters = (["kind", "auth", "https", "cors", "access", "logo", "links"] as const).filter((k) => filters[k] !== "").length;
@@ -359,6 +357,7 @@ export function Explore({ glyphs, stats }: Props) {
     else setCompareIds(r.ids);
   };
   const exportSaved = async (kind: "md" | "csv" | "json" | "copy") => {
+    trackEvent(`export/${kind}`);
     const list = saved.ids.map((id) => byId.get(id)).filter((e): e is NonNullable<typeof e> => !!e);
     const site = window.location.origin + asset("/").replace(/\/$/, "");
     const stamp = new Date().toISOString().slice(0, 10);
@@ -410,6 +409,36 @@ export function Explore({ glyphs, stats }: Props) {
     writeFlag(WELCOME_KEY);
   };
 
+  // Usage counts (only when analytics is configured): which APIs, categories and colourings people open.
+  // Only names from the catalog are sent, never search text.
+  const openedSlug = selectedId ? (byId.get(selectedId)?.slug ?? selectedId) : null;
+  useEffect(() => {
+    if (openedSlug) trackEvent(`open-api/${openedSlug}`);
+  }, [openedSlug]);
+  useEffect(() => {
+    if (filters.category) trackEvent(`category/${filters.category}`);
+  }, [filters.category]);
+  useEffect(() => {
+    if (lens !== "category") trackEvent(`lens/${lens}`);
+  }, [lens]);
+  useEffect(() => {
+    if (compareOpen) trackEvent("compare");
+  }, [compareOpen]);
+
+  /** Opens a random API from the current results (so it respects category and filters). */
+  const surprise = () => {
+    trackEvent("surprise");
+    const pool = results.length > 1 ? results.filter((e) => e.id !== selectedId) : results;
+    if (!pool.length) return;
+    const pick = pool[Math.floor(Math.random() * pool.length)]!;
+    if (!listOpen) mosaicRef.current?.focusEntry(pick.id);
+    select(pick.id);
+  };
+  // The "R" shortcut always reaches the latest version (it reads the current results).
+  useEffect(() => {
+    surpriseRef.current = surprise;
+  });
+
   if (catalog.state === "loading") {
     return (
       <section className="app-shell app-state" aria-busy="true">
@@ -448,16 +477,6 @@ export function Explore({ glyphs, stats }: Props) {
           filterEntries(scoped, { ...effective, ...Object.fromEntries(LENSES[lens].buckets.flatMap((b) => Object.keys(b.filter)).map((k) => [k, ""])) }),
           lens,
         );
-
-  /** Opens a random API from the current results (so it respects category and filters). */
-  const surprise = () => {
-    const pool = results.length > 1 ? results.filter((e) => e.id !== selectedId) : results;
-    if (!pool.length) return;
-    const pick = pool[Math.floor(Math.random() * pool.length)]!;
-    if (!listOpen) mosaicRef.current?.focusEntry(pick.id);
-    select(pick.id);
-  };
-  surpriseRef.current = surprise;
 
   // ‹ › in the details step through the current results, and the map follows along.
   const selIndex = selectedId ? results.findIndex((e) => e.id === selectedId) : -1;
@@ -569,7 +588,11 @@ export function Explore({ glyphs, stats }: Props) {
       case "stats":
         return router.push("/stats");
       case "install":
-        return void promptInstall().then((ok) => ok && showToast("ApiWall is installed. It opens offline with the last catalog you loaded."));
+        return void promptInstall().then((ok) => {
+          if (!ok) return;
+          trackEvent("install");
+          showToast("ApiWall is installed. It opens offline with the last catalog you loaded.");
+        });
       case "submit":
         return router.push("/submit");
       case "about":

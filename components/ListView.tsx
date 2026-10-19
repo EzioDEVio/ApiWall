@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import type { Entry } from "@/lib/explore/model";
 import { triLabel } from "@/lib/explore/explain";
 import { ACCESS_LABELS } from "@/lib/providers/types";
@@ -24,7 +24,12 @@ const authLabel = (e: Entry) => (e.auth === "none" ? "No auth" : e.raw.auth || "
 
 export function ListView({ entries, categoryIndex, categoryGlyph, glyphs, onSelect, dark, savedIds, newIds, onToggleSave }: Props) {
   const [limit, setLimit] = useState(PAGE);
-  useEffect(() => setLimit(PAGE), [entries]);
+  // A new result set starts again from the first page (adjusting state during render, as React recommends).
+  const [shownFor, setShownFor] = useState(entries);
+  if (shownFor !== entries) {
+    setShownFor(entries);
+    setLimit(PAGE);
+  }
   const shown = entries.slice(0, limit);
 
   return (

@@ -37,6 +37,8 @@ jobs:
       - run: npm test
       - name: Write this week's report (README section, pull request text, health issue)
         run: npm run sync:report -- --out "$RUNNER_TEMP/report"
+        env:
+          NEXT_PUBLIC_SITE_URL: ${{ vars.SITE_URL }} # empty = the GitHub Pages address
       - name: Skip the pull request when only timestamps changed
         run: node scripts/drop-timestamp-only-changes.mjs
       - uses: peter-evans/create-pull-request@v8

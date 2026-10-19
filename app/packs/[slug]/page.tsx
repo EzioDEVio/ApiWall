@@ -67,10 +67,10 @@ export default async function PackPage({ params }: Params) {
         <strong>{p.entries.length.toLocaleString("en")} APIs</strong> · Included because: {p.rule}
       </p>
       <div className="row">
-        <Link className="btn btn-primary" href={p.wall}>
+        <Link className="btn btn-primary" href={p.wall} data-track={`pack-wall/${p.slug}`}>
           See them on the wall
         </Link>
-        <a className="btn" href={`${SITE_URL}/api/${PUBLIC_API_VERSION}/packs/${p.slug}.json`}>
+        <a className="btn" href={`${SITE_URL}/api/${PUBLIC_API_VERSION}/packs/${p.slug}.json`} data-track={`pack-json/${p.slug}`}>
           As JSON
         </a>
       </div>

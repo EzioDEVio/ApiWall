@@ -8,6 +8,7 @@ import { type LensId, lensColor } from "@/lib/explore/lenses";
 import { cellToLayoutSlot, districts, filteredColumns, filteredLayout, fullLayout, type LayoutItem, type MapLayout, slotXY } from "@/lib/explore/layout";
 import { asset } from "@/lib/site";
 import { isDarkNow, onThemeChange } from "@/lib/theme";
+import { useIsDark } from "@/lib/useTheme";
 
 // The map is a native scroll container: a transparent spacer the size of the
 // zoomed map scrolls inside it, and one viewport-sized canvas behind it draws
@@ -76,7 +77,9 @@ const TIP_AUTH: Record<string, string> = {
   other: "Other auth",
 };
 
-type Hover = { kind: "entry"; id: string; x: number; y: number } | { kind: "open"; x: number; y: number } | null;
+/** Pointer position, plus which way the preview opens so it stays on screen near the edges. */
+type Spot = { x: number; y: number; flipX: boolean; flipY: boolean };
+type Hover = ({ kind: "entry"; id: string } & Spot) | ({ kind: "open" } & Spot) | null;
 
 function roundRect(ctx: CanvasRenderingContext2D, x: number, y: number, w: number, h: number, r: number) {
   ctx.beginPath();
@@ -128,7 +131,8 @@ export const Mosaic = forwardRef<MosaicHandle, Props>(function Mosaic(
   const [announce, setAnnounce] = useState("");
   const pathCache = useRef(new Map<string, Path2D>());
   const imgCache = useRef(new Map<string, HTMLImageElement | "error">());
-  const darkRef = useRef(false);
+  const darkRef = useRef(false); // for the canvas, which redraws outside React
+  const darkTheme = useIsDark(); // for React-rendered parts
   const drawRef = useRef<() => void>(() => {});
   const schedule = useCallback(() => {
     if (!frame.current) frame.current = requestAnimationFrame(() => drawRef.current());
@@ -240,6 +244,14 @@ export const Mosaic = forwardRef<MosaicHandle, Props>(function Mosaic(
 
   const resetView = useCallback(() => zoomTo(fitScale()), [zoomTo]); // eslint-disable-line react-hooks/exhaustive-deps -- reads refs only
 
+  function layoutWith(i: { top: number; right: number; bottom: number }, s: number) {
+    const saved = insets.current;
+    insets.current = i;
+    const r = layout(s);
+    insets.current = saved;
+    return r;
+  }
+
   // Insets change when floating panels open or resize: keep the same content centred.
   useEffect(() => {
     const prev = insets.current;
@@ -268,15 +280,27 @@ export const Mosaic = forwardRef<MosaicHandle, Props>(function Mosaic(
     schedule();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [insetTop, insetRight, insetBottom, schedule]);
-  function layoutWith(i: { top: number; right: number; bottom: number }, s: number) {
-    const saved = insets.current;
-    insets.current = i;
-    const r = layout(s);
-    insets.current = saved;
-    return r;
-  }
 
   /** Scrolls (and zooms in if needed) so a tile is fully visible. */
+  const reveal = useCallback(
+    (e: Entry, minTilePx = 0) => {
+      const sc = scrollRef.current;
+      const item = L.current.byId.get(e.id);
+      if (!sc || !item) return;
+      if (TILE_SIZE * scale.current < minTilePx) setScale(minTilePx / TILE_SIZE);
+      const s = scale.current;
+      const { ox, oy } = layout(s);
+      const x = ox + item.x * s;
+      const y = oy + item.y * s;
+      const tp = TILE_SIZE * s;
+      const { w, h } = vp.current;
+      if (x < sc.scrollLeft || x + tp > sc.scrollLeft + w) sc.scrollLeft = x + tp / 2 - w / 2;
+      if (y < sc.scrollTop || y + tp > sc.scrollTop + h) sc.scrollTop = y + tp / 2 - h / 2;
+      schedule();
+    },
+    [setScale, schedule], // eslint-disable-line react-hooks/exhaustive-deps -- layout() reads refs only
+  );
+
   const flight = useRef(0);
   /**
    * Eased flight to a tile far away (palette, "Surprise me"): zooms and pans together in one
@@ -322,25 +346,6 @@ export const Mosaic = forwardRef<MosaicHandle, Props>(function Mosaic(
       flight.current = requestAnimationFrame(step);
     },
     [schedule], // eslint-disable-line react-hooks/exhaustive-deps -- layout() and reveal read refs only
-  );
-
-  const reveal = useCallback(
-    (e: Entry, minTilePx = 0) => {
-      const sc = scrollRef.current;
-      const item = L.current.byId.get(e.id);
-      if (!sc || !item) return;
-      if (TILE_SIZE * scale.current < minTilePx) setScale(minTilePx / TILE_SIZE);
-      const s = scale.current;
-      const { ox, oy } = layout(s);
-      const x = ox + item.x * s;
-      const y = oy + item.y * s;
-      const tp = TILE_SIZE * s;
-      const { w, h } = vp.current;
-      if (x < sc.scrollLeft || x + tp > sc.scrollLeft + w) sc.scrollLeft = x + tp / 2 - w / 2;
-      if (y < sc.scrollTop || y + tp > sc.scrollTop + h) sc.scrollTop = y + tp / 2 - h / 2;
-      schedule();
-    },
-    [setScale, schedule], // eslint-disable-line react-hooks/exhaustive-deps -- layout() reads refs only
   );
 
   // When the result set changes: filtered views fit their results; clearing every filter
@@ -397,6 +402,34 @@ export const Mosaic = forwardRef<MosaicHandle, Props>(function Mosaic(
   }, [mapLayout, schedule]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // ---- drawing --------------------------------------------------------------
+  /** Mini-map: every tile as a dot, with the visible area outlined. */
+  function drawMini(tx: number, ty: number, s: number, w: number, h: number, dark: boolean) {
+    const mini = miniRef.current;
+    if (!mini) return;
+    const ctx = mini.getContext("2d");
+    if (!ctx) return;
+    const size = mini.clientWidth;
+    if (!size) return;
+    const dpr = vp.current.dpr;
+    if (mini.width !== Math.round(size * dpr)) {
+      mini.width = Math.round(size * dpr);
+      mini.height = Math.round(size * dpr);
+    }
+    const lay = L.current;
+    const k = size / Math.max(lay.width, lay.height);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.clearRect(0, 0, size, size);
+    for (const it of lay.items) {
+      ctx.fillStyle = (lens !== "category" && lensColor(it.entry, lens, dark)) || categoryColor(categoryIndex.get(it.colorSlug) ?? 0, dark);
+      ctx.fillRect(it.x * k, it.y * k, Math.max(1, TILE_SIZE * k - 0.4), Math.max(1, TILE_SIZE * k - 0.4));
+    }
+    const vx = (-tx / s) * k;
+    const vy = (-ty / s) * k;
+    ctx.strokeStyle = dark ? "#fff" : "#14161f";
+    ctx.lineWidth = 2;
+    ctx.strokeRect(Math.max(1, vx), Math.max(1, vy), Math.min(size - 2, (w / s) * k), Math.min(size - 2, (h / s) * k));
+  }
+
   const draw = useCallback(() => {
     frame.current = 0;
     const canvas = canvasRef.current;
@@ -775,34 +808,6 @@ export const Mosaic = forwardRef<MosaicHandle, Props>(function Mosaic(
     }
   }, [mapLayout, dists, lens, savedIds, newIds, categoryIndex, categoryGlyph, glyphs, selectedId, focusId, schedule]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  /** Mini-map: every tile as a dot, with the visible area outlined. */
-  function drawMini(tx: number, ty: number, s: number, w: number, h: number, dark: boolean) {
-    const mini = miniRef.current;
-    if (!mini) return;
-    const ctx = mini.getContext("2d");
-    if (!ctx) return;
-    const size = mini.clientWidth;
-    if (!size) return;
-    const dpr = vp.current.dpr;
-    if (mini.width !== Math.round(size * dpr)) {
-      mini.width = Math.round(size * dpr);
-      mini.height = Math.round(size * dpr);
-    }
-    const lay = L.current;
-    const k = size / Math.max(lay.width, lay.height);
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    ctx.clearRect(0, 0, size, size);
-    for (const it of lay.items) {
-      ctx.fillStyle = (lens !== "category" && lensColor(it.entry, lens, dark)) || categoryColor(categoryIndex.get(it.colorSlug) ?? 0, dark);
-      ctx.fillRect(it.x * k, it.y * k, Math.max(1, TILE_SIZE * k - 0.4), Math.max(1, TILE_SIZE * k - 0.4));
-    }
-    const vx = (-tx / s) * k;
-    const vy = (-ty / s) * k;
-    ctx.strokeStyle = dark ? "#fff" : "#14161f";
-    ctx.lineWidth = 2;
-    ctx.strokeRect(Math.max(1, vx), Math.max(1, vy), Math.min(size - 2, (w / s) * k), Math.min(size - 2, (h / s) * k));
-  }
-
   useEffect(() => {
     drawRef.current = draw;
     schedule();
@@ -951,7 +956,8 @@ export const Mosaic = forwardRef<MosaicHandle, Props>(function Mosaic(
       hoverRef.current = id;
       schedule();
     }
-    setHover(entry ? { kind: "entry", id: entry.id, x: p.x, y: p.y } : open ? { kind: "open", x: p.x, y: p.y } : null);
+    const spot = { x: p.x, y: p.y, flipX: p.x > vp.current.w - 330, flipY: p.y > vp.current.h - 210 };
+    setHover(entry ? { kind: "entry", id: entry.id, ...spot } : open ? { kind: "open", ...spot } : null);
   };
   const endDrag = (ev: React.PointerEvent<HTMLDivElement>) => {
     const d = drag.current;
@@ -1149,9 +1155,9 @@ export const Mosaic = forwardRef<MosaicHandle, Props>(function Mosaic(
           <div
             className={`mosaic-tip${hovered ? " is-card" : ""}`}
             style={{
-              left: hover.x > vp.current.w - 330 ? hover.x - 14 : hover.x + 14,
-              top: hover.y > vp.current.h - 210 ? hover.y - 14 : hover.y + 14,
-              transform: `translate(${hover.x > vp.current.w - 330 ? "-100%" : "0"}, ${hover.y > vp.current.h - 210 ? "-100%" : "0"})`,
+              left: hover.flipX ? hover.x - 14 : hover.x + 14,
+              top: hover.flipY ? hover.y - 14 : hover.y + 14,
+              transform: `translate(${hover.flipX ? "-100%" : "0"}, ${hover.flipY ? "-100%" : "0"})`,
             }}
             role="presentation"
             data-testid="tile-preview"
@@ -1160,7 +1166,7 @@ export const Mosaic = forwardRef<MosaicHandle, Props>(function Mosaic(
               <>
                 <strong>{hovered.name}</strong>
                 <span className="tip-cat">
-                  <i aria-hidden="true" style={{ background: categoryColor(categoryIndex.get(hovered.categorySlug) ?? 0, darkRef.current) }} />
+                  <i aria-hidden="true" style={{ background: categoryColor(categoryIndex.get(hovered.categorySlug) ?? 0, darkTheme) }} />
                   {hovered.category}
                   {hovered.kind === "mcp" ? " · MCP server" : ""}
                   {hovered.sponsored ? " · Sponsored" : hovered.source === "provider" ? " · Provider-submitted" : ""}

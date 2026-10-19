@@ -1,12 +1,16 @@
 import type { NextConfig } from "next";
 
+const goatRaw = (process.env.NEXT_PUBLIC_GOATCOUNTER ?? "").trim().toLowerCase();
+const goat = /^[a-z0-9][a-z0-9-]{1,48}[a-z0-9]$/.test(goatRaw) ? goatRaw : "";
+
 // Security headers apply to every route. The CSP blocks third-party images and scripts:
 // identity marks are bundled with the catalog snapshot, never hotlinked.
 const csp = [
   "default-src 'self'",
   "script-src 'self' 'unsafe-inline'" + (process.env.NODE_ENV === "development" ? " 'unsafe-eval'" : ""),
   "style-src 'self' 'unsafe-inline'",
-  "img-src 'self' data: blob:",
+  // GoatCounter counts are image requests; allowed only when NEXT_PUBLIC_GOATCOUNTER is set (see lib/analytics.ts).
+  `img-src 'self' data: blob:${goat ? ` https://${goat}.goatcounter.com` : ""}`,
   "font-src 'self'",
   "connect-src 'self'",
   "frame-ancestors 'none'",
@@ -26,6 +30,9 @@ const staticConfig: NextConfig = {
   basePath: basePath || undefined,
   trailingSlash: true,
   images: { unoptimized: true },
+  // The static build sets the server routes aside, so it type-checks the site without the tests
+  // (which import those routes). `npm run typecheck` still checks everything, tests included.
+  typescript: { tsconfigPath: "tsconfig.build.json" },
 };
 
 const serverConfig: NextConfig = {

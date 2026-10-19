@@ -85,7 +85,7 @@ export default async function CategoryPage({ params }: Params) {
         {noKey ? `, ${noKey} of them with no auth listed` : ""}. Each one links to its own page with auth, HTTPS, CORS and the official docs.
       </p>
       <div className="row">
-        <Link className="btn btn-primary" href={`/?cat=${c.slug}`}>
+        <Link className="btn btn-primary" href={`/?cat=${c.slug}`} data-track={`category-wall/${c.slug}`}>
           See them on the wall
         </Link>
       </div>

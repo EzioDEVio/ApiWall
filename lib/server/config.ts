@@ -2,7 +2,8 @@ import "server-only";
 import path from "node:path";
 
 export function dataDir(): string {
-  return path.resolve(process.cwd(), process.env.TESSERA_DATA_DIR || "data/runtime");
+  // Runtime data (submissions, reviews) is written while the server runs, so the build must not bundle it.
+  return path.resolve(/* turbopackIgnore: true */ process.cwd(), process.env.TESSERA_DATA_DIR || "data/runtime");
 }
 
 /** Reviewer access is available only when both values are configured. */

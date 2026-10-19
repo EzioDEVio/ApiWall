@@ -26,11 +26,35 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
+      # The site address is one setting. By default it is https://<owner>.github.io/<repo>/.
+      # To move to your own domain later, add repository variables (Settings → Secrets and variables
+      # → Actions → Variables): SITE_URL=https://apiwall.example and set the same domain under
+      # Settings → Pages → Custom domain. Nothing in the code changes.
+      - name: Work out the site address
+        env:
+          SITE_URL_VAR: ${{ vars.SITE_URL }}
+          REPO: ${{ github.event.repository.name }}
+          OWNER: ${{ github.repository_owner }}
+        run: |
+          if [ -n "$SITE_URL_VAR" ]; then
+            url="${SITE_URL_VAR%/}"
+            if ! printf '%s' "$url" | grep -Eq '^https://[A-Za-z0-9.-]+(/[A-Za-z0-9._~-]+)*$'; then
+              echo "::error::SITE_URL must look like https://apiwall.example or https://example.com/apiwall"; exit 1
+            fi
+            base="$(printf '%s' "$url" | sed -E 's#^https://[^/]+##')"
+          else
+            url="https://${OWNER}.github.io/${REPO}"
+            base="/${REPO}"
+          fi
+          echo "NEXT_PUBLIC_SITE_URL=$url" >> "$GITHUB_ENV"
+          echo "NEXT_PUBLIC_BASE_PATH=$base" >> "$GITHUB_ENV"
+          echo "Site address: $url (base path: ${base:-/})"
       - name: Build static site
         run: npm run build:static
         env:
-          NEXT_PUBLIC_BASE_PATH: /${{ github.event.repository.name }}
-          NEXT_PUBLIC_SITE_URL: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}
+          # Cookie-free visit counts: set the repository variable GOATCOUNTER_CODE to your
+          # GoatCounter site code (the "apiwall" in apiwall.goatcounter.com). Empty = no analytics.
+          NEXT_PUBLIC_GOATCOUNTER: ${{ vars.GOATCOUNTER_CODE }}
       - uses: actions/upload-pages-artifact@v5
         with:
           path: out

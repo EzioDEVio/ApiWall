@@ -1,6 +1,6 @@
 {
  "version": 1,
- "updatedAt": "2026-10-19T19:54:01.295Z",
+ "updatedAt": "2026-10-26T13:16:43.614Z",
  "entries": {
   "api-openai-api-1rmb4o81bp": {
    "file": "api-openai-api-1rmb4o81bp.png",
@@ -2321,16 +2321,6 @@
    "pageUrl": "https://exchangerate.host/",
    "method": "declared",
    "fetchedAt": "2026-10-18T01:45:39.313Z"
-  },
-  "api-frankfurter-1hsam5w1dt": {
-   "file": "api-frankfurter-1hsam5w1dt.png",
-   "width": 512,
-   "height": 512,
-   "sha256": "a42192628184e4670a48232d190b46836798116fd583b99e74b6e65a2ba3bd25",
-   "iconUrl": "https://frankfurter.dev/images/logo.png?v=1791849483",
-   "pageUrl": "https://frankfurter.dev/",
-   "method": "declared",
-   "fetchedAt": "2026-10-18T01:45:39.651Z"
   },
   "api-exchangerate-dev-04ko56b0mm": {
    "file": "api-exchangerate-dev-04ko56b0mm.png",
@@ -15241,6 +15231,216 @@
    "pageUrl": "https://presentofai.com/",
    "method": "declared",
    "fetchedAt": "2026-10-19T19:54:01.282Z"
+  },
+  "api-marginpad-1fw9h7n1ol": {
+   "file": "api-marginpad-1fw9h7n1ol.png",
+   "width": 180,
+   "height": 180,
+   "sha256": "1d40cfe362d17b83ddc894f41fa1264a2d0d2e4db53d3f6e6ab7d8d73ddf8d9d",
+   "iconUrl": "https://marginpad.io/assets/apple-touch-icon.png",
+   "pageUrl": "https://marginpad.io/",
+   "method": "declared",
+   "fetchedAt": "2026-10-26T13:16:40.497Z"
+  },
+  "api-rundossier-07l15vp1x8": {
+   "file": "api-rundossier-07l15vp1x8.png",
+   "width": 180,
+   "height": 180,
+   "sha256": "85c806919edcadd727c7ec421386a83658ad9e52268bc517da4945ed75b4fedb",
+   "iconUrl": "https://rundossier.com/apple-icon.png?apple-icon.3g-5f2bn3hqd2.png?dpl=dpl_GgxeRF8fJNRJzt7xL6fN371DXQMA",
+   "pageUrl": "https://rundossier.com/",
+   "method": "declared",
+   "fetchedAt": "2026-10-26T13:16:40.554Z"
+  },
+  "api-frankfurter-0iaaimm0lb": {
+   "file": "api-frankfurter-0iaaimm0lb.png",
+   "width": 512,
+   "height": 512,
+   "sha256": "a42192628184e4670a48232d190b46836798116fd583b99e74b6e65a2ba3bd25",
+   "iconUrl": "https://frankfurter.dev/images/logo.png?v=1792965695",
+   "pageUrl": "https://frankfurter.dev/",
+   "method": "declared",
+   "fetchedAt": "2026-10-26T13:16:40.604Z"
+  },
+  "api-contactlint-0s38pn01fx": {
+   "file": "api-contactlint-0s38pn01fx.png",
+   "width": 180,
+   "height": 180,
+   "sha256": "0ba352ca195057dc73dceb3858cb358c28ddddffa62bdf0d5ae32d623733b53a",
+   "iconUrl": "https://contactlint.com/apple-touch-icon.png",
+   "pageUrl": "https://contactlint.com/",
+   "method": "declared",
+   "fetchedAt": "2026-10-26T13:16:40.774Z"
+  },
+  "api-leadgen-romania-1w6dy1i0n1": {
+   "file": "api-leadgen-romania-1w6dy1i0n1.png",
+   "width": 180,
+   "height": 180,
+   "sha256": "9bc42761e1dc526c223c123584da2b306cea85cf43decaffb27bb6dc80f4795e",
+   "iconUrl": "https://leadgen.adrianhomelab.com/apple-touch-icon.png",
+   "pageUrl": "https://leadgen.adrianhomelab.com/",
+   "method": "declared",
+   "fetchedAt": "2026-10-26T13:16:40.831Z"
+  },
+  "api-things-to-do-1yl8ita1vp": {
+   "file": "api-things-to-do-1yl8ita1vp.png",
+   "width": 512,
+   "height": 512,
+   "sha256": "c6e4f411e73a83ddbf983af7b8f10455b04a0db68bd91db85b7cb097447d22d4",
+   "iconUrl": "https://thingstodoapi.com/icon.png",
+   "pageUrl": "https://thingstodoapi.com/",
+   "method": "declared",
+   "fetchedAt": "2026-10-26T13:16:41.009Z"
+  },
+  "api-webump-0ga7dww1ui": {
+   "file": "api-webump-0ga7dww1ui.webp",
+   "width": null,
+   "height": null,
+   "sha256": "6b1450d5406584801a40b2db78536c267dad00c5d1a01322b147a3d591905a0d",
+   "iconUrl": "https://developer.webump.app/app-icon.webp",
+   "pageUrl": "https://developer.webump.app/",
+   "method": "declared",
+   "fetchedAt": "2026-10-26T13:16:41.213Z"
+  },
+  "mcp-blockvectra-0a7oghh0vh": {
+   "file": "mcp-blockvectra-0a7oghh0vh.png",
+   "width": 420,
+   "height": 420,
+   "sha256": "3ffb79580712996b6e367020928e795b9c4970849cc35dc0390d00fa625ff09b",
+   "iconUrl": "https://github.com/blockvectra.png?size=128",
+   "pageUrl": "https://github.com/blockvectra/mcp",
+   "method": "github-owner",
+   "fetchedAt": "2026-10-26T13:16:41.255Z"
+  },
+  "api-ai-trainer-work-04ah5r803a": {
+   "file": "api-ai-trainer-work-04ah5r803a.webp",
+   "width": null,
+   "height": null,
+   "sha256": "ec923a6640ceba50d96a32b0bd1f8f7b72ef3fb0dda9dcb6a8fdffe56da76cf1",
+   "iconUrl": "https://aitrainer.work/img/icon.webp",
+   "pageUrl": "https://aitrainer.work/",
+   "method": "declared",
+   "fetchedAt": "2026-10-26T13:16:41.271Z"
+  },
+  "mcp-crawlbrulee-02fxsic0e9": {
+   "file": "mcp-crawlbrulee-02fxsic0e9.png",
+   "width": 128,
+   "height": 128,
+   "sha256": "d1a614d7450f49e24eeebe422f42e62927b82b4b062b3b9cc0de577713e2d732",
+   "iconUrl": "https://github.com/crawlbrulee.png?size=128",
+   "pageUrl": "https://github.com/crawlbrulee/crawlbrulee-mcp",
+   "method": "github-owner",
+   "fetchedAt": "2026-10-26T13:16:41.329Z"
+  },
+  "mcp-indiainsurances-01qfnah0xr": {
+   "file": "mcp-indiainsurances-01qfnah0xr.png",
+   "width": 180,
+   "height": 180,
+   "sha256": "f1be348610e8485d62e8074e2abc85f9513929dff90c45b3100d5c40b93a4793",
+   "iconUrl": "https://indiainsurances.com/icon-180.png",
+   "pageUrl": "https://indiainsurances.com/",
+   "method": "declared",
+   "fetchedAt": "2026-10-26T13:16:41.369Z"
+  },
+  "mcp-scalekit-01vuvg71p8": {
+   "file": "mcp-scalekit-01vuvg71p8.png",
+   "width": 120,
+   "height": 120,
+   "sha256": "cf27292d7b1dea38f169d82ab5439bfa862c0f361645820a09f4e4715b07a3b6",
+   "iconUrl": "https://github.com/scalekit-inc.png?size=128",
+   "pageUrl": "https://github.com/scalekit-inc/scalekit-mcp-server",
+   "method": "github-owner",
+   "fetchedAt": "2026-10-26T13:16:41.383Z"
+  },
+  "api-crawlbrulee-08hp1kq1e5": {
+   "file": "api-crawlbrulee-08hp1kq1e5.png",
+   "width": 180,
+   "height": 180,
+   "sha256": "4854ea2559eb18df1aeaaa88b8cc532938d2262f693209147f1475d10ede8cd7",
+   "iconUrl": "https://crawlbrulee.com/apple-touch-icon.png",
+   "pageUrl": "https://crawlbrulee.com/",
+   "method": "declared",
+   "fetchedAt": "2026-10-26T13:16:41.471Z"
+  },
+  "api-stemconsole-03rwncx1oy": {
+   "file": "api-stemconsole-03rwncx1oy.png",
+   "width": 512,
+   "height": 512,
+   "sha256": "7bf996b0aed7b76ba85c0d9cc888515b4178a3acc33435583b63f7f5427f1a55",
+   "iconUrl": "https://stemconsole.ai/assets/apple-touch-icon.png",
+   "pageUrl": "https://stemconsole.ai/",
+   "method": "declared",
+   "fetchedAt": "2026-10-26T13:16:41.590Z"
+  },
+  "api-auregistre-02b3hny10p": {
+   "file": "api-auregistre-02b3hny10p.png",
+   "width": 180,
+   "height": 180,
+   "sha256": "5050197306ef27930c0dc688011706b3dd9bd16bae924e924aab844b69e66ad8",
+   "iconUrl": "https://auregistre.fr/apple-touch-icon.png",
+   "pageUrl": "https://auregistre.fr/",
+   "method": "declared",
+   "fetchedAt": "2026-10-26T13:16:41.614Z"
+  },
+  "api-weinc-152fv5q1hn": {
+   "file": "api-weinc-152fv5q1hn.png",
+   "width": 256,
+   "height": 256,
+   "sha256": "a2632bf086164d6ef7133c4794cd0f4e823fcbc5d96648a1873f222a0142b0ff",
+   "iconUrl": "https://my.we.inc/favicon-256x256.png",
+   "pageUrl": "https://my.we.inc/login",
+   "method": "declared",
+   "fetchedAt": "2026-10-26T13:16:41.748Z"
+  },
+  "api-snapwonders-1k3x8ya0p6": {
+   "file": "api-snapwonders-1k3x8ya0p6.png",
+   "width": 180,
+   "height": 180,
+   "sha256": "ea441c10f7bfb603d2ef596daa65b34d776666142a084e37cdb02f4f24cd09ae",
+   "iconUrl": "https://snapwonders.com/favicons/snapwonders/apple-touch-icon-180x180.png?v=3",
+   "pageUrl": "https://snapwonders.com/",
+   "method": "declared",
+   "fetchedAt": "2026-10-26T13:16:41.991Z"
+  },
+  "api-veabird-1va5m5f0ne": {
+   "file": "api-veabird-1va5m5f0ne.png",
+   "width": 180,
+   "height": 180,
+   "sha256": "334fc6d4e2f9cb83f5ec2ba422443d0af49fc1a632f036b4578f114b1da6e547",
+   "iconUrl": "https://veabird.com/assets/apple-touch-icon.png",
+   "pageUrl": "https://veabird.com/",
+   "method": "declared",
+   "fetchedAt": "2026-10-26T13:16:42.157Z"
+  },
+  "api-transitradar-0iwy9ss0yt": {
+   "file": "api-transitradar-0iwy9ss0yt.ico",
+   "width": 48,
+   "height": 48,
+   "sha256": "7de35c5b3b964e4114ae826b6aadcaa778903ca39cb683f149612d5fbb020569",
+   "iconUrl": "https://transitradar.co.uk/favicon.ico",
+   "pageUrl": "https://transitradar.co.uk/",
+   "method": "default-path",
+   "fetchedAt": "2026-10-26T13:16:42.299Z"
+  },
+  "api-carspecs-1k20al21ta": {
+   "file": "api-carspecs-1k20al21ta.png",
+   "width": 180,
+   "height": 180,
+   "sha256": "38b90b9a292e8cfa618b9c635c0fac82b13ccdc3f4fa9478c4ae4663e22cd308",
+   "iconUrl": "https://carspecsapi.com/apple-touch-icon.png",
+   "pageUrl": "https://carspecsapi.com/",
+   "method": "declared",
+   "fetchedAt": "2026-10-26T13:16:42.386Z"
+  },
+  "api-mypincode-0o1xal50qc": {
+   "file": "api-mypincode-0o1xal50qc.png",
+   "width": 180,
+   "height": 180,
+   "sha256": "0bc57335b16f4c309b6492dcd5958b45a74cfca2b672d3e5a3d67f1c45d6e56a",
+   "iconUrl": "https://mypincode.live/logo-180x180.png",
+   "pageUrl": "https://mypincode.live/",
+   "method": "declared",
+   "fetchedAt": "2026-10-26T13:16:42.921Z"
   }
  },
  "misses": {
@@ -15907,6 +16107,19 @@
   "api-sparepilot-0x95m9w022": "platform default icon, not the provider's own",
   "api-nitrosend-0x039d01xw": "HTTP 404",
   "api-countdownshq-0q95kh00h2": "HTTP 404",
-  "api-revolt-00uzw2s1o9": "HTTP 404"
+  "api-revolt-00uzw2s1o9": "HTTP 404",
+  "api-unfurlr-02sgytl1va": "not a PNG, JPEG, WebP, GIF or ICO image",
+  "api-w-system-eu-business-data-1yt5f0c1y9": "HTTP 404",
+  "api-verif-entreprise-fr-1fvgs4a1l7": "HTTP 404",
+  "api-indiarestros-1067utj0ns": "HTTP 403",
+  "api-ipkit-1pqstg60yc": "HTTP 404",
+  "api-online-sudoku-sudokumax-0izs6tv0zx": "HTTP 404",
+  "api-yumi-wheel-evidence-1mm5qbd0lf": "HTTP 404",
+  "api-india-ev-charging-stations-1k4ljqj1yv": "HTTP 404",
+  "api-w14n-1qm44su0sb": "HTTP 404",
+  "api-vessel-class-finder-1x6mp551t2": "HTTP 404",
+  "api-melek-1q4muk00n2": "not a PNG, JPEG, WebP, GIF or ICO image",
+  "api-tanod-1hcmfg21um": "HTTP 404",
+  "api-ustariffrates-1mm0hyd1ky": "HTTP 404"
  }
 }

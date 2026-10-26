@@ -55,7 +55,7 @@ const baseSchema = z.object({
     demoCostOwner: z.string().max(120),
     demoUserData: z.string().max(400),
     demoAbuseContact: z.string().max(160),
-    agree: z.literal("yes", { errorMap: () => ({ message: "Confirm that you are authorised and did not include secrets" }) }),
+    agree: z.literal("yes", { error: "Confirm that you are authorised and did not include secrets" }),
 });
 
 export const SUBMISSION_FIELDS = Object.keys(baseSchema.shape) as (keyof z.infer<typeof baseSchema>)[];

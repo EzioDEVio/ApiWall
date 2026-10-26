@@ -72,8 +72,8 @@ export const ApprovalSchema = z
   .superRefine((o, ctx) => {
     if (o.kind !== "listing") return;
     if (o.action === "update" && ![o.url, o.description, o.categorySlug, o.auth, o.https, o.cors].some((v) => v !== undefined))
-      ctx.addIssue({ code: z.ZodIssueCode.custom, message: "an update must change at least one fact" });
-    if (o.action === "hide" && !o.reason) ctx.addIssue({ code: z.ZodIssueCode.custom, path: ["reason"], message: "a removal needs a reason" });
+      ctx.addIssue({ code: "custom", message: "an update must change at least one fact" });
+    if (o.action === "hide" && !o.reason) ctx.addIssue({ code: "custom", path: ["reason"], message: "a removal needs a reason" });
   });
 export type Approval = z.infer<typeof ApprovalSchema>;
 

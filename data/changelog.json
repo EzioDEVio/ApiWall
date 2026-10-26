@@ -2,6 +2,189 @@
  "version": 1,
  "entries": [
   {
+   "at": "2026-10-26T13:16:39.321Z",
+   "commit": "82e763edc4919e2cb13ce8c8c57a33bc73ff4caf",
+   "added": [
+    {
+     "id": "api-melek-1q4muk00n2",
+     "name": "MELEK",
+     "category": "Blockchain"
+    },
+    {
+     "id": "api-leadgen-romania-1w6dy1i0n1",
+     "name": "Leadgen Romania",
+     "category": "Business"
+    },
+    {
+     "id": "api-rundossier-07l15vp1x8",
+     "name": "RunDossier",
+     "category": "Business"
+    },
+    {
+     "id": "api-verif-entreprise-fr-1fvgs4a1l7",
+     "name": "Verif Entreprise FR",
+     "category": "Business"
+    },
+    {
+     "id": "api-w-system-eu-business-data-1yt5f0c1y9",
+     "name": "W System EU Business Data",
+     "category": "Business"
+    },
+    {
+     "id": "api-marginpad-1fw9h7n1ol",
+     "name": "MarginPad",
+     "category": "Cryptocurrency"
+    },
+    {
+     "id": "api-frankfurter-0iaaimm0lb",
+     "name": "Frankfurter",
+     "category": "Currency Exchange"
+    },
+    {
+     "id": "api-crawlbrulee-08hp1kq1e5",
+     "name": "crawlbrulee",
+     "category": "Development"
+    },
+    {
+     "id": "api-unfurlr-02sgytl1va",
+     "name": "unfurlr",
+     "category": "Development"
+    },
+    {
+     "id": "api-weinc-152fv5q1hn",
+     "name": "WeInc",
+     "category": "Development"
+    },
+    {
+     "id": "api-yumi-wheel-evidence-1mm5qbd0lf",
+     "name": "Yumi Wheel Evidence",
+     "category": "Development"
+    },
+    {
+     "id": "api-contactlint-0s38pn01fx",
+     "name": "ContactLint",
+     "category": "Email"
+    },
+    {
+     "id": "api-things-to-do-1yl8ita1vp",
+     "name": "Things To Do",
+     "category": "Events"
+    },
+    {
+     "id": "api-ustariffrates-1mm0hyd1ky",
+     "name": "USTariffRates",
+     "category": "Finance"
+    },
+    {
+     "id": "api-indiarestros-1067utj0ns",
+     "name": "IndiaRestros",
+     "category": "Food & Drink"
+    },
+    {
+     "id": "api-online-sudoku-sudokumax-0izs6tv0zx",
+     "name": "Online Sudoku - Sudokumax",
+     "category": "Games & Comics"
+    },
+    {
+     "id": "api-webump-0ga7dww1ui",
+     "name": "weBump",
+     "category": "Games & Comics"
+    },
+    {
+     "id": "api-ipkit-1pqstg60yc",
+     "name": "IPKit",
+     "category": "Geocoding"
+    },
+    {
+     "id": "api-mypincode-0o1xal50qc",
+     "name": "MyPincode",
+     "category": "Geocoding"
+    },
+    {
+     "id": "api-ai-trainer-work-04ah5r803a",
+     "name": "AI Trainer Work",
+     "category": "Jobs"
+    },
+    {
+     "id": "mcp-blockvectra-0a7oghh0vh",
+     "name": "BlockVectra",
+     "category": "MCP Servers"
+    },
+    {
+     "id": "mcp-crawlbrulee-02fxsic0e9",
+     "name": "crawlbrulee",
+     "category": "MCP Servers"
+    },
+    {
+     "id": "mcp-indiainsurances-01qfnah0xr",
+     "name": "IndiaInsurances",
+     "category": "MCP Servers"
+    },
+    {
+     "id": "mcp-scalekit-01vuvg71p8",
+     "name": "Scalekit",
+     "category": "MCP Servers"
+    },
+    {
+     "id": "api-stemconsole-03rwncx1oy",
+     "name": "StemConsole",
+     "category": "Music"
+    },
+    {
+     "id": "api-auregistre-02b3hny10p",
+     "name": "Auregistre",
+     "category": "Open Data"
+    },
+    {
+     "id": "api-w14n-1qm44su0sb",
+     "name": "w14n",
+     "category": "Open Data"
+    },
+    {
+     "id": "api-snapwonders-1k3x8ya0p6",
+     "name": "snapWONDERS",
+     "category": "Photography"
+    },
+    {
+     "id": "api-tanod-1hcmfg21um",
+     "name": "Tanod",
+     "category": "Security"
+    },
+    {
+     "id": "api-india-ev-charging-stations-1k4ljqj1yv",
+     "name": "India EV Charging Stations",
+     "category": "Transportation"
+    },
+    {
+     "id": "api-transitradar-0iwy9ss0yt",
+     "name": "TransitRadar",
+     "category": "Transportation"
+    },
+    {
+     "id": "api-vessel-class-finder-1x6mp551t2",
+     "name": "Vessel Class Finder",
+     "category": "Transportation"
+    },
+    {
+     "id": "api-carspecs-1k20al21ta",
+     "name": "CarSpecs",
+     "category": "Vehicle"
+    },
+    {
+     "id": "api-veabird-1va5m5f0ne",
+     "name": "Veabird",
+     "category": "Weather"
+    }
+   ],
+   "removed": [
+    {
+     "id": "api-frankfurter-1hsam5w1dt",
+     "name": "Frankfurter",
+     "category": "Currency Exchange"
+    }
+   ]
+  },
+  {
    "at": "2026-10-19T19:53:58.666Z",
    "commit": "93086df88fbce354dd612373ab755f941f53a473",
    "added": [

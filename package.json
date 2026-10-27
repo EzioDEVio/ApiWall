@@ -52,7 +52,7 @@
     "jsdom": "26.1.0",
     "pngjs": "^7.0.0",
     "sharp": "^0.35.5",
-    "simple-icons": "13.21.0",
+    "simple-icons": "16.35.0",
     "tsx": "4.23.15",
     "typescript": "5.9.3",
     "vitest": "5.0.5"

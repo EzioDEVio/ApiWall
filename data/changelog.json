@@ -2,6 +2,589 @@
  "version": 1,
  "entries": [
   {
+   "at": "2026-11-02T16:14:38.785Z",
+   "commit": "2676ca49d557ef14a0f478311506dae947639028",
+   "added": [
+    {
+     "id": "api-melek-1q4muk00n2",
+     "name": "MELEK",
+     "category": "Blockchain"
+    },
+    {
+     "id": "api-leadgen-romania-1w6dy1i0n1",
+     "name": "Leadgen Romania",
+     "category": "Business"
+    },
+    {
+     "id": "api-rundossier-07l15vp1x8",
+     "name": "RunDossier",
+     "category": "Business"
+    },
+    {
+     "id": "api-softoteca-0gwb7k20qu",
+     "name": "Softoteca",
+     "category": "Business"
+    },
+    {
+     "id": "api-trendsagi-1qjt0yf0lz",
+     "name": "TrendsAGI",
+     "category": "Business"
+    },
+    {
+     "id": "api-verif-entreprise-fr-1fvgs4a1l7",
+     "name": "Verif Entreprise FR",
+     "category": "Business"
+    },
+    {
+     "id": "api-w-system-eu-business-data-1yt5f0c1y9",
+     "name": "W System EU Business Data",
+     "category": "Business"
+    },
+    {
+     "id": "api-coinxview-1v4ryjb0ps",
+     "name": "CoinXview",
+     "category": "Cryptocurrency"
+    },
+    {
+     "id": "api-cryptokeyhole-1p9vvq20cm",
+     "name": "CryptoKeyhole",
+     "category": "Cryptocurrency"
+    },
+    {
+     "id": "api-kraken-03f0h0112q",
+     "name": "Kraken",
+     "category": "Cryptocurrency"
+    },
+    {
+     "id": "api-marginpad-1fw9h7n1ol",
+     "name": "MarginPad",
+     "category": "Cryptocurrency"
+    },
+    {
+     "id": "api-mycryptosignal-03q82v1115",
+     "name": "MyCryptoSignal",
+     "category": "Cryptocurrency"
+    },
+    {
+     "id": "api-tronorb-16v8ko11py",
+     "name": "TronOrb",
+     "category": "Cryptocurrency"
+    },
+    {
+     "id": "api-xrpl-to-02wrog90v4",
+     "name": "XRPL.to",
+     "category": "Cryptocurrency"
+    },
+    {
+     "id": "api-frankfurter-0iaaimm0lb",
+     "name": "Frankfurter",
+     "category": "Currency Exchange"
+    },
+    {
+     "id": "api-crawlbrulee-08hp1kq1e5",
+     "name": "crawlbrulee",
+     "category": "Development"
+    },
+    {
+     "id": "api-enterno-1o8yy7i061",
+     "name": "Enterno",
+     "category": "Development"
+    },
+    {
+     "id": "api-hourora-1aen47y1fa",
+     "name": "Hourora",
+     "category": "Development"
+    },
+    {
+     "id": "api-openapps-18mo9j802y",
+     "name": "OpenApps",
+     "category": "Development"
+    },
+    {
+     "id": "api-seodata-1b7ptg21dg",
+     "name": "seodata",
+     "category": "Development"
+    },
+    {
+     "id": "api-serpkite-0xn0kk80ge",
+     "name": "SerpKite",
+     "category": "Development"
+    },
+    {
+     "id": "api-shotkiln-0myjkfo1fn",
+     "name": "Shotkiln",
+     "category": "Development"
+    },
+    {
+     "id": "api-timezones-0dwx5wr0rs",
+     "name": "Timezones",
+     "category": "Development"
+    },
+    {
+     "id": "api-unfurlr-02sgytl1va",
+     "name": "unfurlr",
+     "category": "Development"
+    },
+    {
+     "id": "api-weinc-152fv5q1hn",
+     "name": "WeInc",
+     "category": "Development"
+    },
+    {
+     "id": "api-yumi-wheel-evidence-1mm5qbd0lf",
+     "name": "Yumi Wheel Evidence",
+     "category": "Development"
+    },
+    {
+     "id": "api-b2b-email-and-domain-scorer-167xwzs06h",
+     "name": "B2B Email & Domain Scorer",
+     "category": "Email"
+    },
+    {
+     "id": "api-contactlint-0s38pn01fx",
+     "name": "ContactLint",
+     "category": "Email"
+    },
+    {
+     "id": "api-mailchannels-1jaa9qa1t8",
+     "name": "MailChannels",
+     "category": "Email"
+    },
+    {
+     "id": "api-mailfloss-1quvvbz042",
+     "name": "mailfloss",
+     "category": "Email"
+    },
+    {
+     "id": "api-vetto-0cia1n10j3",
+     "name": "Vetto",
+     "category": "Email"
+    },
+    {
+     "id": "api-calendrier-tempo-1qktyw11f9",
+     "name": "Calendrier Tempo",
+     "category": "Environment"
+    },
+    {
+     "id": "api-soilpoint-0xn6eoi0uy",
+     "name": "SoilPoint",
+     "category": "Environment"
+    },
+    {
+     "id": "api-spotwave-043hgoa17y",
+     "name": "SpotWave",
+     "category": "Environment"
+    },
+    {
+     "id": "api-things-to-do-1yl8ita1vp",
+     "name": "Things To Do",
+     "category": "Events"
+    },
+    {
+     "id": "api-clear-street-1a5qli71h1",
+     "name": "Clear Street",
+     "category": "Finance"
+    },
+    {
+     "id": "api-fundbiz-15riaud0kl",
+     "name": "FundBiz",
+     "category": "Finance"
+    },
+    {
+     "id": "api-invoice-and-payment-id-validator-0f3atrs1xn",
+     "name": "Invoice & Payment ID Validator",
+     "category": "Finance"
+    },
+    {
+     "id": "api-metal-sentinel-1574q4m0y8",
+     "name": "Metal Sentinel",
+     "category": "Finance"
+    },
+    {
+     "id": "api-opentaxrate-1avqdmo1xq",
+     "name": "OpenTaxRate",
+     "category": "Finance"
+    },
+    {
+     "id": "api-quivad-1uumyif0ox",
+     "name": "QuiVad",
+     "category": "Finance"
+    },
+    {
+     "id": "api-ustariffrates-1mm0hyd1ky",
+     "name": "USTariffRates",
+     "category": "Finance"
+    },
+    {
+     "id": "api-indiarestros-1067utj0ns",
+     "name": "IndiaRestros",
+     "category": "Food & Drink"
+    },
+    {
+     "id": "api-cardz-marketcap-0vikwbj0ar",
+     "name": "CardZ Marketcap",
+     "category": "Games & Comics"
+    },
+    {
+     "id": "api-online-sudoku-sudokumax-0izs6tv0zx",
+     "name": "Online Sudoku - Sudokumax",
+     "category": "Games & Comics"
+    },
+    {
+     "id": "api-superduperbundle-0tfayop1eh",
+     "name": "SuperDuperBundle",
+     "category": "Games & Comics"
+    },
+    {
+     "id": "api-webump-0ga7dww1ui",
+     "name": "weBump",
+     "category": "Games & Comics"
+    },
+    {
+     "id": "api-17nas-0ptu7pg0k4",
+     "name": "17NAS",
+     "category": "Geocoding"
+    },
+    {
+     "id": "api-findip-1ntaqk50vo",
+     "name": "FindIP",
+     "category": "Geocoding"
+    },
+    {
+     "id": "api-ipkit-1pqstg60yc",
+     "name": "IPKit",
+     "category": "Geocoding"
+    },
+    {
+     "id": "api-mypincode-0o1xal50qc",
+     "name": "MyPincode",
+     "category": "Geocoding"
+    },
+    {
+     "id": "api-opengeocoding-1aavdt41tx",
+     "name": "OpenGeocoding",
+     "category": "Geocoding"
+    },
+    {
+     "id": "api-kurtaxe-0ec4g4z1ca",
+     "name": "Kurtaxe",
+     "category": "Government"
+    },
+    {
+     "id": "api-nu-legal-deutsches-recht-0vd9jl90si",
+     "name": "nu:legal Deutsches Recht",
+     "category": "Government"
+    },
+    {
+     "id": "api-yiminshuju-visa-bulletin-0yagzqg0f8",
+     "name": "YiminShuju Visa Bulletin",
+     "category": "Government"
+    },
+    {
+     "id": "api-checkwaitingtimes-11gy42r0yx",
+     "name": "CheckWaitingTimes",
+     "category": "Health"
+    },
+    {
+     "id": "api-fertilityclinics-0x6iltd05e",
+     "name": "FertilityClinics",
+     "category": "Health"
+    },
+    {
+     "id": "api-peptide-library-118em5y0yj",
+     "name": "Peptide Library",
+     "category": "Health"
+    },
+    {
+     "id": "api-ai-trainer-work-04ah5r803a",
+     "name": "AI Trainer Work",
+     "category": "Jobs"
+    },
+    {
+     "id": "api-fast-data-job-search-01h0h721wt",
+     "name": "Fast Data Job Search",
+     "category": "Jobs"
+    },
+    {
+     "id": "api-job-opportunities-1paj6vt0ng",
+     "name": "Job Opportunities",
+     "category": "Jobs"
+    },
+    {
+     "id": "api-siftsmith-company-jobs-00vb8rl16q",
+     "name": "Siftsmith Company Jobs",
+     "category": "Jobs"
+    },
+    {
+     "id": "api-yubhub-1mggnlm0nv",
+     "name": "YubHub",
+     "category": "Jobs"
+    },
+    {
+     "id": "api-ai-stupid-level-169kaam1uc",
+     "name": "AI Stupid Level",
+     "category": "Machine Learning"
+    },
+    {
+     "id": "api-contextfetch-0vdsyx607o",
+     "name": "ContextFetch",
+     "category": "Machine Learning"
+    },
+    {
+     "id": "mcp-blockvectra-0a7oghh0vh",
+     "name": "BlockVectra",
+     "category": "MCP Servers"
+    },
+    {
+     "id": "mcp-contextfetch-1bhk5gu1qh",
+     "name": "ContextFetch",
+     "category": "MCP Servers"
+    },
+    {
+     "id": "mcp-crawlbrulee-02fxsic0e9",
+     "name": "crawlbrulee",
+     "category": "MCP Servers"
+    },
+    {
+     "id": "mcp-findip-mcp-1dlmbti06k",
+     "name": "FindIP MCP",
+     "category": "MCP Servers"
+    },
+    {
+     "id": "mcp-indiainsurances-01qfnah0xr",
+     "name": "IndiaInsurances",
+     "category": "MCP Servers"
+    },
+    {
+     "id": "mcp-openapps-0n7c2xc0up",
+     "name": "OpenApps",
+     "category": "MCP Servers"
+    },
+    {
+     "id": "mcp-scalekit-01vuvg71p8",
+     "name": "Scalekit",
+     "category": "MCP Servers"
+    },
+    {
+     "id": "mcp-toolalize-0fpm4gj03r",
+     "name": "Toolalize",
+     "category": "MCP Servers"
+    },
+    {
+     "id": "mcp-xposedornot-0tzhef31nh",
+     "name": "XposedOrNot",
+     "category": "MCP Servers"
+    },
+    {
+     "id": "api-daydream-167l03f0n2",
+     "name": "Daydream",
+     "category": "Music"
+    },
+    {
+     "id": "api-stemconsole-03rwncx1oy",
+     "name": "StemConsole",
+     "category": "Music"
+    },
+    {
+     "id": "api-10ml-fragrance-index-1r9vi6y0ey",
+     "name": "10ML Fragrance Index",
+     "category": "Open Data"
+    },
+    {
+     "id": "api-auregistre-02b3hny10p",
+     "name": "Auregistre",
+     "category": "Open Data"
+    },
+    {
+     "id": "api-consumersun-recalls-1rhth6q0e7",
+     "name": "ConsumerSun Recalls",
+     "category": "Open Data"
+    },
+    {
+     "id": "api-lottizen-0et7dvx0vt",
+     "name": "Lottizen",
+     "category": "Open Data"
+    },
+    {
+     "id": "api-namedesk-0btdt2r1wa",
+     "name": "Namedesk",
+     "category": "Open Data"
+    },
+    {
+     "id": "api-w14n-1qm44su0sb",
+     "name": "w14n",
+     "category": "Open Data"
+    },
+    {
+     "id": "api-isgenai-1te4rnn0o2",
+     "name": "isGenAI",
+     "category": "Photography"
+    },
+    {
+     "id": "api-snapwonders-1k3x8ya0p6",
+     "name": "snapWONDERS",
+     "category": "Photography"
+    },
+    {
+     "id": "api-molicheck-0cw7kpj1xj",
+     "name": "Molicheck",
+     "category": "Science & Math"
+    },
+    {
+     "id": "api-toolalize-1pf9n8f0o4",
+     "name": "Toolalize",
+     "category": "Science & Math"
+    },
+    {
+     "id": "api-realbots-1p93qnd0kv",
+     "name": "RealBots",
+     "category": "Security"
+    },
+    {
+     "id": "api-tanod-1hcmfg21um",
+     "name": "Tanod",
+     "category": "Security"
+    },
+    {
+     "id": "api-deepscout-1m8z7941lb",
+     "name": "DeepScout",
+     "category": "Shopping"
+    },
+    {
+     "id": "api-product-page-extractor-1jpr3h31z0",
+     "name": "Product Page Extractor",
+     "category": "Shopping"
+    },
+    {
+     "id": "api-vantaspec-0rj1jxn062",
+     "name": "VantaSpec",
+     "category": "Shopping"
+    },
+    {
+     "id": "api-weir-1vmb2un0xy",
+     "name": "Weir",
+     "category": "Social"
+    },
+    {
+     "id": "api-racehooks-13970vn1mk",
+     "name": "RaceHooks",
+     "category": "Sports & Fitness"
+    },
+    {
+     "id": "api-touchline-wire-1fa84q00ah",
+     "name": "Touchline Wire",
+     "category": "Sports & Fitness"
+    },
+    {
+     "id": "api-watson-natural-language-understanding-12773f80hq",
+     "name": "Watson Natural Language Understanding",
+     "category": "Text Analysis"
+    },
+    {
+     "id": "api-ais-trail-0vgw73c0gw",
+     "name": "AIS Trail",
+     "category": "Transportation"
+    },
+    {
+     "id": "api-haulierscope-0lemri91po",
+     "name": "HaulierScope",
+     "category": "Transportation"
+    },
+    {
+     "id": "api-india-ev-charging-stations-1k4ljqj1yv",
+     "name": "India EV Charging Stations",
+     "category": "Transportation"
+    },
+    {
+     "id": "api-tieredtravel-1kuw5wd10g",
+     "name": "TieredTravel",
+     "category": "Transportation"
+    },
+    {
+     "id": "api-transitradar-0iwy9ss0yt",
+     "name": "TransitRadar",
+     "category": "Transportation"
+    },
+    {
+     "id": "api-vessel-class-finder-1x6mp551t2",
+     "name": "Vessel Class Finder",
+     "category": "Transportation"
+    },
+    {
+     "id": "api-boltpatternhq-0k0jsvj1ky",
+     "name": "BoltPatternHQ",
+     "category": "Vehicle"
+    },
+    {
+     "id": "api-carspecs-1k20al21ta",
+     "name": "CarSpecs",
+     "category": "Vehicle"
+    },
+    {
+     "id": "api-salvagealert-1rvl6041pf",
+     "name": "SalvageAlert",
+     "category": "Vehicle"
+    },
+    {
+     "id": "api-ffmpeg-micro-0xafdf91f7",
+     "name": "FFmpeg Micro",
+     "category": "Video"
+    },
+    {
+     "id": "api-hong-kong-observatory-0guiihi0dj",
+     "name": "Hong Kong Observatory",
+     "category": "Weather"
+    },
+    {
+     "id": "api-veabird-1va5m5f0ne",
+     "name": "Veabird",
+     "category": "Weather"
+    }
+   ],
+   "removed": [
+    {
+     "id": "api-micro-user-service-10eop1v1y1",
+     "name": "Micro User Service",
+     "category": "Authentication & Authorization"
+    },
+    {
+     "id": "api-kraken-0ngf93m1u8",
+     "name": "Kraken",
+     "category": "Cryptocurrency"
+    },
+    {
+     "id": "api-frankfurter-1hsam5w1dt",
+     "name": "Frankfurter",
+     "category": "Currency Exchange"
+    },
+    {
+     "id": "api-micro-db-1p8plwq1nf",
+     "name": "Micro DB",
+     "category": "Development"
+    },
+    {
+     "id": "api-k-data-gate-0dh3ijf02z",
+     "name": "K-Data Gate",
+     "category": "Open Data"
+    },
+    {
+     "id": "api-watson-natural-language-understanding-183mw560cd",
+     "name": "Watson Natural Language Understanding",
+     "category": "Text Analysis"
+    },
+    {
+     "id": "api-hong-kong-obervatory-1ropxyt1to",
+     "name": "Hong Kong Obervatory",
+     "category": "Weather"
+    },
+    {
+     "id": "api-micro-weather-07ka4jh1lr",
+     "name": "Micro Weather",
+     "category": "Weather"
+    }
+   ]
+  },
+  {
    "at": "2026-10-19T19:53:58.666Z",
    "commit": "93086df88fbce354dd612373ab755f941f53a473",
    "added": [

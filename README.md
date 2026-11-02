@@ -27,11 +27,11 @@ auth, and open the docs in a click.
 
 <!-- Refreshed by the weekly catalog sync (npm run sync:report). Edit outside the markers. -->
 <!-- this-week:start -->
-**2,157 APIs** and **21 MCP servers** across **53 categories**.
+**2,247 APIs** and **30 MCP servers** across **53 categories**.
 
-**Latest catalog update (2026-10-19):** 12 new, 4 removed. [Africa Compliance Data](https://eziodevio.github.io/ApiWall/apis/africa-compliance-data/) · [CountdownsHQ](https://eziodevio.github.io/ApiWall/apis/countdownshq/) · [Nitrosend](https://eziodevio.github.io/ApiWall/apis/nitrosend/) · [FiberUp Fiber Database](https://eziodevio.github.io/ApiWall/apis/fiberup-fiber-database/) · [UK Public Tenders by Trade](https://eziodevio.github.io/ApiWall/apis/uk-public-tenders-by-trade/) · [Present of AI](https://eziodevio.github.io/ApiWall/apis/present-of-ai/) · [Refnusa](https://eziodevio.github.io/ApiWall/apis/refnusa/) · [StackRates](https://eziodevio.github.io/ApiWall/apis/stackrates/) and 4 more.
+**Latest catalog update (2026-11-02):** 107 new, 8 removed. [MELEK](https://eziodevio.github.io/ApiWall/apis/melek/) · [Leadgen Romania](https://eziodevio.github.io/ApiWall/apis/leadgen-romania/) · [RunDossier](https://eziodevio.github.io/ApiWall/apis/rundossier/) · [Softoteca](https://eziodevio.github.io/ApiWall/apis/softoteca/) · [TrendsAGI](https://eziodevio.github.io/ApiWall/apis/trendsagi/) · [Verif Entreprise FR](https://eziodevio.github.io/ApiWall/apis/verif-entreprise-fr/) · [W System EU Business Data](https://eziodevio.github.io/ApiWall/apis/w-system-eu-business-data/) · [CoinXview](https://eziodevio.github.io/ApiWall/apis/coinxview/) and 99 more.
 
-**Docs links:** 1,975 of 2,180 reachable (205 not reachable since 2026-10-19; 12 newly unreachable, 8 working again).
+**Docs links:** 2,069 of 2,279 reachable (210 not reachable since 2026-11-02; 25 newly unreachable, 20 working again).
 
 [What's new](https://eziodevio.github.io/ApiWall/changes/) · [Stats](https://eziodevio.github.io/ApiWall/stats/) · [Starter packs](https://eziodevio.github.io/ApiWall/packs/)
 <!-- this-week:end -->

@@ -180,6 +180,15 @@ export const Mosaic = forwardRef<MosaicHandle, Props>(function Mosaic(
     const { top, right } = insets.current;
     return Math.max(0.05, Math.min((w - right - 2 * PAD) / L.current.width, (h - top - bottomUi() - 2 * PAD) / L.current.height));
   };
+  /** Scale that fits a filtered layout: the whole result set when tiles stay readable, else the full width. */
+  const filteredFitScale = () => {
+    const { w, h } = vp.current;
+    const { top, right } = insets.current;
+    const fitW = (w - right - 2 * PAD) / L.current.width;
+    const fitBoth = Math.min(fitW, (h - top - bottomUi() - 2 * PAD) / L.current.height);
+    const cap = FIT_MAX_TILE_PX / TILE_SIZE;
+    return Math.min(MAX_TILE_PX / TILE_SIZE, Math.max(0.05, TILE_SIZE * fitBoth >= MIN_FIT_TILE_PX ? Math.min(fitBoth, cap) : Math.min(fitW, cap)));
+  };
   const clampScale = (s: number) => Math.min(Math.max(s, fitScale()), MAX_TILE_PX / TILE_SIZE);
   /** Screen offset of logical cell (0,0) inside the viewport. */
   const origin = () => {
@@ -268,9 +277,10 @@ export const Mosaic = forwardRef<MosaicHandle, Props>(function Mosaic(
     // If the whole map (or all results) was fitted to the screen, keep it fitted to the new space.
     const saved = insets.current;
     insets.current = prev;
-    const wasFit = Math.abs(s - fitScale()) < 1e-3 || (L.current.mode === "filtered" && s >= fitScale() - 1e-3 && s <= FIT_MAX_TILE_PX / TILE_SIZE + 1e-3);
+    const wasFit = Math.abs(s - (L.current.mode === "filtered" ? filteredFitScale() : fitScale())) < 1e-3;
     insets.current = saved;
-    const ns = wasFit ? (L.current.mode === "filtered" ? s : fitScale()) : clampScale(s);
+    // A fitted filtered view is re-fitted to the new space, so a chip row or panel never pushes results off screen.
+    const ns = wasFit ? (L.current.mode === "filtered" ? filteredFitScale() : fitScale()) : clampScale(s);
     scale.current = ns;
     applySize(ns);
     const after = layout(ns);
@@ -357,13 +367,7 @@ export const Mosaic = forwardRef<MosaicHandle, Props>(function Mosaic(
     const sc = scrollRef.current;
     const lay = L.current;
     if (!sc || lay.mode !== "filtered" || vp.current.w === 0) return;
-    const { w, h } = vp.current;
-    const { top, right } = insets.current;
-    const fitW = (w - right - 2 * PAD) / lay.width;
-    const fitBoth = Math.min(fitW, (h - top - bottomUi() - 2 * PAD) / lay.height);
-    const cap = FIT_MAX_TILE_PX / TILE_SIZE;
-    // Whole result set on screen when tiles stay readable; otherwise fill the width and scroll down.
-    scale.current = Math.min(MAX_TILE_PX / TILE_SIZE, Math.max(0.05, TILE_SIZE * fitBoth >= MIN_FIT_TILE_PX ? Math.min(fitBoth, cap) : Math.min(fitW, cap)));
+    scale.current = filteredFitScale();
     applySize(scale.current);
     sc.scrollLeft = 0;
     sc.scrollTop = 0;

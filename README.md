@@ -27,11 +27,11 @@ auth, and open the docs in a click.
 
 <!-- Refreshed by the weekly catalog sync (npm run sync:report). Edit outside the markers. -->
 <!-- this-week:start -->
-**2,157 APIs** and **21 MCP servers** across **53 categories**.
+**2,334 APIs** and **40 MCP servers** across **53 categories**.
 
-**Latest catalog update (2026-10-19):** 12 new, 4 removed. [Africa Compliance Data](https://eziodevio.github.io/ApiWall/apis/africa-compliance-data/) · [CountdownsHQ](https://eziodevio.github.io/ApiWall/apis/countdownshq/) · [Nitrosend](https://eziodevio.github.io/ApiWall/apis/nitrosend/) · [FiberUp Fiber Database](https://eziodevio.github.io/ApiWall/apis/fiberup-fiber-database/) · [UK Public Tenders by Trade](https://eziodevio.github.io/ApiWall/apis/uk-public-tenders-by-trade/) · [Present of AI](https://eziodevio.github.io/ApiWall/apis/present-of-ai/) · [Refnusa](https://eziodevio.github.io/ApiWall/apis/refnusa/) · [StackRates](https://eziodevio.github.io/ApiWall/apis/stackrates/) and 4 more.
+**Latest catalog update (2026-11-09):** 204 new, 8 removed. [Paint Color HQ](https://eziodevio.github.io/ApiWall/apis/paint-color-hq/) · [pic2svg](https://eziodevio.github.io/ApiWall/apis/pic2svg/) · [HEY Research Lab](https://eziodevio.github.io/ApiWall/apis/hey-research-lab/) · [MELEK](https://eziodevio.github.io/ApiWall/apis/melek/) · [Company Enrichment](https://eziodevio.github.io/ApiWall/apis/company-enrichment/) · [Firmbase](https://eziodevio.github.io/ApiWall/apis/firmbase/) · [Leadgen Romania](https://eziodevio.github.io/ApiWall/apis/leadgen-romania/) · [Logoapi](https://eziodevio.github.io/ApiWall/apis/logoapi/) and 196 more.
 
-**Docs links:** 1,975 of 2,180 reachable (205 not reachable since 2026-10-19; 12 newly unreachable, 8 working again).
+**Docs links:** 2,169 of 2,375 reachable (206 not reachable since 2026-11-09; 26 newly unreachable, 25 working again).
 
 [What's new](https://eziodevio.github.io/ApiWall/changes/) · [Stats](https://eziodevio.github.io/ApiWall/stats/) · [Starter packs](https://eziodevio.github.io/ApiWall/packs/)
 <!-- this-week:end -->

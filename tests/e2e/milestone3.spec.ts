@@ -108,6 +108,10 @@ test("New this week shows APIs first seen in the last seven days, with badges", 
   expect(await count(page)).toBe(fresh.length);
   await showList(page, isMobile);
   const cards = page.getByTestId("list-cards").locator("li");
+  // The list shows results a page at a time; a big weekly import spans several pages.
+  const more = page.getByTestId("list-drawer").getByRole("button", { name: "Show more" });
+  await expect(cards.first()).toBeVisible();
+  while (await more.isVisible()) await more.click();
   await expect(cards).toHaveCount(fresh.length);
   await expect(cards.first().getByText("New", { exact: true })).toBeVisible();
 

@@ -31,7 +31,7 @@ auth, and open the docs in a click.
 
 **Latest catalog update (2026-11-09):** 204 new, 8 removed. [Paint Color HQ](https://eziodevio.github.io/ApiWall/apis/paint-color-hq/) · [pic2svg](https://eziodevio.github.io/ApiWall/apis/pic2svg/) · [HEY Research Lab](https://eziodevio.github.io/ApiWall/apis/hey-research-lab/) · [MELEK](https://eziodevio.github.io/ApiWall/apis/melek/) · [Company Enrichment](https://eziodevio.github.io/ApiWall/apis/company-enrichment/) · [Firmbase](https://eziodevio.github.io/ApiWall/apis/firmbase/) · [Leadgen Romania](https://eziodevio.github.io/ApiWall/apis/leadgen-romania/) · [Logoapi](https://eziodevio.github.io/ApiWall/apis/logoapi/) and 196 more.
 
-**Docs links:** 2,169 of 2,375 reachable (206 not reachable since 2026-11-09; 26 newly unreachable, 25 working again).
+**Docs links:** 2,165 of 2,375 reachable (210 not reachable since 2026-11-10; 5 newly unreachable, 1 working again).
 
 [What's new](https://eziodevio.github.io/ApiWall/changes/) · [Stats](https://eziodevio.github.io/ApiWall/stats/) · [Starter packs](https://eziodevio.github.io/ApiWall/packs/)
 <!-- this-week:end -->

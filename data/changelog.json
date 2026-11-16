@@ -2,6 +2,479 @@
  "version": 1,
  "entries": [
   {
+   "at": "2026-11-16T16:02:22.161Z",
+   "commit": "d6dab92da95c003e82e5b32c623bd2ad9d6a017f",
+   "added": [
+    {
+     "id": "api-fillerlists-0oix4230rc",
+     "name": "FillerLists",
+     "category": "Anime"
+    },
+    {
+     "id": "api-bewary-0m7882q18f",
+     "name": "Bewary",
+     "category": "Anti-Malware"
+    },
+    {
+     "id": "api-verifyum-0y3jso70ie",
+     "name": "Verifyum",
+     "category": "Blockchain"
+    },
+    {
+     "id": "api-bayan-0dji8pw0s8",
+     "name": "Bayan",
+     "category": "Books"
+    },
+    {
+     "id": "api-buku-indonesia-0ecaqda1gb",
+     "name": "Buku Indonesia",
+     "category": "Books"
+    },
+    {
+     "id": "api-readark-1ftron8091",
+     "name": "Readark",
+     "category": "Books"
+    },
+    {
+     "id": "api-holidayexplore-1u1p9jl0qj",
+     "name": "HolidayExplore",
+     "category": "Calendar"
+    },
+    {
+     "id": "api-kalenderblick-16rlwmp1nh",
+     "name": "Kalenderblick",
+     "category": "Calendar"
+    },
+    {
+     "id": "api-salahtable-080cyne1rw",
+     "name": "SalahTable",
+     "category": "Calendar"
+    },
+    {
+     "id": "api-tradingcalendars-0pimvz10xc",
+     "name": "TradingCalendars",
+     "category": "Calendar"
+    },
+    {
+     "id": "api-cosmos-pay-1j2m3o61y5",
+     "name": "Cosmos Pay",
+     "category": "Cryptocurrency"
+    },
+    {
+     "id": "api-cryptodataapi-1n1npux1e8",
+     "name": "CryptoDataAPI",
+     "category": "Cryptocurrency"
+    },
+    {
+     "id": "api-gasrent-11vf5h907v",
+     "name": "Gasrent",
+     "category": "Cryptocurrency"
+    },
+    {
+     "id": "api-vaultx-09osf8j0uh",
+     "name": "VaultX",
+     "category": "Cryptocurrency"
+    },
+    {
+     "id": "api-xaxios-0m3kx7f0m9",
+     "name": "xAxios",
+     "category": "Cryptocurrency"
+    },
+    {
+     "id": "api-central-bank-of-uzbekistan-06v77h10il",
+     "name": "Central Bank of Uzbekistan",
+     "category": "Currency Exchange"
+    },
+    {
+     "id": "api-dolarkac-1u1ij4c1m6",
+     "name": "DolarKaç",
+     "category": "Currency Exchange"
+    },
+    {
+     "id": "api-ai-sense-0rpuam11ay",
+     "name": "AI SENSE",
+     "category": "Development"
+    },
+    {
+     "id": "api-latest-1urtkkq1iz",
+     "name": "latest@",
+     "category": "Development"
+    },
+    {
+     "id": "api-macvendorcheck-1rfvd270pw",
+     "name": "MacVendorCheck",
+     "category": "Development"
+    },
+    {
+     "id": "api-octocrawl-18gxq4i1l6",
+     "name": "Octocrawl",
+     "category": "Development"
+    },
+    {
+     "id": "api-qr-kept-1uqip261v1",
+     "name": "QR Kept",
+     "category": "Development"
+    },
+    {
+     "id": "api-shareglint-0ysoqes1wy",
+     "name": "Shareglint",
+     "category": "Development"
+    },
+    {
+     "id": "api-shotlane-1v592ou197",
+     "name": "Shotlane",
+     "category": "Development"
+    },
+    {
+     "id": "api-site-shot-01ygxf71kp",
+     "name": "Site-Shot",
+     "category": "Development"
+    },
+    {
+     "id": "api-stophy-042lmud07e",
+     "name": "Stophy",
+     "category": "Development"
+    },
+    {
+     "id": "api-suprsend-1q0h21j1r6",
+     "name": "SuprSend",
+     "category": "Development"
+    },
+    {
+     "id": "api-timefoo-06ibb9y1yk",
+     "name": "TimeFoo",
+     "category": "Development"
+    },
+    {
+     "id": "api-vocaflare-clips-1iv4u3e0e9",
+     "name": "VocaFlare Clips",
+     "category": "Dictionaries"
+    },
+    {
+     "id": "api-ai-form-0zhpx7y1o2",
+     "name": "AI Form",
+     "category": "Documents & Productivity"
+    },
+    {
+     "id": "api-convertfly-00t09lq03z",
+     "name": "ConvertFly",
+     "category": "Documents & Productivity"
+    },
+    {
+     "id": "api-docspring-1sclymf0kk",
+     "name": "DocSpring",
+     "category": "Documents & Productivity"
+    },
+    {
+     "id": "api-fynepdf-0yn5ras1go",
+     "name": "FynePDF",
+     "category": "Documents & Productivity"
+    },
+    {
+     "id": "api-kaijuconverter-0wo2d2x1qb",
+     "name": "KaijuConverter",
+     "category": "Documents & Productivity"
+    },
+    {
+     "id": "api-slipkiln-14zeqho1m1",
+     "name": "SlipKiln",
+     "category": "Documents & Productivity"
+    },
+    {
+     "id": "api-the-drive-ai-1dgb5t8031",
+     "name": "The Drive AI",
+     "category": "Documents & Productivity"
+    },
+    {
+     "id": "api-mailtester-ninja-0az25ic1tl",
+     "name": "MailTester Ninja",
+     "category": "Email"
+    },
+    {
+     "id": "api-sequenzy-0z4fu4h0gj",
+     "name": "Sequenzy",
+     "category": "Email"
+    },
+    {
+     "id": "api-stopmailing-02hdhdm1dk",
+     "name": "StopMailing",
+     "category": "Email"
+    },
+    {
+     "id": "api-trustlookup-0c9lrlb17c",
+     "name": "TrustLookup",
+     "category": "Email"
+    },
+    {
+     "id": "api-unitpost-10ko6w90m0",
+     "name": "Unitpost",
+     "category": "Email"
+    },
+    {
+     "id": "api-green-screen-memes-0ph4bkc1ez",
+     "name": "Green Screen Memes",
+     "category": "Entertainment"
+    },
+    {
+     "id": "api-pixelgust-soil-0r05hsj0xz",
+     "name": "PixelGust Soil",
+     "category": "Environment"
+    },
+    {
+     "id": "api-spotwatts-1uvvo0n0ku",
+     "name": "Spotwatts",
+     "category": "Environment"
+    },
+    {
+     "id": "api-air-stock-discovery-1bux8ip17r",
+     "name": "AIR Stock Discovery",
+     "category": "Finance"
+    },
+    {
+     "id": "api-duceus-16k9zqk0q8",
+     "name": "Duceus",
+     "category": "Finance"
+    },
+    {
+     "id": "api-ibanforge-08q72740hd",
+     "name": "IBANforge",
+     "category": "Finance"
+    },
+    {
+     "id": "api-nubra-0nbaxxn02m",
+     "name": "Nubra",
+     "category": "Finance"
+    },
+    {
+     "id": "api-tilla-0988t8l02l",
+     "name": "TILLA",
+     "category": "Finance"
+    },
+    {
+     "id": "api-neosatoshi-card-recognition-02ejquo1bx",
+     "name": "NeoSatoshi Card Recognition",
+     "category": "Games & Comics"
+    },
+    {
+     "id": "api-valo-data-0xdvdzb065",
+     "name": "Valo.Data",
+     "category": "Games & Comics"
+    },
+    {
+     "id": "api-getparceldata-16n6k6j1ct",
+     "name": "GetParcelData",
+     "category": "Geocoding"
+    },
+    {
+     "id": "api-ipsnapshot-04nm2yg0cs",
+     "name": "IPSnapshot",
+     "category": "Geocoding"
+    },
+    {
+     "id": "api-election-night-results-0is9ltk10r",
+     "name": "Election Night Results",
+     "category": "Government"
+    },
+    {
+     "id": "api-babydata-0nhy8vg1cu",
+     "name": "BabyData",
+     "category": "Health"
+    },
+    {
+     "id": "api-musedin-0d4y2s41se",
+     "name": "MusedIn",
+     "category": "Jobs"
+    },
+    {
+     "id": "api-us-state-government-jobs-1nuwcgd0eq",
+     "name": "US State Government Jobs",
+     "category": "Jobs"
+    },
+    {
+     "id": "api-ai-rate-card-1th5itg0ln",
+     "name": "AI Rate Card",
+     "category": "Machine Learning"
+    },
+    {
+     "id": "api-fixragent-113b57e1c1",
+     "name": "fixRAgent",
+     "category": "Machine Learning"
+    },
+    {
+     "id": "mcp-aamio-04ghkjw0qm",
+     "name": "aamio",
+     "category": "MCP Servers"
+    },
+    {
+     "id": "mcp-bewary-0yotol1010",
+     "name": "Bewary",
+     "category": "MCP Servers"
+    },
+    {
+     "id": "mcp-cartviral-1e5eekn1vp",
+     "name": "CartViral",
+     "category": "MCP Servers"
+    },
+    {
+     "id": "mcp-company-facts-1qitziu1q7",
+     "name": "Company Facts",
+     "category": "MCP Servers"
+    },
+    {
+     "id": "mcp-eu-nordic-open-data-0k24ako0hv",
+     "name": "EU Nordic Open Data",
+     "category": "MCP Servers"
+    },
+    {
+     "id": "mcp-hey-research-lab-1imm6gk1k7",
+     "name": "HEY Research Lab",
+     "category": "MCP Servers"
+    },
+    {
+     "id": "mcp-octocrawl-1cytj981rd",
+     "name": "Octocrawl",
+     "category": "MCP Servers"
+    },
+    {
+     "id": "mcp-optimistfi-19nhemf0ao",
+     "name": "OptimistFi",
+     "category": "MCP Servers"
+    },
+    {
+     "id": "mcp-realmarket-11kurz31gv",
+     "name": "RealMarket",
+     "category": "MCP Servers"
+    },
+    {
+     "id": "mcp-signal-lab-0rb50qr1r8",
+     "name": "Signal Lab",
+     "category": "MCP Servers"
+    },
+    {
+     "id": "mcp-site-shot-0ngrevu0yp",
+     "name": "Site-Shot",
+     "category": "MCP Servers"
+    },
+    {
+     "id": "mcp-sofya-17fswrf0ro",
+     "name": "Sofya",
+     "category": "MCP Servers"
+    },
+    {
+     "id": "mcp-transcript-dock-02f15s90u5",
+     "name": "Transcript Dock",
+     "category": "MCP Servers"
+    },
+    {
+     "id": "api-open-guitar-chords-0wjjybd1ki",
+     "name": "Open Guitar Chords",
+     "category": "Music"
+    },
+    {
+     "id": "api-hexplace-0pmqaqb0cw",
+     "name": "hexplace",
+     "category": "Open Data"
+    },
+    {
+     "id": "api-immoanalyse-1w6kd9h1fd",
+     "name": "ImmoAnalyse",
+     "category": "Open Data"
+    },
+    {
+     "id": "api-propraven-1u1nfvk10q",
+     "name": "PropRaven",
+     "category": "Open Data"
+    },
+    {
+     "id": "api-vettedhome-1nz52ma0an",
+     "name": "VettedHome",
+     "category": "Open Data"
+    },
+    {
+     "id": "api-fax-for-agents-0z0im0m05d",
+     "name": "Fax for Agents",
+     "category": "Phone"
+    },
+    {
+     "id": "api-cropden-1bz38of020",
+     "name": "CropDen",
+     "category": "Photography"
+    },
+    {
+     "id": "api-compliance-assessment-tool-0ky9rrb1cl",
+     "name": "Compliance Assessment Tool",
+     "category": "Security"
+    },
+    {
+     "id": "api-openshield-1om29ya1xn",
+     "name": "openshield",
+     "category": "Security"
+    },
+    {
+     "id": "api-soldsignal-1skd88y0f9",
+     "name": "SoldSignal",
+     "category": "Shopping"
+    },
+    {
+     "id": "api-disdex-1urpb7e0r8",
+     "name": "disdex",
+     "category": "Social"
+    },
+    {
+     "id": "api-lurkapi-1668ugq05m",
+     "name": "LurkAPI",
+     "category": "Social"
+    },
+    {
+     "id": "api-shortsintel-15drj5c18o",
+     "name": "ShortsIntel",
+     "category": "Social"
+    },
+    {
+     "id": "api-clutch-0pbj7p40l3",
+     "name": "Clutch",
+     "category": "Sports & Fitness"
+    },
+    {
+     "id": "api-deepchamp-for-agents-0cowknm05p",
+     "name": "DeepChamp for Agents",
+     "category": "Sports & Fitness"
+    },
+    {
+     "id": "api-vakaymood-1cbykz00xs",
+     "name": "VakayMood",
+     "category": "Transportation"
+    },
+    {
+     "id": "api-fueleconomy-0qm85ie0s2",
+     "name": "FuelEconomy",
+     "category": "Vehicle"
+    },
+    {
+     "id": "api-galaxy-movies-0qsnf571dh",
+     "name": "Galaxy Movies",
+     "category": "Video"
+    },
+    {
+     "id": "api-transcript-dock-1imjhey1fl",
+     "name": "Transcript Dock",
+     "category": "Video"
+    },
+    {
+     "id": "api-vidsmaller-1rm9gvd1ij",
+     "name": "VidSmaller",
+     "category": "Video"
+    }
+   ],
+   "removed": [
+    {
+     "id": "api-ibanforge-1dfq1860zn",
+     "name": "IBANforge",
+     "category": "Finance"
+    }
+   ]
+  },
+  {
    "at": "2026-11-09T15:58:49.030Z",
    "commit": "88706670ac0ffaad7bf3c6307747e2515f638bed",
    "added": [

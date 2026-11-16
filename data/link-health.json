@@ -1,7 +1,7 @@
 {
  "version": 1,
- "checkedAt": "2026-11-10T17:29:41.168Z",
- "checked": 2375,
+ "checkedAt": "2026-11-16T16:08:51.079Z",
+ "checked": 2466,
  "unreachable": {
   "api-a-biblia-digital-0tal4kw0m3": {
    "since": "2026-10-18T18:33:32.405Z",
@@ -13,19 +13,19 @@
   },
   "api-agpc-domain-check-1bwma220jc": {
    "since": "2026-10-18T18:33:32.405Z",
-   "reason": "connection refused"
+   "reason": "security certificate problem"
   },
   "api-allowly-hiring-evidence-0e3imrz1p0": {
    "since": "2026-11-09T16:05:05.756Z",
    "reason": "page not found (HTTP 404)"
   },
-  "api-amdoren-059dfxj1ba": {
-   "since": "2026-10-19T19:59:30.084Z",
-   "reason": "security certificate problem"
+  "api-amanah-sunnah-123bww70vf": {
+   "since": "2026-11-16T16:08:51.079Z",
+   "reason": "timed out"
   },
   "api-amethyste-10bssdo0yk": {
    "since": "2026-10-18T18:33:32.405Z",
-   "reason": "connection refused"
+   "reason": "timed out"
   },
   "api-animal-crossing-new-horizons-187l7oy01e": {
    "since": "2026-10-18T18:33:32.405Z",
@@ -53,7 +53,7 @@
   },
   "api-base-05kirpi1f0": {
    "since": "2026-10-18T18:33:32.405Z",
-   "reason": "security certificate problem"
+   "reason": "domain not found"
   },
   "api-bilbop-10h6go918c": {
    "since": "2026-10-18T18:33:32.405Z",
@@ -71,6 +71,10 @@
    "since": "2026-10-18T18:33:32.405Z",
    "reason": "could not connect"
   },
+  "api-bitcoinyield-1tlz3pj09a": {
+   "since": "2026-11-16T16:08:51.079Z",
+   "reason": "page not found (HTTP 410)"
+  },
   "api-bittrex-0ceildh1aa": {
    "since": "2026-10-18T18:33:32.405Z",
    "reason": "page not found (HTTP 404)"
@@ -82,6 +86,10 @@
   "api-bob-s-burgers-0a6pz8d0e1": {
    "since": "2026-10-18T18:33:32.405Z",
    "reason": "server error (HTTP 503)"
+  },
+  "api-brainiall-1ict8300va": {
+   "since": "2026-11-16T16:08:51.079Z",
+   "reason": "page not found (HTTP 404)"
   },
   "api-breaking-bad-0xj7d7b0i2": {
    "since": "2026-10-18T18:33:32.405Z",
@@ -175,23 +183,11 @@
    "since": "2026-10-18T18:33:32.405Z",
    "reason": "timed out"
   },
-  "api-dagpi-0kgwtvq02k": {
-   "since": "2026-10-18T18:33:32.405Z",
-   "reason": "connection dropped"
-  },
-  "api-danbooru-anime-0dkixxv11a": {
-   "since": "2026-11-09T16:05:05.756Z",
-   "reason": "server error (HTTP 503)"
-  },
   "api-dangerous-discord-database-032i2fk0kc": {
    "since": "2026-10-18T18:33:32.405Z",
    "reason": "domain not found"
   },
   "api-dehash-lt-145u4ag1lf": {
-   "since": "2026-10-18T18:33:32.405Z",
-   "reason": "page not found (HTTP 404)"
-  },
-  "api-dino-markets-18ls4rf0qn": {
    "since": "2026-10-18T18:33:32.405Z",
    "reason": "page not found (HTTP 404)"
   },
@@ -226,6 +222,10 @@
   "api-exude-api-1fp1jqg0fg": {
    "since": "2026-10-18T18:33:32.405Z",
    "reason": "page not found (HTTP 404)"
+  },
+  "api-fakejson-04vifc41c9": {
+   "since": "2026-11-16T16:08:51.079Z",
+   "reason": "timed out"
   },
   "api-festivo-public-holidays-0f84pjo047": {
    "since": "2026-10-18T18:33:32.405Z",
@@ -294,10 +294,6 @@
   "api-graphs-for-coronavirus-16jhgsc1cp": {
    "since": "2026-10-18T18:33:32.405Z",
    "reason": "domain not found"
-  },
-  "api-guild-wars-2-0cgn79v1el": {
-   "since": "2026-11-10T17:29:41.168Z",
-   "reason": "server error (HTTP 503)"
   },
   "api-gurbaninow-1sb4puj059": {
    "since": "2026-10-18T18:33:32.405Z",
@@ -393,11 +389,7 @@
   },
   "api-kmalservico-gold-price-dataset-0sxtmy41o9": {
    "since": "2026-10-18T18:33:32.405Z",
-   "reason": "security certificate problem"
-  },
-  "api-kontragentpro-08x0p3g1u2": {
-   "since": "2026-11-09T16:05:05.756Z",
-   "reason": "timed out"
+   "reason": "domain not found"
   },
   "api-ksoft-si-lyrics-0i67n9p1oy": {
    "since": "2026-10-18T18:33:32.405Z",
@@ -408,10 +400,6 @@
    "reason": "domain not found"
   },
   "api-lcbo-1mkb23c070": {
-   "since": "2026-10-18T18:33:32.405Z",
-   "reason": "domain not found"
-  },
-  "api-lingua-robot-1isbco5063": {
    "since": "2026-10-18T18:33:32.405Z",
    "reason": "domain not found"
   },
@@ -499,6 +487,10 @@
    "since": "2026-10-18T18:33:32.405Z",
    "reason": "domain not found"
   },
+  "api-novadax-10g04wk037": {
+   "since": "2026-11-16T16:08:51.079Z",
+   "reason": "server error (HTTP 502)"
+  },
   "api-npr-one-0yi5wgp0zz": {
    "since": "2026-10-18T18:33:32.405Z",
    "reason": "domain not found"
@@ -554,10 +546,6 @@
   "api-phisherman-1uxjjw51g5": {
    "since": "2026-10-18T18:33:32.405Z",
    "reason": "domain not found"
-  },
-  "api-phishstats-13v1upr1ov": {
-   "since": "2026-11-09T16:05:05.756Z",
-   "reason": "server error (HTTP 502)"
   },
   "api-pit-financial-state-06jfj2t1lg": {
    "since": "2026-10-18T18:33:32.405Z",
@@ -619,13 +607,13 @@
    "since": "2026-10-18T18:33:32.405Z",
    "reason": "domain not found"
   },
-  "api-rawg-io-1ada7d700d": {
-   "since": "2026-11-09T16:05:05.756Z",
-   "reason": "timed out"
-  },
   "api-rejax-1qx6f4n0eh": {
    "since": "2026-10-18T18:33:32.405Z",
    "reason": "domain not found"
+  },
+  "api-rescuegroups-10uy60p1ut": {
+   "since": "2026-11-16T16:08:51.079Z",
+   "reason": "connection dropped"
   },
   "api-resmush-it-1kd5ynu0rb": {
    "since": "2026-11-10T17:29:41.168Z",
@@ -646,10 +634,6 @@
   "api-sampuli-1filb611rn": {
    "since": "2026-11-09T16:05:05.756Z",
    "reason": "server error (HTTP 503)"
-  },
-  "api-sawo-labs-0fz21oq0ot": {
-   "since": "2026-10-18T18:33:32.405Z",
-   "reason": "could not connect"
   },
   "api-sentiment-analysis-1kfo0pv0sg": {
    "since": "2026-10-18T18:33:32.405Z",
@@ -691,10 +675,6 @@
    "since": "2026-10-18T18:33:32.405Z",
    "reason": "domain not found"
   },
-  "api-sukuudata-1io08t21da": {
-   "since": "2026-11-10T17:29:41.168Z",
-   "reason": "timed out"
-  },
   "api-supportivekoala-1m33drb0x6": {
    "since": "2026-10-18T18:33:32.405Z",
    "reason": "domain not found"
@@ -713,7 +693,7 @@
   },
   "api-techrole-index-0w4t5cc1i1": {
    "since": "2026-11-09T16:05:05.756Z",
-   "reason": "timed out"
+   "reason": "security certificate problem"
   },
   "api-teleport-1rpwsoa0fu": {
    "since": "2026-10-18T18:33:32.405Z",
@@ -747,6 +727,10 @@
    "since": "2026-10-18T18:33:32.405Z",
    "reason": "page not found (HTTP 404)"
   },
+  "api-tilla-0988t8l02l": {
+   "since": "2026-11-16T16:08:51.079Z",
+   "reason": "server error (HTTP 530)"
+  },
   "api-toolcarton-0b83bvl1fi": {
    "since": "2026-10-18T18:33:32.405Z",
    "reason": "domain not found"
@@ -763,13 +747,25 @@
    "since": "2026-10-18T18:33:32.405Z",
    "reason": "timed out"
   },
+  "api-transport-for-hessen-germany-0at98u61iz": {
+   "since": "2026-11-16T16:08:51.079Z",
+   "reason": "timed out"
+  },
   "api-transport-for-lisbon-portugal-1h3bxze12v": {
    "since": "2026-11-09T16:05:05.756Z",
    "reason": "timed out"
   },
+  "api-tronald-dump-14q98k91jv": {
+   "since": "2026-11-16T16:08:51.079Z",
+   "reason": "connection dropped"
+  },
   "api-uk-public-tenders-by-trade-1jvzyzd0vl": {
    "since": "2026-11-09T16:05:05.756Z",
    "reason": "page not found (HTTP 410)"
+  },
+  "api-us-state-government-jobs-1nuwcgd0eq": {
+   "since": "2026-11-16T16:08:51.079Z",
+   "reason": "page not found (HTTP 404)"
   },
   "api-vadivelu-http-codes-0wyvhm40zs": {
    "since": "2026-10-18T18:33:32.405Z",
@@ -801,7 +797,7 @@
   },
   "api-walltime-0d7t8lt184": {
    "since": "2026-10-18T18:33:32.405Z",
-   "reason": "timed out"
+   "reason": "domain not found"
   },
   "api-wandbox-0y87q5l1y4": {
    "since": "2026-10-18T18:33:32.405Z",

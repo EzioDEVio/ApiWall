@@ -1,6 +1,6 @@
 {
  "version": 1,
- "updatedAt": "2026-11-10T17:24:03.589Z",
+ "updatedAt": "2026-11-16T16:02:47.208Z",
  "entries": {
   "api-openai-api-1rmb4o81bp": {
    "file": "api-openai-api-1rmb4o81bp.png",
@@ -16711,6 +16711,786 @@
    "pageUrl": "https://www.hko.gov.hk/",
    "method": "default-path",
    "fetchedAt": "2026-11-09T15:59:04.966Z"
+  },
+  "api-bewary-0m7882q18f": {
+   "file": "api-bewary-0m7882q18f.png",
+   "width": 180,
+   "height": 180,
+   "sha256": "d6dba02ea0bfa12b0ffdcfa4bf739324be9462df70fb2cff2414cd8994726adc",
+   "iconUrl": "https://bewary.app/apple-touch-icon.png",
+   "pageUrl": "https://bewary.app/",
+   "method": "declared",
+   "fetchedAt": "2026-11-16T16:02:23.600Z"
+  },
+  "api-fillerlists-0oix4230rc": {
+   "file": "api-fillerlists-0oix4230rc.ico",
+   "width": 48,
+   "height": 48,
+   "sha256": "fbe917225bc1e5bceb2c445e7c22663d8845ab122ac414de3d54f04b2696fa28",
+   "iconUrl": "https://fillerlists.com/favicon.ico",
+   "pageUrl": "https://fillerlists.com/",
+   "method": "declared",
+   "fetchedAt": "2026-11-16T16:02:23.645Z"
+  },
+  "api-buku-indonesia-0ecaqda1gb": {
+   "file": "api-buku-indonesia-0ecaqda1gb.jpg",
+   "width": 128,
+   "height": 128,
+   "sha256": "d56375b44db6b8e4c80ec84505f7c60e34b82268fc5949a54e530f172c4f868f",
+   "iconUrl": "https://github.com/khrlanamm.png?size=128",
+   "pageUrl": "https://github.com/khrlanamm/buku-indonesia#api",
+   "method": "github-owner",
+   "fetchedAt": "2026-11-16T16:02:23.781Z"
+  },
+  "api-readark-1ftron8091": {
+   "file": "api-readark-1ftron8091.png",
+   "width": 180,
+   "height": 180,
+   "sha256": "4ff0de5aff51175269289d73e1847e82b7a69746a36c5444c13ab854615951b2",
+   "iconUrl": "https://readark.app/wp-content/themes/darkromance/assets/img/apple-touch-icon.png",
+   "pageUrl": "https://readark.app/",
+   "method": "declared",
+   "fetchedAt": "2026-11-16T16:02:23.831Z"
+  },
+  "api-salahtable-080cyne1rw": {
+   "file": "api-salahtable-080cyne1rw.png",
+   "width": 192,
+   "height": 192,
+   "sha256": "869163dcdd58b1875603582a72d370d8eb9da0a1632b1885217b54fc3b62187e",
+   "iconUrl": "https://salahtable.com/icon-192.png",
+   "pageUrl": "https://salahtable.com/",
+   "method": "declared",
+   "fetchedAt": "2026-11-16T16:02:24.065Z"
+  },
+  "api-kalenderblick-16rlwmp1nh": {
+   "file": "api-kalenderblick-16rlwmp1nh.png",
+   "width": 180,
+   "height": 180,
+   "sha256": "3a60d4c07e1edaf4aa2f4e7097a9b45c3a977abe47f4805903832c230a9e4e78",
+   "iconUrl": "https://kalenderblick.de/apple-touch-icon.png",
+   "pageUrl": "https://kalenderblick.de/",
+   "method": "declared",
+   "fetchedAt": "2026-11-16T16:02:24.090Z"
+  },
+  "api-cryptodataapi-1n1npux1e8": {
+   "file": "api-cryptodataapi-1n1npux1e8.png",
+   "width": 180,
+   "height": 180,
+   "sha256": "b7f8f9bd7d9505ad263d402d72790ab2e1a476160f3db5ed1435e8136458f46a",
+   "iconUrl": "https://cryptodataapi.com/static/apple-touch-icon.png",
+   "pageUrl": "https://cryptodataapi.com/",
+   "method": "declared",
+   "fetchedAt": "2026-11-16T16:02:24.151Z"
+  },
+  "api-cosmos-pay-1j2m3o61y5": {
+   "file": "api-cosmos-pay-1j2m3o61y5.ico",
+   "width": 48,
+   "height": 48,
+   "sha256": "0f1a5fa37a006f7f157d4bcccaff5e1c84b7827d63a005f506eba1339e359d3f",
+   "iconUrl": "https://dev.cosmospay.lat/favicon.ico",
+   "pageUrl": "https://dev.cosmospay.lat/",
+   "method": "default-path",
+   "fetchedAt": "2026-11-16T16:02:24.236Z"
+  },
+  "api-tradingcalendars-0pimvz10xc": {
+   "file": "api-tradingcalendars-0pimvz10xc.png",
+   "width": 180,
+   "height": 180,
+   "sha256": "b593248611fd044d856a924a41d4f772d7055f80fd6f8c0f1486d17d8f603e97",
+   "iconUrl": "https://tradingcalendars.com/apple-touch-icon.png",
+   "pageUrl": "https://tradingcalendars.com/",
+   "method": "declared",
+   "fetchedAt": "2026-11-16T16:02:24.478Z"
+  },
+  "api-vaultx-09osf8j0uh": {
+   "file": "api-vaultx-09osf8j0uh.png",
+   "width": 192,
+   "height": 192,
+   "sha256": "c16b09a17c5e64a57680a3b1029029f5a024ae1498759190ea9478a935bb4124",
+   "iconUrl": "https://vaultx.llc/icon-192.png",
+   "pageUrl": "https://vaultx.llc/",
+   "method": "declared",
+   "fetchedAt": "2026-11-16T16:02:24.521Z"
+  },
+  "api-latest-1urtkkq1iz": {
+   "file": "api-latest-1urtkkq1iz.png",
+   "width": 180,
+   "height": 180,
+   "sha256": "76bee03785b13d63918b6ce0823937b812476549eed3c8acee66e980f399deb0",
+   "iconUrl": "https://latestat.com/assets/apple-touch-icon.png",
+   "pageUrl": "https://latestat.com/",
+   "method": "declared",
+   "fetchedAt": "2026-11-16T16:02:24.803Z"
+  },
+  "api-qr-kept-1uqip261v1": {
+   "file": "api-qr-kept-1uqip261v1.png",
+   "width": 180,
+   "height": 180,
+   "sha256": "1dd1cc86ac89a432be21bdb54cfd008616cc1d1a2d1d8bae3f408d185c735716",
+   "iconUrl": "https://qrkept.com/apple-touch-icon.png",
+   "pageUrl": "https://qrkept.com/",
+   "method": "declared",
+   "fetchedAt": "2026-11-16T16:02:24.842Z"
+  },
+  "api-ai-sense-0rpuam11ay": {
+   "file": "api-ai-sense-0rpuam11ay.png",
+   "width": 180,
+   "height": 180,
+   "sha256": "c922d4d9fd349cc87daa586e3a15534802a44265df87e3bcc98d31cb52e384ed",
+   "iconUrl": "https://aisense.no/apple-touch-icon.png",
+   "pageUrl": "https://aisense.no/",
+   "method": "declared",
+   "fetchedAt": "2026-11-16T16:02:24.920Z"
+  },
+  "api-macvendorcheck-1rfvd270pw": {
+   "file": "api-macvendorcheck-1rfvd270pw.png",
+   "width": 180,
+   "height": 180,
+   "sha256": "86899a52a6eecfe063f62e2eb6780edafda0297e4fb579c4d32234e6d3913a9a",
+   "iconUrl": "https://macvendorcheck.com/apple-touch-icon.png",
+   "pageUrl": "https://macvendorcheck.com/",
+   "method": "declared",
+   "fetchedAt": "2026-11-16T16:02:25.203Z"
+  },
+  "api-site-shot-01ygxf71kp": {
+   "file": "api-site-shot-01ygxf71kp.png",
+   "width": 180,
+   "height": 180,
+   "sha256": "9ea44bd96c9a15dfca2c70db54387b08c92de2d8dcab7cf8f8cf2f42a98cac1f",
+   "iconUrl": "https://static.site-shot.com/static/apple-touch-icon.9bb1491753f1.png",
+   "pageUrl": "https://www.site-shot.com/",
+   "method": "declared",
+   "fetchedAt": "2026-11-16T16:02:25.284Z"
+  },
+  "api-octocrawl-18gxq4i1l6": {
+   "file": "api-octocrawl-18gxq4i1l6.png",
+   "width": 192,
+   "height": 192,
+   "sha256": "cdc7a37f6f9476e59d0476997ff5ac42dcfc1a04d95bdcabd0c4d4873287322a",
+   "iconUrl": "https://octocrawl.dev/assets/favicon-192.png?v=cdc7a37f6f94",
+   "pageUrl": "https://octocrawl.dev/",
+   "method": "declared",
+   "fetchedAt": "2026-11-16T16:02:25.715Z"
+  },
+  "api-shotlane-1v592ou197": {
+   "file": "api-shotlane-1v592ou197.png",
+   "width": 512,
+   "height": 512,
+   "sha256": "d074ef9fa5abef96113a6bd991030db6994f42a8e625db775d0b7bdaabbe6df3",
+   "iconUrl": "https://shotlane.dev/static/icon-512.png?v=2",
+   "pageUrl": "https://shotlane.dev/",
+   "method": "declared",
+   "fetchedAt": "2026-11-16T16:02:25.746Z"
+  },
+  "api-central-bank-of-uzbekistan-06v77h10il": {
+   "file": "api-central-bank-of-uzbekistan-06v77h10il.ico",
+   "width": 48,
+   "height": 48,
+   "sha256": "6c9a7ccb41e70a2102d2f4d57964a6fec5d739c998114eaf8023c1176a559e1c",
+   "iconUrl": "https://cbu.uz/favicon.ico",
+   "pageUrl": "https://cbu.uz/",
+   "method": "declared",
+   "fetchedAt": "2026-11-16T16:02:25.905Z"
+  },
+  "api-timefoo-06ibb9y1yk": {
+   "file": "api-timefoo-06ibb9y1yk.ico",
+   "width": 64,
+   "height": 64,
+   "sha256": "011863b63aaf9990ef9b453a77d3e9cd445b9a669694fe72268444ff143d67b8",
+   "iconUrl": "https://time.foo/favicon.ico",
+   "pageUrl": "https://time.foo/",
+   "method": "default-path",
+   "fetchedAt": "2026-11-16T16:02:25.927Z"
+  },
+  "api-docspring-1sclymf0kk": {
+   "file": "api-docspring-1sclymf0kk.png",
+   "width": 180,
+   "height": 180,
+   "sha256": "9efd01e4f1212c860e86fc686e566fa51b72be9d10f6c9b401d86238f172b007",
+   "iconUrl": "https://docspring.com/apple-touch-icon.png",
+   "pageUrl": "https://docspring.com/",
+   "method": "declared",
+   "fetchedAt": "2026-11-16T16:02:26.125Z"
+  },
+  "api-shareglint-0ysoqes1wy": {
+   "file": "api-shareglint-0ysoqes1wy.png",
+   "width": 180,
+   "height": 180,
+   "sha256": "740ce76fe7a2ad923a225b4b599a7089a052760d3c071be0cb129b40dd9cbd72",
+   "iconUrl": "https://shareglint.com/apple-touch-icon.png",
+   "pageUrl": "https://shareglint.com/en",
+   "method": "declared",
+   "fetchedAt": "2026-11-16T16:02:26.145Z"
+  },
+  "api-vocaflare-clips-1iv4u3e0e9": {
+   "file": "api-vocaflare-clips-1iv4u3e0e9.png",
+   "width": 180,
+   "height": 180,
+   "sha256": "f2c0ec751c21b8c3c8a7bab79c65392a2c0c5b4e9401dda1cd5869d5f4b8f7a2",
+   "iconUrl": "https://clips.vocaflare.com/apple-touch-icon.png",
+   "pageUrl": "https://clips.vocaflare.com/",
+   "method": "declared",
+   "fetchedAt": "2026-11-16T16:02:26.300Z"
+  },
+  "api-the-drive-ai-1dgb5t8031": {
+   "file": "api-the-drive-ai-1dgb5t8031.ico",
+   "width": 48,
+   "height": 48,
+   "sha256": "1d9e56dd134be2818f323d6b4a4e78889dc7f21aaeb57dc290e93b8517fca26d",
+   "iconUrl": "https://dev.thedrive.ai/favicon.ico",
+   "pageUrl": "https://dev.thedrive.ai/",
+   "method": "default-path",
+   "fetchedAt": "2026-11-16T16:02:26.303Z"
+  },
+  "api-suprsend-1q0h21j1r6": {
+   "file": "api-suprsend-1q0h21j1r6.png",
+   "width": 192,
+   "height": 192,
+   "sha256": "59ebdf4d0f8738f2a03f3cf07a6ce01fdf3d2efa446201b2e181eb034c48b057",
+   "iconUrl": "https://docs.suprsend.com/mintlify-assets/_mintlify/favicons/suprsend/FnIDjx0xTYX1D8EZ/_generated/favicon/android-chrome-192x192.png",
+   "pageUrl": "https://docs.suprsend.com/docs/what-is-suprsend",
+   "method": "declared",
+   "fetchedAt": "2026-11-16T16:02:26.390Z"
+  },
+  "api-convertfly-00t09lq03z": {
+   "file": "api-convertfly-00t09lq03z.png",
+   "width": 512,
+   "height": 512,
+   "sha256": "74c82594d614ed93aa3481296c40f427b3068423e82e0edd701aa58e46159bbb",
+   "iconUrl": "https://convertfly.io/icon.png?icon.1tqny0v4d17jw.png",
+   "pageUrl": "https://convertfly.io/",
+   "method": "declared",
+   "fetchedAt": "2026-11-16T16:02:26.460Z"
+  },
+  "api-unitpost-10ko6w90m0": {
+   "file": "api-unitpost-10ko6w90m0.png",
+   "width": 180,
+   "height": 180,
+   "sha256": "0740db12257f7ca07f5ab42c0b5ecdb533334c92788d389db52564970fd5aaa9",
+   "iconUrl": "https://www.unitpost.com/apple-icon.png?419ff3e241007c57",
+   "pageUrl": "https://www.unitpost.com/",
+   "method": "declared",
+   "fetchedAt": "2026-11-16T16:02:26.839Z"
+  },
+  "api-stopmailing-02hdhdm1dk": {
+   "file": "api-stopmailing-02hdhdm1dk.png",
+   "width": 180,
+   "height": 180,
+   "sha256": "f37e88b9ceda5c704e84007b5b1ce5fb72f54524c6df1247a405beb5f150996b",
+   "iconUrl": "https://stopmailing.net/apple-touch-icon.png",
+   "pageUrl": "https://stopmailing.net/",
+   "method": "declared",
+   "fetchedAt": "2026-11-16T16:02:26.934Z"
+  },
+  "api-mailtester-ninja-0az25ic1tl": {
+   "file": "api-mailtester-ninja-0az25ic1tl.png",
+   "width": 180,
+   "height": 180,
+   "sha256": "c9a04c4288b675e745b477963915f623aa2f269d39b122a15e7fa413a96cd531",
+   "iconUrl": "https://mailtester.ninja/apple-touch-icon.png",
+   "pageUrl": "https://mailtester.ninja/",
+   "method": "declared",
+   "fetchedAt": "2026-11-16T16:02:26.945Z"
+  },
+  "api-sequenzy-0z4fu4h0gj": {
+   "file": "api-sequenzy-0z4fu4h0gj.png",
+   "width": 192,
+   "height": 192,
+   "sha256": "023e871c84ad1ae51645cc3c14b6253246abcddf0806e1eaccebbf5cb0bbbf5c",
+   "iconUrl": "https://docs.sequenzy.com/mintlify-assets/_mintlify/favicons/sequenzy/Oq2M88prPAujmTx8/_generated/favicon/android-chrome-192x192.png",
+   "pageUrl": "https://docs.sequenzy.com/introduction",
+   "method": "declared",
+   "fetchedAt": "2026-11-16T16:02:26.980Z"
+  },
+  "api-kaijuconverter-0wo2d2x1qb": {
+   "file": "api-kaijuconverter-0wo2d2x1qb.png",
+   "width": 180,
+   "height": 180,
+   "sha256": "edc6d025efce2adf6f2774e1b7eef6c38599e6599dedd186265e86e82b499e7f",
+   "iconUrl": "https://kaijuconverter.com/apple-touch-icon.png",
+   "pageUrl": "https://kaijuconverter.com/",
+   "method": "declared",
+   "fetchedAt": "2026-11-16T16:02:27.058Z"
+  },
+  "api-pixelgust-soil-0r05hsj0xz": {
+   "file": "api-pixelgust-soil-0r05hsj0xz.png",
+   "width": 32,
+   "height": 32,
+   "sha256": "0c881a664ec0098a6c1e79022d00d3a37436777f5783b3fe966b67adfbfb3f68",
+   "iconUrl": "https://pixelgust.com/favicon.png",
+   "pageUrl": "https://pixelgust.com/",
+   "method": "declared",
+   "fetchedAt": "2026-11-16T16:02:27.406Z"
+  },
+  "api-fynepdf-0yn5ras1go": {
+   "file": "api-fynepdf-0yn5ras1go.png",
+   "width": 180,
+   "height": 180,
+   "sha256": "ca814cfa8fee4d8cd32b2ba920452e7ad9ccb31d1d058b7dc6795372ac68b7b6",
+   "iconUrl": "https://fynepdf.com/apple-touch-icon.png",
+   "pageUrl": "https://fynepdf.com/",
+   "method": "declared",
+   "fetchedAt": "2026-11-16T16:02:27.858Z"
+  },
+  "api-duceus-16k9zqk0q8": {
+   "file": "api-duceus-16k9zqk0q8.png",
+   "width": 180,
+   "height": 180,
+   "sha256": "c6db0ebb57d164ba63a799bf736c8faf6a8b5e0a9f3c64558f9f6b7974a49c80",
+   "iconUrl": "https://duceusapi.com/apple-icon.png?apple-icon.3zuqlca5usdeb.png",
+   "pageUrl": "https://duceusapi.com/",
+   "method": "declared",
+   "fetchedAt": "2026-11-16T16:02:27.882Z"
+  },
+  "api-neosatoshi-card-recognition-02ejquo1bx": {
+   "file": "api-neosatoshi-card-recognition-02ejquo1bx.png",
+   "width": 76,
+   "height": 76,
+   "sha256": "f1eab4d4b94a1b62e19c62db235dfae8e80020bd131ffa12aef602db9f3f4ea7",
+   "iconUrl": "https://neosatoshi.com/static/favicons/favicon-apple-76x76.png",
+   "pageUrl": "https://neosatoshi.com/",
+   "method": "declared",
+   "fetchedAt": "2026-11-16T16:02:28.147Z"
+  },
+  "api-ibanforge-08q72740hd": {
+   "file": "api-ibanforge-08q72740hd.png",
+   "width": 512,
+   "height": 512,
+   "sha256": "06a0ce68eb426bee6d3b4fbbc2f1ea344b5dbc192e9eb7d4df0c317abe03999c",
+   "iconUrl": "https://ibanforge.com/icon.png?icon.0fioq8l6vbo6a.png",
+   "pageUrl": "https://ibanforge.com/",
+   "method": "declared",
+   "fetchedAt": "2026-11-16T16:02:28.261Z"
+  },
+  "api-air-stock-discovery-1bux8ip17r": {
+   "file": "api-air-stock-discovery-1bux8ip17r.png",
+   "width": 180,
+   "height": 180,
+   "sha256": "a6a98c5a4c6064453e2b2063536eb7f5ef758ef67dc54df00a8129af5ee47522",
+   "iconUrl": "https://www.aistockradars.com/apple-touch-icon.png",
+   "pageUrl": "https://www.aistockradars.com/",
+   "method": "declared",
+   "fetchedAt": "2026-11-16T16:02:28.498Z"
+  },
+  "api-nubra-0nbaxxn02m": {
+   "file": "api-nubra-0nbaxxn02m.png",
+   "width": 144,
+   "height": 144,
+   "sha256": "9b6387b38c5048bf049ab65fe02f26c3db6903fa4b470b5a0309de8744606573",
+   "iconUrl": "https://nubra.io/favicon.ico",
+   "pageUrl": "https://nubra.io/",
+   "method": "declared",
+   "fetchedAt": "2026-11-16T16:02:28.603Z"
+  },
+  "api-stophy-042lmud07e": {
+   "file": "api-stophy-042lmud07e.png",
+   "width": 192,
+   "height": 192,
+   "sha256": "d510c83d8eb7ea7ac21534ad2d08b827451c975e6dbb33a0eaa073ff8caa556a",
+   "iconUrl": "https://docs.stophy.dev/mintlify-assets/_mintlify/favicons/sirathic/1Y8KdZrqKf-VZZAo/_generated/favicon/android-chrome-192x192.png",
+   "pageUrl": "https://docs.stophy.dev/introduction",
+   "method": "declared",
+   "fetchedAt": "2026-11-16T16:02:28.740Z"
+  },
+  "api-election-night-results-0is9ltk10r": {
+   "file": "api-election-night-results-0is9ltk10r.png",
+   "width": 180,
+   "height": 180,
+   "sha256": "5cc49935e29718de982ed18f406feb77486f0cbde27f42e2ef3f8f2e384d85b9",
+   "iconUrl": "https://pushbuild.com/assets/img/brand/apple-touch-icon.png",
+   "pageUrl": "https://pushbuild.com/",
+   "method": "declared",
+   "fetchedAt": "2026-11-16T16:02:28.932Z"
+  },
+  "api-us-state-government-jobs-1nuwcgd0eq": {
+   "file": "api-us-state-government-jobs-1nuwcgd0eq.png",
+   "width": 180,
+   "height": 180,
+   "sha256": "cf5aa7716eff4eeea410f5f18ff8aeca637558cc450e834d1d82929343452efe",
+   "iconUrl": "https://apify.com/apple-icon.png?apple-icon.1qabm0kj8blk6.png?dpl=e19f5e927e",
+   "pageUrl": "https://apify.com/",
+   "method": "declared",
+   "fetchedAt": "2026-11-16T16:02:29.271Z"
+  },
+  "api-valo-data-0xdvdzb065": {
+   "file": "api-valo-data-0xdvdzb065.png",
+   "width": 192,
+   "height": 192,
+   "sha256": "cc84e6bb1426b59ba2d3bc7288685ff9128124d0755225a51e75215421d17ea1",
+   "iconUrl": "https://valotcg.com/web-app-manifest-192x192.png",
+   "pageUrl": "https://valotcg.com/",
+   "method": "declared",
+   "fetchedAt": "2026-11-16T16:02:29.290Z"
+  },
+  "api-getparceldata-16n6k6j1ct": {
+   "file": "api-getparceldata-16n6k6j1ct.png",
+   "width": 228,
+   "height": 228,
+   "sha256": "0e75f8c2626d91e3f8cefae3d9399a1ffe3662b141feecf4a6f76d3d172d73c9",
+   "iconUrl": "https://getparceldata.com/apple-touch-icon.png",
+   "pageUrl": "https://getparceldata.com/",
+   "method": "declared",
+   "fetchedAt": "2026-11-16T16:02:29.383Z"
+  },
+  "api-fixragent-113b57e1c1": {
+   "file": "api-fixragent-113b57e1c1.png",
+   "width": 192,
+   "height": 192,
+   "sha256": "2aed0edb9f472eccad3714bd5dd0774ca898b2fa7e7071ba4f2a9f1e27307dba",
+   "iconUrl": "https://fixragent.com/favicon-192.png",
+   "pageUrl": "https://fixragent.com/",
+   "method": "declared",
+   "fetchedAt": "2026-11-16T16:02:29.707Z"
+  },
+  "api-babydata-0nhy8vg1cu": {
+   "file": "api-babydata-0nhy8vg1cu.png",
+   "width": 180,
+   "height": 180,
+   "sha256": "b06687f8fa304652b0161ac60e0964790ea2e55d3a3947adedd1d1b72a06dae6",
+   "iconUrl": "https://babydata.co.uk/apple-touch-icon.png",
+   "pageUrl": "https://babydata.co.uk/",
+   "method": "declared",
+   "fetchedAt": "2026-11-16T16:02:29.795Z"
+  },
+  "api-ipsnapshot-04nm2yg0cs": {
+   "file": "api-ipsnapshot-04nm2yg0cs.png",
+   "width": 180,
+   "height": 180,
+   "sha256": "f4c82e444cc833081b108504d9073eb23993ccbaaa8c9403cc1a72824d2c0b7e",
+   "iconUrl": "https://ipsnapshot.com/apple-touch-icon.png",
+   "pageUrl": "https://ipsnapshot.com/",
+   "method": "declared",
+   "fetchedAt": "2026-11-16T16:02:30.012Z"
+  },
+  "mcp-cartviral-1e5eekn1vp": {
+   "file": "mcp-cartviral-1e5eekn1vp.png",
+   "width": 192,
+   "height": 192,
+   "sha256": "66ebd87b1fa0ecda2183093c9cd95d48e227ab687baa33ca336c113464c6f161",
+   "iconUrl": "https://cartviral.com/favicon-192x192.png",
+   "pageUrl": "https://cartviral.com/",
+   "method": "declared",
+   "fetchedAt": "2026-11-16T16:02:30.059Z"
+  },
+  "mcp-bewary-0yotol1010": {
+   "file": "mcp-bewary-0yotol1010.png",
+   "width": 180,
+   "height": 180,
+   "sha256": "d6dba02ea0bfa12b0ffdcfa4bf739324be9462df70fb2cff2414cd8994726adc",
+   "iconUrl": "https://bewary.app/apple-touch-icon.png",
+   "pageUrl": "https://bewary.app/",
+   "method": "declared",
+   "fetchedAt": "2026-11-16T16:02:30.202Z"
+  },
+  "mcp-eu-nordic-open-data-0k24ako0hv": {
+   "file": "mcp-eu-nordic-open-data-0k24ako0hv.png",
+   "width": 128,
+   "height": 128,
+   "sha256": "d04005c3f2f156a07071e4eb234dd9560c734f859a7108a807f8ae0a87b9af98",
+   "iconUrl": "https://github.com/itulo.png?size=128",
+   "pageUrl": "https://github.com/itulo/eu-nordic-open-data-mcp",
+   "method": "github-owner",
+   "fetchedAt": "2026-11-16T16:02:30.361Z"
+  },
+  "api-musedin-0d4y2s41se": {
+   "file": "api-musedin-0d4y2s41se.png",
+   "width": 180,
+   "height": 180,
+   "sha256": "e9edfa144567691252d01ae3bc87c3f576c1db41bc3bb402eb092a507ffaf416",
+   "iconUrl": "https://musedin.com/assets/apple-touch-icon.png",
+   "pageUrl": "https://musedin.com/",
+   "method": "declared",
+   "fetchedAt": "2026-11-16T16:02:30.434Z"
+  },
+  "api-ai-rate-card-1th5itg0ln": {
+   "file": "api-ai-rate-card-1th5itg0ln.png",
+   "width": 180,
+   "height": 180,
+   "sha256": "75bf375d92a6d48b9377d6c06e1f91d13f2416d86e74733780efb775e16fe14b",
+   "iconUrl": "https://airatecard.com/apple-touch-icon.png",
+   "pageUrl": "https://airatecard.com/en/",
+   "method": "declared",
+   "fetchedAt": "2026-11-16T16:02:30.582Z"
+  },
+  "mcp-signal-lab-0rb50qr1r8": {
+   "file": "mcp-signal-lab-0rb50qr1r8.png",
+   "width": 512,
+   "height": 512,
+   "sha256": "f1bb18e5cd0b030718a19b23717fc9cb34d6192d7d9d1fdc4954e69e276cb568",
+   "iconUrl": "https://signal-lab.qdt.ai/icon-512.png",
+   "pageUrl": "https://signal-lab.qdt.ai/",
+   "method": "declared",
+   "fetchedAt": "2026-11-16T16:02:30.889Z"
+  },
+  "mcp-site-shot-0ngrevu0yp": {
+   "file": "mcp-site-shot-0ngrevu0yp.png",
+   "width": 128,
+   "height": 128,
+   "sha256": "47c1f47f5de7cbeaee467a8fa3d30b98f06212b02d39da92986f907e9a6f5c99",
+   "iconUrl": "https://github.com/site-shot.png?size=128",
+   "pageUrl": "https://github.com/site-shot/site-shot-mcp",
+   "method": "github-owner",
+   "fetchedAt": "2026-11-16T16:02:30.898Z"
+  },
+  "mcp-aamio-04ghkjw0qm": {
+   "file": "mcp-aamio-04ghkjw0qm.png",
+   "width": 180,
+   "height": 180,
+   "sha256": "c88884fdd66cd472797d28cd624826d7173ad4c9f1f9f6d85496df46f101ff0c",
+   "iconUrl": "https://aamio.at/apple-touch-icon.png",
+   "pageUrl": "https://aamio.at/",
+   "method": "declared",
+   "fetchedAt": "2026-11-16T16:02:30.962Z"
+  },
+  "mcp-transcript-dock-02f15s90u5": {
+   "file": "mcp-transcript-dock-02f15s90u5.png",
+   "width": 128,
+   "height": 128,
+   "sha256": "b739c964d3f0de223963bc851da666d3668e9c5d1db033f719a548dc995a2f0a",
+   "iconUrl": "https://github.com/transcriptdock.png?size=128",
+   "pageUrl": "https://github.com/TranscriptDock/transcriptdock-mcp",
+   "method": "github-owner",
+   "fetchedAt": "2026-11-16T16:02:31.193Z"
+  },
+  "mcp-sofya-17fswrf0ro": {
+   "file": "mcp-sofya-17fswrf0ro.png",
+   "width": 128,
+   "height": 128,
+   "sha256": "9564938b621208b5ed8f014f859c35e3ab4ff29c52377f5648f446e0ed180299",
+   "iconUrl": "https://github.com/sofya-co.png?size=128",
+   "pageUrl": "https://github.com/sofya-co/sofya-mcp",
+   "method": "github-owner",
+   "fetchedAt": "2026-11-16T16:02:31.216Z"
+  },
+  "api-hexplace-0pmqaqb0cw": {
+   "file": "api-hexplace-0pmqaqb0cw.ico",
+   "width": 48,
+   "height": 48,
+   "sha256": "56e3c55a601cf0f7485b4465f8d1088a96d8deaabe66bacf174d7508df343ccd",
+   "iconUrl": "https://hexplace.org/favicon.ico",
+   "pageUrl": "https://hexplace.org/",
+   "method": "default-path",
+   "fetchedAt": "2026-11-16T16:02:31.698Z"
+  },
+  "mcp-optimistfi-19nhemf0ao": {
+   "file": "mcp-optimistfi-19nhemf0ao.png",
+   "width": 192,
+   "height": 192,
+   "sha256": "319b503033daa7b3c568dd9b53ca8d41146d9c15b5a6a7ace838923a46700360",
+   "iconUrl": "https://optimistfi.com/assets/optimistfi-favicon-192.png",
+   "pageUrl": "https://optimistfi.com/",
+   "method": "declared",
+   "fetchedAt": "2026-11-16T16:02:31.782Z"
+  },
+  "api-cropden-1bz38of020": {
+   "file": "api-cropden-1bz38of020.png",
+   "width": 128,
+   "height": 128,
+   "sha256": "c40e6312237237d875cbcd7226818080caa89a347564b39964c6335e4ef94fb0",
+   "iconUrl": "https://github.com/geektao1024.png?size=128",
+   "pageUrl": "https://github.com/geektao1024/social-media-image-sizes#json-over-http",
+   "method": "github-owner",
+   "fetchedAt": "2026-11-16T16:02:31.898Z"
+  },
+  "mcp-octocrawl-1cytj981rd": {
+   "file": "mcp-octocrawl-1cytj981rd.png",
+   "width": 192,
+   "height": 192,
+   "sha256": "cdc7a37f6f9476e59d0476997ff5ac42dcfc1a04d95bdcabd0c4d4873287322a",
+   "iconUrl": "https://octocrawl.dev/assets/favicon-192.png?v=cdc7a37f6f94",
+   "pageUrl": "https://octocrawl.dev/",
+   "method": "declared",
+   "fetchedAt": "2026-11-16T16:02:32.093Z"
+  },
+  "api-vettedhome-1nz52ma0an": {
+   "file": "api-vettedhome-1nz52ma0an.png",
+   "width": 180,
+   "height": 180,
+   "sha256": "ff2a39c126d3ad6804b7f84c8de344af4956cf560cbc8a6f3aa9cc92657ce46b",
+   "iconUrl": "https://vettedhome.co.uk/apple-touch-icon.png",
+   "pageUrl": "https://vettedhome.co.uk/",
+   "method": "declared",
+   "fetchedAt": "2026-11-16T16:02:32.305Z"
+  },
+  "api-openshield-1om29ya1xn": {
+   "file": "api-openshield-1om29ya1xn.ico",
+   "width": 48,
+   "height": 48,
+   "sha256": "0d69818f4f95b2159475997b21cf86df12436d0fb15c0253def4ad46bea8a904",
+   "iconUrl": "https://www.openshield.dev/favicon.ico",
+   "pageUrl": "https://www.openshield.dev/",
+   "method": "declared",
+   "fetchedAt": "2026-11-16T16:02:32.484Z"
+  },
+  "api-compliance-assessment-tool-0ky9rrb1cl": {
+   "file": "api-compliance-assessment-tool-0ky9rrb1cl.png",
+   "width": 80,
+   "height": 80,
+   "sha256": "87c20c2f744065c8f46dfa22bec15af3612454f1f40f6907fa3358eece1d6a54",
+   "iconUrl": "https://banks.complianceassessmenttool.com/favicon.png",
+   "pageUrl": "https://banks.complianceassessmenttool.com/",
+   "method": "declared",
+   "fetchedAt": "2026-11-16T16:02:32.633Z"
+  },
+  "api-soldsignal-1skd88y0f9": {
+   "file": "api-soldsignal-1skd88y0f9.png",
+   "width": 180,
+   "height": 180,
+   "sha256": "907b308e75e943cce6d0b661c2652656df26127f304b47654fff4beff853c09a",
+   "iconUrl": "https://www.aiplannermail.com/static/img/apple-touch-icon.png",
+   "pageUrl": "https://www.aiplannermail.com/",
+   "method": "declared",
+   "fetchedAt": "2026-11-16T16:02:32.913Z"
+  },
+  "api-xaxios-0m3kx7f0m9": {
+   "file": "api-xaxios-0m3kx7f0m9.png",
+   "width": 180,
+   "height": 180,
+   "sha256": "327224bb891a92ea5c1fca004940506de07c43460a390672907729b0e599c220",
+   "iconUrl": "https://xaxios.com/apple-touch-icon.png",
+   "pageUrl": "https://xaxios.com/",
+   "method": "declared",
+   "fetchedAt": "2026-11-16T16:02:32.955Z"
+  },
+  "api-shortsintel-15drj5c18o": {
+   "file": "api-shortsintel-15drj5c18o.ico",
+   "width": 256,
+   "height": 256,
+   "sha256": "fd28e3d23497bf6f9e096e0dcf27e822c4e6cb061b0b8a24ea07e620ee13c61a",
+   "iconUrl": "https://www.shortsintel.com/favicon.ico",
+   "pageUrl": "https://www.shortsintel.com/",
+   "method": "default-path",
+   "fetchedAt": "2026-11-16T16:02:33.057Z"
+  },
+  "api-deepchamp-for-agents-0cowknm05p": {
+   "file": "api-deepchamp-for-agents-0cowknm05p.png",
+   "width": 180,
+   "height": 180,
+   "sha256": "89592fb1359707771818b3291261e30283932f057c0398cd4326350f02005813",
+   "iconUrl": "https://deepchampai.com/apple-icon.png?apple-icon.2pw14oarqex5n.png",
+   "pageUrl": "https://deepchampai.com/",
+   "method": "declared",
+   "fetchedAt": "2026-11-16T16:02:33.243Z"
+  },
+  "mcp-hey-research-lab-1imm6gk1k7": {
+   "file": "mcp-hey-research-lab-1imm6gk1k7.png",
+   "width": 512,
+   "height": 512,
+   "sha256": "cb2324c61775f384e87fef0a2273368709d2dbf99fccd8d2bded9dd5daeb4c90",
+   "iconUrl": "https://heyresearch.xyz/apple-icon.png?54b1589952994b87",
+   "pageUrl": "https://heyresearch.xyz/",
+   "method": "declared",
+   "fetchedAt": "2026-11-16T16:02:33.360Z"
+  },
+  "api-clutch-0pbj7p40l3": {
+   "file": "api-clutch-0pbj7p40l3.png",
+   "width": 180,
+   "height": 180,
+   "sha256": "bf4491462d331d93c40a011b02b88b7f949ce9ff3dd36d476938557ffcc3cc63",
+   "iconUrl": "https://clutchledger.com/apple-touch-icon.png",
+   "pageUrl": "https://clutchledger.com/",
+   "method": "declared",
+   "fetchedAt": "2026-11-16T16:02:33.523Z"
+  },
+  "api-fax-for-agents-0z0im0m05d": {
+   "file": "api-fax-for-agents-0z0im0m05d.png",
+   "width": 180,
+   "height": 180,
+   "sha256": "8dceb0d6e293224557fad0c692940362aee57bed9e8504deaf3395e4964e8c6e",
+   "iconUrl": "https://faxforagents.com/apple-touch-icon.png",
+   "pageUrl": "https://faxforagents.com/",
+   "method": "declared",
+   "fetchedAt": "2026-11-16T16:02:33.541Z"
+  },
+  "api-galaxy-movies-0qsnf571dh": {
+   "file": "api-galaxy-movies-0qsnf571dh.ico",
+   "width": 48,
+   "height": 48,
+   "sha256": "5a7ace9e4247d8cc5d761ff61c0e13529c2e66c5f258085cc63549067b6512f0",
+   "iconUrl": "https://galaxymovies.app/favicon.ico",
+   "pageUrl": "https://galaxymovies.app/",
+   "method": "default-path",
+   "fetchedAt": "2026-11-16T16:02:33.688Z"
+  },
+  "api-fueleconomy-0qm85ie0s2": {
+   "file": "api-fueleconomy-0qm85ie0s2.ico",
+   "width": 64,
+   "height": 64,
+   "sha256": "7ad0df710fe215821ba3d5f62f7839aea83901c5b642d91634d1363e8e8f244b",
+   "iconUrl": "https://www.fueleconomy.gov/favicon.ico",
+   "pageUrl": "https://www.fueleconomy.gov/",
+   "method": "default-path",
+   "fetchedAt": "2026-11-16T16:02:33.970Z"
+  },
+  "api-transcript-dock-1imjhey1fl": {
+   "file": "api-transcript-dock-1imjhey1fl.png",
+   "width": 192,
+   "height": 192,
+   "sha256": "ee857a4b6b2fff9aab11c2252bd0cb81ff00442fc4f96df1151b5be552dbc2f9",
+   "iconUrl": "https://www.transcriptdock.com/icon-192.png",
+   "pageUrl": "https://www.transcriptdock.com/",
+   "method": "declared",
+   "fetchedAt": "2026-11-16T16:02:34.352Z"
+  },
+  "api-vidsmaller-1rm9gvd1ij": {
+   "file": "api-vidsmaller-1rm9gvd1ij.png",
+   "width": 180,
+   "height": 180,
+   "sha256": "5d43cda390dcdbd3558eacae2b1be9c2668834cd8fb9d24554f735c944c89f5a",
+   "iconUrl": "https://vidsmaller.com/apple-touch-icon.png",
+   "pageUrl": "https://vidsmaller.com/",
+   "method": "declared",
+   "fetchedAt": "2026-11-16T16:02:34.881Z"
+  },
+  "api-spotwatts-1uvvo0n0ku": {
+   "file": "api-spotwatts-1uvvo0n0ku.ico",
+   "width": 48,
+   "height": 48,
+   "sha256": "2bf56c4be2a9efa9eb160ad6689feb1d16d625ebc1d1910c7a35c17c6e134c3b",
+   "iconUrl": "https://spotwatts.com/favicon.ico",
+   "pageUrl": "https://spotwatts.com/",
+   "method": "declared",
+   "fetchedAt": "2026-11-16T16:02:36.083Z"
+  },
+  "api-vakaymood-1cbykz00xs": {
+   "file": "api-vakaymood-1cbykz00xs.png",
+   "width": 192,
+   "height": 192,
+   "sha256": "4669e3d9500fc6576c0d6f84f71ee6f08345baf92abcc44eeaaf5e6ef7756fea",
+   "iconUrl": "https://vakaymood.com/icons/icon-192.png",
+   "pageUrl": "https://vakaymood.com/",
+   "method": "declared",
+   "fetchedAt": "2026-11-16T16:02:36.494Z"
+  },
+  "api-open-guitar-chords-0wjjybd1ki": {
+   "file": "api-open-guitar-chords-0wjjybd1ki.png",
+   "width": 180,
+   "height": 180,
+   "sha256": "18206a67cad74641eff6778fec2aab299ca8a94b1ea07c5e3ad4a152151cd630",
+   "iconUrl": "https://openguitarchords.com/apple-touch-icon.png",
+   "pageUrl": "https://openguitarchords.com/",
+   "method": "declared",
+   "fetchedAt": "2026-11-16T16:02:36.955Z"
+  },
+  "mcp-realmarket-11kurz31gv": {
+   "file": "mcp-realmarket-11kurz31gv.ico",
+   "width": 48,
+   "height": 48,
+   "sha256": "a5834cbaca4af05b79a9b51bc3dd04f875ef01360d8fbd42f399751ebc9cf15c",
+   "iconUrl": "https://realmarketapi.com/favicon.ico",
+   "pageUrl": "https://realmarketapi.com/",
+   "method": "default-path",
+   "fetchedAt": "2026-11-16T16:02:39.232Z"
+  },
+  "api-lurkapi-1668ugq05m": {
+   "file": "api-lurkapi-1668ugq05m.png",
+   "width": 180,
+   "height": 180,
+   "sha256": "886cd7ef99ffa766f3be84947facb58ceaa5828df2458b9ec7408eb5d32201b2",
+   "iconUrl": "https://lurkapi.com/apple-touch-icon.png",
+   "pageUrl": "https://lurkapi.com/",
+   "method": "declared",
+   "fetchedAt": "2026-11-16T16:02:39.710Z"
   }
  },
  "misses": {
@@ -17430,6 +18210,20 @@
   "mcp-pourwire-0uwbzax04j": "HTTP 404",
   "api-micro-user-service-10eop1v1y1": "platform default icon, not the provider's own",
   "api-micro-db-1p8plwq1nf": "platform default icon, not the provider's own",
-  "api-micro-weather-07ka4jh1lr": "platform default icon, not the provider's own"
+  "api-micro-weather-07ka4jh1lr": "platform default icon, not the provider's own",
+  "api-bayan-0dji8pw0s8": "HTTP 404",
+  "api-verifyum-0y3jso70ie": "not a PNG, JPEG, WebP, GIF or ICO image",
+  "api-gasrent-11vf5h907v": "HTTP 404",
+  "api-ai-form-0zhpx7y1o2": "HTTP 404",
+  "api-slipkiln-14zeqho1m1": "HTTP 404",
+  "api-trustlookup-0c9lrlb17c": "HTTP 404",
+  "api-tilla-0988t8l02l": "HTTP 530",
+  "mcp-company-facts-1qitziu1q7": "HTTP 404",
+  "api-holidayexplore-1u1p9jl0qj": "timed out",
+  "api-propraven-1u1nfvk10q": "HTTP 402",
+  "api-disdex-1urpb7e0r8": "not a PNG, JPEG, WebP, GIF or ICO image",
+  "api-green-screen-memes-0ph4bkc1ez": "not a PNG, JPEG, WebP, GIF or ICO image",
+  "api-dolarkac-1u1ij4c1m6": "timed out",
+  "api-immoanalyse-1w6kd9h1fd": "timed out"
  }
 }

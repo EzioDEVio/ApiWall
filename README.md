@@ -27,11 +27,11 @@ auth, and open the docs in a click.
 
 <!-- Refreshed by the weekly catalog sync (npm run sync:report). Edit outside the markers. -->
 <!-- this-week:start -->
-**2,334 APIs** and **40 MCP servers** across **53 categories**.
+**2,412 APIs** and **53 MCP servers** across **53 categories**.
 
-**Latest catalog update (2026-11-09):** 204 new, 8 removed. [Paint Color HQ](https://eziodevio.github.io/ApiWall/apis/paint-color-hq/) · [pic2svg](https://eziodevio.github.io/ApiWall/apis/pic2svg/) · [HEY Research Lab](https://eziodevio.github.io/ApiWall/apis/hey-research-lab/) · [MELEK](https://eziodevio.github.io/ApiWall/apis/melek/) · [Company Enrichment](https://eziodevio.github.io/ApiWall/apis/company-enrichment/) · [Firmbase](https://eziodevio.github.io/ApiWall/apis/firmbase/) · [Leadgen Romania](https://eziodevio.github.io/ApiWall/apis/leadgen-romania/) · [Logoapi](https://eziodevio.github.io/ApiWall/apis/logoapi/) and 196 more.
+**Latest catalog update (2026-11-16):** 92 new, 1 removed. [FillerLists](https://eziodevio.github.io/ApiWall/apis/fillerlists/) · [Bewary](https://eziodevio.github.io/ApiWall/apis/bewary/) · [Verifyum](https://eziodevio.github.io/ApiWall/apis/verifyum/) · [Bayan](https://eziodevio.github.io/ApiWall/apis/bayan/) · [Buku Indonesia](https://eziodevio.github.io/ApiWall/apis/buku-indonesia/) · [Readark](https://eziodevio.github.io/ApiWall/apis/readark/) · [HolidayExplore](https://eziodevio.github.io/ApiWall/apis/holidayexplore/) · [Kalenderblick](https://eziodevio.github.io/ApiWall/apis/kalenderblick/) and 84 more.
 
-**Docs links:** 2,165 of 2,375 reachable (210 not reachable since 2026-11-10; 5 newly unreachable, 1 working again).
+**Docs links:** 2,257 of 2,466 reachable (209 not reachable since 2026-11-16; 10 newly unreachable, 11 working again).
 
 [What's new](https://eziodevio.github.io/ApiWall/changes/) · [Stats](https://eziodevio.github.io/ApiWall/stats/) · [Starter packs](https://eziodevio.github.io/ApiWall/packs/)
 <!-- this-week:end -->

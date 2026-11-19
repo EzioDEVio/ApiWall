@@ -38,7 +38,8 @@ function NameCount({ name, count, zero }: { name: string; count: number; zero?: 
   return (
     <>
       <span className="cat-name">{name}</span> <span className={"cat-count" + (zero ? " is-zero" : "")}>{count.toLocaleString("en")}</span>
-      <span className="sr-only"> {count === 1 ? "result" : "results"}</span>
+      {/* The space is its own text node: name computations trim a leading space inside an element. */}{" "}
+      <span className="sr-only">{count === 1 ? "result" : "results"}</span>
     </>
   );
 }

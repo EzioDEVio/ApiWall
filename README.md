@@ -27,11 +27,11 @@ auth, and open the docs in a click.
 
 <!-- Refreshed by the weekly catalog sync (npm run sync:report). Edit outside the markers. -->
 <!-- this-week:start -->
-**2,412 APIs** and **53 MCP servers** across **53 categories**.
+**2,489 APIs** and **61 MCP servers** across **53 categories**.
 
-**Latest catalog update (2026-11-16):** 92 new, 1 removed. [FillerLists](https://eziodevio.github.io/ApiWall/apis/fillerlists/) · [Bewary](https://eziodevio.github.io/ApiWall/apis/bewary/) · [Verifyum](https://eziodevio.github.io/ApiWall/apis/verifyum/) · [Bayan](https://eziodevio.github.io/ApiWall/apis/bayan/) · [Buku Indonesia](https://eziodevio.github.io/ApiWall/apis/buku-indonesia/) · [Readark](https://eziodevio.github.io/ApiWall/apis/readark/) · [HolidayExplore](https://eziodevio.github.io/ApiWall/apis/holidayexplore/) · [Kalenderblick](https://eziodevio.github.io/ApiWall/apis/kalenderblick/) and 84 more.
+**Latest catalog update (2026-11-23):** 85 new. [DummyImg](https://eziodevio.github.io/ApiWall/apis/dummyimg/) · [Logoapi Favicons](https://eziodevio.github.io/ApiWall/apis/logoapi-favicons/) · [Frontegg](https://eziodevio.github.io/ApiWall/apis/frontegg/) · [SignOps](https://eziodevio.github.io/ApiWall/apis/signops/) · [Greek Mythology](https://eziodevio.github.io/ApiWall/apis/greek-mythology/) · [CEA Digital](https://eziodevio.github.io/ApiWall/apis/cea-digital/) · [LeadMerlin](https://eziodevio.github.io/ApiWall/apis/leadmerlin/) · [RegBase Japan Company Verification](https://eziodevio.github.io/ApiWall/apis/regbase-japan-company-verification/) and 77 more.
 
-**Docs links:** 2,257 of 2,466 reachable (209 not reachable since 2026-11-16; 10 newly unreachable, 11 working again).
+**Docs links:** 2,334 of 2,551 reachable (217 not reachable since 2026-11-23; 19 newly unreachable, 11 working again).
 
 [What's new](https://eziodevio.github.io/ApiWall/changes/) · [Stats](https://eziodevio.github.io/ApiWall/stats/) · [Starter packs](https://eziodevio.github.io/ApiWall/packs/)
 <!-- this-week:end -->

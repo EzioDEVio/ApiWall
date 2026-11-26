@@ -2,6 +2,438 @@
  "version": 1,
  "entries": [
   {
+   "at": "2026-11-23T18:27:06.075Z",
+   "commit": "9fb3bdb62643400aaebee03a2ecce0cd1ec934eb",
+   "added": [
+    {
+     "id": "api-dummyimg-1le4r9e0ez",
+     "name": "DummyImg",
+     "category": "Art & Design"
+    },
+    {
+     "id": "api-logoapi-favicons-0q4psam1h5",
+     "name": "Logoapi Favicons",
+     "category": "Art & Design"
+    },
+    {
+     "id": "api-frontegg-0vs5pjj0zg",
+     "name": "Frontegg",
+     "category": "Authentication & Authorization"
+    },
+    {
+     "id": "api-signops-0wyjuyu1q6",
+     "name": "SignOps",
+     "category": "Authentication & Authorization"
+    },
+    {
+     "id": "api-greek-mythology-00gmtxq1ua",
+     "name": "Greek Mythology",
+     "category": "Books"
+    },
+    {
+     "id": "api-cea-digital-1q7gf4p0f2",
+     "name": "CEA Digital",
+     "category": "Business"
+    },
+    {
+     "id": "api-leadmerlin-0wnt93c1xn",
+     "name": "LeadMerlin",
+     "category": "Business"
+    },
+    {
+     "id": "api-regbase-japan-company-verification-1n62fnq02v",
+     "name": "RegBase Japan Company Verification",
+     "category": "Business"
+    },
+    {
+     "id": "api-vibe-manufacturing-1uq1jb60fz",
+     "name": "Vibe Manufacturing",
+     "category": "Business"
+    },
+    {
+     "id": "api-nansen-1o5vfx31y7",
+     "name": "Nansen",
+     "category": "Cryptocurrency"
+    },
+    {
+     "id": "api-swiftedge-1x2h2ub1no",
+     "name": "Swiftedge",
+     "category": "Cryptocurrency"
+    },
+    {
+     "id": "api-the-river-0pi01cj1m1",
+     "name": "The River",
+     "category": "Cryptocurrency"
+    },
+    {
+     "id": "api-quotelinks-exchange-rates-1ht5clz08z",
+     "name": "Quotelinks Exchange Rates",
+     "category": "Currency Exchange"
+    },
+    {
+     "id": "api-veriapi-0lw96qo17e",
+     "name": "VeriApi",
+     "category": "Currency Exchange"
+    },
+    {
+     "id": "api-eu-vat-format-check-1xgcu9y09a",
+     "name": "EU VAT Format Check",
+     "category": "Data Validation"
+    },
+    {
+     "id": "api-dahono-free-proxy-0dsgu570e2",
+     "name": "Dahono Free Proxy",
+     "category": "Development"
+    },
+    {
+     "id": "api-duckduckgo-0rv3uho0ej",
+     "name": "DuckDuckGo",
+     "category": "Development"
+    },
+    {
+     "id": "api-freeqrly-0nris741jj",
+     "name": "FreeQrly",
+     "category": "Development"
+    },
+    {
+     "id": "api-hundredth-run-gpu-prices-0mg3y6o1ei",
+     "name": "Hundredth Run GPU Prices",
+     "category": "Development"
+    },
+    {
+     "id": "api-keirolabs-1faik4z02i",
+     "name": "Keirolabs",
+     "category": "Development"
+    },
+    {
+     "id": "api-qrdx-0fblhvj1yh",
+     "name": "QRdx",
+     "category": "Development"
+    },
+    {
+     "id": "api-the-networkery-0gt85st1jz",
+     "name": "The Networkery",
+     "category": "Development"
+    },
+    {
+     "id": "api-tradingaihub-183ooss0zt",
+     "name": "TradingAIHub",
+     "category": "Development"
+    },
+    {
+     "id": "api-unique-domains-0a26xya1oz",
+     "name": "Unique.domains",
+     "category": "Development"
+    },
+    {
+     "id": "api-what-is-my-ip-by-rahakit-1i5l9d313u",
+     "name": "What Is My IP by RahaKit",
+     "category": "Development"
+    },
+    {
+     "id": "api-emissaoja-1ycn5wg0wn",
+     "name": "emissaoja",
+     "category": "Documents & Productivity"
+    },
+    {
+     "id": "api-pagedpdf-1cky2bs0fy",
+     "name": "PagedPDF",
+     "category": "Documents & Productivity"
+    },
+    {
+     "id": "api-agentisend-098pizk1xe",
+     "name": "AgentiSend",
+     "category": "Email"
+    },
+    {
+     "id": "api-mailmint-05viu400h7",
+     "name": "MailMint",
+     "category": "Email"
+    },
+    {
+     "id": "api-memeidea-1o03fix0r5",
+     "name": "memeidea",
+     "category": "Entertainment"
+    },
+    {
+     "id": "api-rebase-grid-1qc8ii305x",
+     "name": "Rebase Grid",
+     "category": "Environment"
+    },
+    {
+     "id": "api-lineup-atlas-18gztqp01u",
+     "name": "Lineup Atlas",
+     "category": "Events"
+    },
+    {
+     "id": "api-aurastream-00mclnc186",
+     "name": "AuraStream",
+     "category": "Finance"
+    },
+    {
+     "id": "api-billionaire-tracker-075q57d153",
+     "name": "Billionaire Tracker",
+     "category": "Finance"
+    },
+    {
+     "id": "api-bluerate-1ow1byh1od",
+     "name": "bluerate",
+     "category": "Finance"
+    },
+    {
+     "id": "api-calcbloc-1e1800s0le",
+     "name": "CalcBloc",
+     "category": "Finance"
+    },
+    {
+     "id": "api-quotelinks-sec-fundamentals-0jpyfk5132",
+     "name": "Quotelinks SEC Fundamentals",
+     "category": "Finance"
+    },
+    {
+     "id": "api-llmpvp-1w45jjg0nj",
+     "name": "LLMPvP",
+     "category": "Games & Comics"
+    },
+    {
+     "id": "api-pokewallet-1697cpm1tm",
+     "name": "PokéWallet",
+     "category": "Games & Comics"
+    },
+    {
+     "id": "api-rowatcher-0flnm1f0o3",
+     "name": "RoWatcher",
+     "category": "Games & Comics"
+    },
+    {
+     "id": "api-wok-09ujkag0wc",
+     "name": "WOK",
+     "category": "Games & Comics"
+    },
+    {
+     "id": "api-danadresse-1d310yo05w",
+     "name": "Danadresse",
+     "category": "Geocoding"
+    },
+    {
+     "id": "api-japan-places-0odu2wr1ks",
+     "name": "Japan Places",
+     "category": "Geocoding"
+    },
+    {
+     "id": "api-canada-service-map-04pbasj1jx",
+     "name": "Canada Service Map",
+     "category": "Government"
+    },
+    {
+     "id": "api-crime-data-0419xsc0vk",
+     "name": "Crime Data",
+     "category": "Government"
+    },
+    {
+     "id": "api-global-law-0snpl330ht",
+     "name": "Global law",
+     "category": "Government"
+    },
+    {
+     "id": "api-loupe-1az9ql8052",
+     "name": "Loupe",
+     "category": "Government"
+    },
+    {
+     "id": "api-political-polls-0d9s35r0s4",
+     "name": "Political Polls",
+     "category": "Government"
+    },
+    {
+     "id": "api-schoolapi-0jkp6zv07h",
+     "name": "SchoolAPI",
+     "category": "Government"
+    },
+    {
+     "id": "api-meducate-0qhqdxi0v9",
+     "name": "Meducate",
+     "category": "Health"
+    },
+    {
+     "id": "api-warn-layoff-notices-02871qo0va",
+     "name": "WARN Layoff Notices",
+     "category": "Jobs"
+    },
+    {
+     "id": "api-eden-ai-0is152d1kf",
+     "name": "Eden AI",
+     "category": "Machine Learning"
+    },
+    {
+     "id": "mcp-dispola-1w93rqn0rt",
+     "name": "Dispola",
+     "category": "MCP Servers"
+    },
+    {
+     "id": "mcp-fmcsa-carrier-intelligence-0h4zg030qz",
+     "name": "FMCSA Carrier Intelligence",
+     "category": "MCP Servers"
+    },
+    {
+     "id": "mcp-inbox-esim-18vw9l50vw",
+     "name": "Inbox eSIM",
+     "category": "MCP Servers"
+    },
+    {
+     "id": "mcp-ironflow-0x9bk7u104",
+     "name": "Ironflow",
+     "category": "MCP Servers"
+    },
+    {
+     "id": "mcp-loupe-1ktuz8a0ek",
+     "name": "Loupe",
+     "category": "MCP Servers"
+    },
+    {
+     "id": "mcp-scrape-ly-0wdqno201y",
+     "name": "Scrape.ly",
+     "category": "MCP Servers"
+    },
+    {
+     "id": "mcp-unique-domains-0psp7eh1e7",
+     "name": "Unique.domains",
+     "category": "MCP Servers"
+    },
+    {
+     "id": "mcp-vesselapi-mcp-1pk734n1ul",
+     "name": "VesselAPI MCP",
+     "category": "MCP Servers"
+    },
+    {
+     "id": "api-agent-data-hub-0cqw4521pw",
+     "name": "Agent Data Hub",
+     "category": "Open Data"
+    },
+    {
+     "id": "api-cloudflare-radar-1q0tcuq0px",
+     "name": "Cloudflare Radar",
+     "category": "Open Data"
+    },
+    {
+     "id": "api-kite-0v2vb660ow",
+     "name": "Kite",
+     "category": "Open Data"
+    },
+    {
+     "id": "api-tranco-1wpulh81hm",
+     "name": "Tranco",
+     "category": "Open Data"
+    },
+    {
+     "id": "api-areacodecheck-01qfgyi18q",
+     "name": "AreaCodeCheck",
+     "category": "Phone"
+    },
+    {
+     "id": "api-ai-gif-maker-0kc4t0p036",
+     "name": "AI GIF Maker",
+     "category": "Photography"
+    },
+    {
+     "id": "api-leekcf-hinter-1tb0vzr11d",
+     "name": "LeekCF Hinter",
+     "category": "Programming"
+    },
+    {
+     "id": "api-astroletra-13te8o10w6",
+     "name": "Astroletra",
+     "category": "Science & Math"
+    },
+    {
+     "id": "api-cazimi-16j1fms13r",
+     "name": "Cazimi",
+     "category": "Science & Math"
+    },
+    {
+     "id": "api-shodan-internetdb-0e1bewd07t",
+     "name": "Shodan InternetDB",
+     "category": "Security"
+    },
+    {
+     "id": "api-everbee-research-04iwzww0f0",
+     "name": "EverBee Research",
+     "category": "Shopping"
+    },
+    {
+     "id": "api-openaxia-14hcqxi1wc",
+     "name": "OpenAxia",
+     "category": "Shopping"
+    },
+    {
+     "id": "api-outfit-showcase-1wy231g1o0",
+     "name": "Outfit Showcase",
+     "category": "Shopping"
+    },
+    {
+     "id": "api-uglyhd-1yumt911bp",
+     "name": "uglyHD",
+     "category": "Shopping"
+    },
+    {
+     "id": "api-lemmy-0x9hgr903o",
+     "name": "Lemmy",
+     "category": "Social"
+    },
+    {
+     "id": "api-redlisten-1kigjbo05o",
+     "name": "Redlisten",
+     "category": "Social"
+    },
+    {
+     "id": "api-au-odds-1y3axpq1rg",
+     "name": "AU Odds",
+     "category": "Sports & Fitness"
+    },
+    {
+     "id": "api-golfcourse-0ohhwvn02u",
+     "name": "GolfCourse",
+     "category": "Sports & Fitness"
+    },
+    {
+     "id": "api-liftradar-1peay9w1rz",
+     "name": "LiftRadar",
+     "category": "Sports & Fitness"
+    },
+    {
+     "id": "api-pinnfeed-14h976h1um",
+     "name": "PinnFeed",
+     "category": "Sports & Fitness"
+    },
+    {
+     "id": "api-sports-jedi-12bujjs0n8",
+     "name": "Sports Jedi",
+     "category": "Sports & Fitness"
+    },
+    {
+     "id": "api-lastscanned-04f6e8v0rk",
+     "name": "lastscanned",
+     "category": "Tracking"
+    },
+    {
+     "id": "api-vesselapi-01383lq0wq",
+     "name": "VesselAPI",
+     "category": "Transportation"
+    },
+    {
+     "id": "api-genmagic-14c2tmz0r1",
+     "name": "GenMagic",
+     "category": "Video"
+    },
+    {
+     "id": "api-the-subtitle-database-0pzm67y1v4",
+     "name": "The Subtitle Database",
+     "category": "Video"
+    }
+   ],
+   "removed": []
+  },
+  {
    "at": "2026-11-16T16:02:22.161Z",
    "commit": "d6dab92da95c003e82e5b32c623bd2ad9d6a017f",
    "added": [
